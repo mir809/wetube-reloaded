@@ -9,7 +9,6 @@
   "scripts": {
     "dev": "nodemon -L --exec babel-node src/server.js"
   },
-  "author": "Humir",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mir809/wetube-reloaded/issues"
