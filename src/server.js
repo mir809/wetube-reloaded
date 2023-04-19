@@ -1,15 +1,11 @@
 import express from "express";
+import morgan from "morgan";
 
 const PORT = 4000;
 
 const app = express();
 
-const loggerMid = (req, res, next) => {
-  console.log(`MATHOD : ${req.method}`);
-  console.log(`URL : ${req.url}`);
-  console.log(`PATH : ${req.path}`);
-  next();
-};
+const loggerMid = morgan("dev");
 
 const home = (req, res) => {
   console.log(`Response complete`);
