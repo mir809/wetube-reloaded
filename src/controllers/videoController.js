@@ -1,5 +1,11 @@
+const fakeUser = {
+  username: "Mir",
+  loggedIn: false,
+};
+
 // home(/)
-export const home = (req, res) => res.render("home", { pageTitle: "Home" });
+export const home = (req, res) =>
+  res.render("home", { pageTitle: "Home", fakeUser });
 export const search = (req, res) => res.send("Search");
 
 //videos
