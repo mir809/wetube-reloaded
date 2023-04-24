@@ -1,10 +1,17 @@
 import Video from "../models/Video";
 
+/* 기존 콜백 방식(지원 안함):
+
+Video.find({}, (error, videos) => {
+  res.render("home", { pageTitle: "Home", videos: [] });
+});
+
+*/
+
 // home(/)
-export const home = (req, res) => {
-  Video.find({}, (error, videos) => {
-    res.render("home", { pageTitle: "Home", videos: [] });
-  });
+export const home = async (req, res) => {
+  const videos = await Video.find({});
+  res.render("home", { pageTitle: "Home", videos: [] });
 };
 
 //videos
