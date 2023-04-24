@@ -11,7 +11,7 @@ Video.find({}, (error, videos) => {
 // home(/)
 export const home = async (req, res) => {
   const videos = await Video.find({});
-  res.render("home", { pageTitle: "Home", videos: [] });
+  return res.render("home", { pageTitle: "Home", videos: [] });
 };
 
 //videos
