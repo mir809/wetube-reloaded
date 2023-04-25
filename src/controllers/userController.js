@@ -11,18 +11,12 @@ export const postJoin = async (req, res) => {
       errorMessage: `Password confirmation does not match`,
     });
   }
-  const emailExists = await User.exists({ email });
-  if (emailExists) {
+
+  const Exists = await User.exists({ $or: [{ username }, { email }] });
+  if (Exists) {
     return res.render("join", {
       pageTitle,
-      errorMessage: `❌ This E-mail is already taken ❌`,
-    });
-  }
-  const usernameExists = await User.exists({ username });
-  if (usernameExists) {
-    return res.render("join", {
-      pageTitle,
-      errorMessage: `🚫 This User Name is already taken 🚫`,
+      errorMessage: `🚫 This E-mail/User Name is already taken 🚫`,
     });
   }
   await User.create({
