@@ -3,7 +3,6 @@ extends base
 block content
     div
         p=video.description
-        small=video.hashtags.join()
         small=video.createdAt
         
     a(href=`${video.id}/edit`) Edit Video &#10132;	 
