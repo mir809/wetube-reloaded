@@ -10,7 +10,8 @@ Video.find({}, (error, videos) => {
 
 // home(/)
 export const home = async (req, res) => {
-  const videos = await Video.find({});
+  const videos = await Video.find({}).sort({ createdAt: "desc" });
+  //desc : 늦게 생성한게 위에 위치함(내림차순)
   return res.render("home", { pageTitle: "Home", videos });
 };
 
@@ -72,4 +73,17 @@ export const deleteVideo = async (req, res) => {
   const { id } = req.params;
   await Video.findByIdAndDelete(id);
   return res.redirect("/");
+};
+
+export const search = async (req, res) => {
+  const { keyword } = req.query;
+  let videos = [];
+  if (keyword) {
+    videos = await Video.find({
+      title: {
+        $regex: new RegExp(keyword, "i"),
+      },
+    });
+  }
+  return res.render("search", { pageTitle: "Search", videos, keyword });
 };

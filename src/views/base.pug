@@ -5,9 +5,16 @@ html(lang="ko")
         link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css" )
     body
         hearder 
-            a(href="/") Wetube
+            nav 
+                ul  
+                    li  
+                        a(href="/") Wetube-Home
+                    li 
+                        a(href="/videos/upload") Upload
+                    li 
+                        a(href="/search") Search
             h1=pageTitle
-        block nav 
+       
         main
             block content   
             
