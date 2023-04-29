@@ -1,5 +1,7 @@
 //이곳에서 만든 후에 사용할 경로에서 get, use 등을 해줘야 적용 가능
 
+import multer from "multer";
+
 export const localsMiddleware = (req, res, next) => {
   res.locals.loggedIn = Boolean(req.session.loggedIn);
   res.locals.siteName = "Wetube";
@@ -23,3 +25,5 @@ export const Log_Out_Only = (req, res, next) => {
     return res.redirect("/");
   }
 }; // '로그아웃' 되있는 경우에만 ..
+
+export const uploadFiles = multer({ dest: "uploads/" });
