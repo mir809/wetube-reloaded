@@ -7,6 +7,8 @@ import {
   profile,
   startGithubLogin,
   finishGithubLogin,
+  getChangePassword,
+  postChangePassword,
 } from "../controllers/userController";
 
 import { Log_In_Only, Log_Out_Only } from "../middlewares";
@@ -19,5 +21,11 @@ userRouter.get("/github/finish", Log_Out_Only, finishGithubLogin);
 userRouter.get("/logout", Log_In_Only, logout);
 userRouter.route("/edit").all(Log_In_Only).get(getEdit).post(postEdit);
 userRouter.get("/:id(\\d+)", profile);
+
+userRouter
+  .route("/change-password")
+  .all(Log_In_Only)
+  .get(getChangePassword)
+  .post(postChangePassword);
 
 export default userRouter;
