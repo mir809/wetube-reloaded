@@ -16,9 +16,11 @@ html(lang="ko")
                     
                     if loggedIn
                         li 
-                            a(href="/users/logout") Log-Out
-                        li 
                             a(href="/profile") #{loggedInUser.name}의 프로필
+                        li 
+                            a(href="/users/edit") 프로필 수정(Edit Profile)
+                        li 
+                            a(href="/users/logout") Log-Out    
                     else
                         li 
                             a(href="/join") Join
@@ -26,7 +28,7 @@ html(lang="ko")
                             a(href="/login") Log-in
                         
             h1 &#10096; #{pageTitle} &#10097;
-            block sub	
+            block subTitle	
        
         main
             block content   
