@@ -9,13 +9,15 @@ import {
   finishGithubLogin,
 } from "../controllers/userController";
 
+import { Log_In_Only, Log_Out_Only } from "../middlewares";
+
 const userRouter = express.Router();
 
-userRouter.get("/github/start", startGithubLogin);
-userRouter.get("/github/finish", finishGithubLogin);
+userRouter.get("/github/start", Log_Out_Only, startGithubLogin);
+userRouter.get("/github/finish", Log_Out_Only, finishGithubLogin);
 
-userRouter.get("/logout", logout);
-userRouter.route("/edit").get(getEdit).post(postEdit);
+userRouter.get("/logout", Log_In_Only, logout);
+userRouter.route("/edit").all(Log_In_Only).get(getEdit).post(postEdit);
 userRouter.get("/:id(\\d+)", profile);
 
 export default userRouter;

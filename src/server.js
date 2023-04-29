@@ -31,6 +31,8 @@ app.use(
 );
 
 app.use(localsMiddleware);
+/* 서버에 있는 모든 페이지로 이동하기 전에 (=모든 컨트롤러 사용 이전)
+ localsMiddleware를 거친 후에 감 */
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
