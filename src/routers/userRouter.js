@@ -11,7 +11,7 @@ import {
   postChangePassword,
 } from "../controllers/userController";
 
-import { Log_In_Only, Log_Out_Only, uploadFiles } from "../middlewares";
+import { Log_In_Only, Log_Out_Only, avatarUpload } from "../middlewares";
 
 const userRouter = express.Router();
 
@@ -23,7 +23,7 @@ userRouter
   .route("/edit")
   .all(Log_In_Only)
   .get(getEdit)
-  .post(uploadFiles.single("avatar"), postEdit);
+  .post(avatarUpload.single("avatar"), postEdit);
 
 userRouter.get("/:id(\\d+)", profile);
 

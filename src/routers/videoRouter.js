@@ -9,7 +9,7 @@ import {
   deleteVideo,
 } from "../controllers/videoController";
 
-import { Log_In_Only, Log_Out_Only } from "../middlewares";
+import { Log_In_Only, Log_Out_Only, videoUpload } from "../middlewares";
 
 const videoRouter = express.Router();
 
@@ -23,6 +23,11 @@ videoRouter
   .route("/:id([0-9a-f]{24})/delete")
   .all(Log_In_Only)
   .get(deleteVideo);
-videoRouter.route("/upload").all(Log_In_Only).get(getUpload).post(postUpload);
+
+videoRouter
+  .route("/upload")
+  .all(Log_In_Only)
+  .get(getUpload)
+  .post(videoUpload.single("video"), postUpload);
 
 export default videoRouter;

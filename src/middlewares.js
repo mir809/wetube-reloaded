@@ -24,6 +24,17 @@ export const Log_Out_Only = (req, res, next) => {
   } else {
     return res.redirect("/");
   }
-}; // '로그아웃' 되있는 경우에만 ..
+}; // '비로그인' 시에만 그대로 진행
 
-export const uploadFiles = multer({ dest: "uploads/" });
+export const avatarUpload = multer({
+  dest: "uploads/avatars",
+  limits: {
+    fileSize: 3000000, //파일 용량제한 - 단위: byte
+  },
+});
+export const videoUpload = multer({
+  dest: "uploads/videos",
+  limits: {
+    fileSize: 10000000,
+  },
+});

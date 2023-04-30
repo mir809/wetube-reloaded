@@ -5,6 +5,9 @@ block content
     form(method="post" enctype="multipart/form-data")
         label(for="avatar") Avatar
         input(name="avatar" type="file" id="avatar" accept="image/*")
+        small 업로드 가능한 프로필 사진 용량은 최대 3MB 입니다.
+        br
+        br
         input(name="name", placeholder="Name", value=loggedInUser.name , required )
         input(name="email",placeholder="E-mail",value=loggedInUser.email, type="email", required )
         input(name="username", placeholder="User Name", value=loggedInUser.username,required , )

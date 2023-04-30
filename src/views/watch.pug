@@ -1,8 +1,12 @@
 extends base
 
 block content
+    video(src="/"+video.fileUrl, controls)
     div
+        h2=video.title
         p=video.description
+        span=video.hashtags
+        br
         small=video.createdAt
         
     a(href=`${video.id}/edit`) Edit Video &#10132;
