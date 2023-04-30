@@ -25,7 +25,7 @@ userRouter
   .get(getEdit)
   .post(avatarUpload.single("avatar"), postEdit);
 
-userRouter.get("/:id(\\d+)", profile);
+userRouter.get("/:id", profile);
 
 userRouter
   .route("/change-password")
