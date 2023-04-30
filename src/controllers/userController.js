@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Video from "../models/Video";
 import bcrypt from "bcrypt";
 
 // home(/)
@@ -219,9 +220,13 @@ export const profile = async (req, res) => {
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found" });
   }
+  const videos = await Video.find({ owner: user._id }).sort({
+    createdAt: "desc",
+  });
 
   return res.render("users/profile", {
     pageTitle: `${user.name}`,
     user,
+    videos,
   });
 };

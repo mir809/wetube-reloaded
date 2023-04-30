@@ -1,5 +1,4 @@
 import Video from "../models/Video";
-import User from "../models/User";
 
 /* 기존 콜백 방식(지원 안함):
 
@@ -19,14 +18,11 @@ export const home = async (req, res) => {
 //videos
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id);
-  const owner = await User.findById(video.owner);
-
-  console.log(owner);
+  const video = await Video.findById(id).populate("owner");
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
-  return res.render("watch", { pageTitle: video.title, video, owner });
+  return res.render("watch", { pageTitle: video.title, video });
 };
 
 export const getEdit = async (req, res) => {
