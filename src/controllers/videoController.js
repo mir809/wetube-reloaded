@@ -1,4 +1,5 @@
 import Video from "../models/Video";
+import User from "../models/User";
 
 /* 기존 콜백 방식(지원 안함):
 
@@ -62,13 +63,16 @@ export const postUpload = async (req, res) => {
   const { path: fileUrl } = req.file;
   const { title, description, hashtags } = req.body;
   try {
-    await Video.create({
+    const newVideo = await Video.create({
       title,
       description,
       fileUrl,
       hashtags: Video.formatHashtags(hashtags),
       owner: _id,
     });
+    const user = await User.findById(_id);
+    user.videos.unshift(newVideo._id);
+    user.save();
     return res.redirect("/");
   } catch (error) {
     return res.status(400).render("upload", {
