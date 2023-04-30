@@ -8,7 +8,10 @@ block content
         span=video.hashtags
         br
         small=video.createdAt
-        
-    a(href=`${video.id}/edit`) Edit Video &#10132;
-    br
-    a(href=`${video.id}/delete`) Delete Video &#10132;	  
+    div 
+        small Uploaded by #{owner.name}
+    
+    if String(video.owner) === String(loggedInUser._id)
+        a(href=`${video.id}/edit`) Edit Video &#10132;
+        br
+        a(href=`${video.id}/delete`) Delete Video &#10132;	  
