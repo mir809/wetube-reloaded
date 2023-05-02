@@ -34,6 +34,9 @@ app.use(localsMiddleware);
 /* 서버에 있는 모든 페이지로 이동하기 전에 (=모든 컨트롤러 사용 이전)
  localsMiddleware를 거친 후에 감 */
 app.use("/uploads", express.static("uploads"));
+app.use("/ast", express.static("src/assets"));
+/* static(=정적폴더)를 사람들에게 공개 하도록 express에게 요청
+=> 서버가 공개할 폴더 지정 */
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
