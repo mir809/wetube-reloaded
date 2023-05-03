@@ -1,8 +1,10 @@
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
 const muteBtn = document.getElementById("mute");
-const time = document.getElementById("time");
 const volumeRange = document.getElementById("volume");
+
+const currentTime = document.getElementById("currentTime");
+const totalTime = document.getElementById("totalTime");
 
 let volumeValue = 0.5;
 
@@ -31,7 +33,6 @@ const clickMuteBtn = () => {
 };
 
 const volumeInput = (event) => {
-  // 볼륨조절 드래그시 실시간 적용
   const {
     target: { value }, // 볼륨 막대를 조절한 값
   } = event;
@@ -46,7 +47,6 @@ const volumeInput = (event) => {
 };
 
 const volumeChange = (event) => {
-  // 볼륨조절 드래그 후 마우스를 놨을 때만 적용
   const {
     target: { value }, // 볼륨 막대를 조절한 값
   } = event;
@@ -55,7 +55,22 @@ const volumeChange = (event) => {
   }
 };
 
+// 동영상 시간
+const loadedMetaData = () => {
+  totalTime.innerText = Math.floor(video.duration);
+};
+
+const timeUpdate = () => {
+  currentTime.innerText = Math.floor(video.currentTime);
+};
+
 playBtn.addEventListener("click", clickPlayBtn);
+
 muteBtn.addEventListener("click", clickMuteBtn);
 volumeRange.addEventListener("input", volumeInput);
 volumeRange.addEventListener("change", volumeChange);
+// input: range 드래그시 실시간 적용
+// change: 드래그 후 마우스 놨을 때만 적용
+
+video.addEventListener("loadedmetadata", loadedMetaData);
+video.addEventListener("timeupdate", timeUpdate);
