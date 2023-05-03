@@ -1,0 +1,36 @@
+header {
+  padding: 10px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .header_logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    i {
+      color: $red;
+      font-size: 35px;
+    }
+    span {
+      font-size: 25px;
+      margin-left: 5px;
+    }
+  }
+  ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    li {
+      margin-left: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      // text-transform: uppercase; => 모든 문자 대문자로
+    }
+  }
+  .header_btn {
+    background-color: #2196f3;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+}

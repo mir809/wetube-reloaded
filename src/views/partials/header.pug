@@ -1,11 +1,15 @@
 header 
-    a(href="/")
-        i.fab.fa-youtube
+    a(href="/").header_logo 
+        i.fab.fa-youtube 
+        span wetube
+            small KR
+
     nav 
         ul  
             
             li 
-                a(href="/search") Search
+                a(href="/search") 
+                    i.fas.fa-search
             
             if loggedIn
                 li 
@@ -20,7 +24,7 @@ header
                 li 
                     a(href="/join") Join
                 li 
-                    a(href="/login") Log-in
+                    a(href="/login").header_btn Log-in
                 
 h1 &#10096; #{pageTitle} &#10097;
 
