@@ -56,12 +56,29 @@ const volumeChange = (event) => {
 };
 
 // 동영상 시간
-const loadedMetaData = () => {
-  totalTime.innerText = Math.floor(video.duration);
+const formatTime = (seconds) => {
+  let N;
+  if (video.duration >= 36000) {
+    N = 11;
+  } else if (video.duration >= 3600) {
+    N = 12;
+  } else if (video.duration >= 600) {
+    N = 14;
+  } else {
+    N = 15;
+  } //동영상 전체시간(video.duration)기준으로 표시되는 시간단위 조절
+  return new Date(seconds * 1000).toISOString().substring(N, 19);
 };
 
 const timeUpdate = () => {
-  currentTime.innerText = Math.floor(video.currentTime);
+  currentTime.innerText = formatTime(Math.floor(video.currentTime));
+};
+
+const loadedMetaData = () => {
+  currentTime.innerText = formatTime(
+    Math.floor(video.duration) - Math.floor(video.duration)
+  );
+  totalTime.innerText = formatTime(Math.floor(video.duration));
 };
 
 playBtn.addEventListener("click", clickPlayBtn);
@@ -72,5 +89,5 @@ volumeRange.addEventListener("change", volumeChange);
 // input: range 드래그시 실시간 적용
 // change: 드래그 후 마우스 놨을 때만 적용
 
-video.addEventListener("loadedmetadata", loadedMetaData);
 video.addEventListener("timeupdate", timeUpdate);
+video.addEventListener("loadedmetadata", loadedMetaData);
