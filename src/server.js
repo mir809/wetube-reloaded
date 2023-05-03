@@ -36,7 +36,7 @@ app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads"));
 app.use("/ast", express.static("assets"));
 /* static(=정적폴더)를 사람들에게 공개 하도록 express에게 요청
-=> 서버가 공개할 폴더 지정 */
+=> 서버가 공개할 폴더 지정 = 접근권한 부여*/
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
