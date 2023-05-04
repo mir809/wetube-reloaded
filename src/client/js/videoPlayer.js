@@ -9,6 +9,8 @@ const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const timeline = document.getElementById("timeline");
 
+let playAgain = false;
+
 const fullScreenBtn = document.getElementById("fullScreen");
 const videoBox = document.getElementById("videoBox");
 
@@ -18,10 +20,13 @@ video.volume = volumeValue; // 영상의 실제 소리
 const clickPlayBtn = () => {
   if (video.paused) {
     video.play();
+    playAgain = true;
   } else {
     video.pause();
+    playAgain = false;
   }
   playBtn.innerText = video.paused ? "Play" : "Pause";
+  console.log(playAgain);
 };
 
 // 음량 - 음소거 버튼, 볼륨 막대
@@ -97,10 +102,19 @@ const timelineInput = (event) => {
   video.currentTime = value;
   // 타임라인 막대에 따라 실제 영상시간 조절
 
-  // 만약 비디오가 재생중이였을 경우 타임라인 움직이는동안 재생멈춤
+  video.pause();
+  // 타임라인 막대 조절 중에는 영상 일시정지
 };
 
-const timelineChange = (event) => {};
+const timelineChange = (event) => {
+  if (playAgain) {
+    video.play();
+  } else {
+    video.pause();
+  }
+};
+/* 타임라인 막대 조절 전 동영상이 재생중인지 정지인지 여부에 따라
+ 타임라인 막대 조절 후 다시재생 or 그대로 정지 */
 
 const fullScreenClick = () => {
   const fullScreen = document.fullscreenElement;
@@ -126,6 +140,7 @@ video.addEventListener("loadedmetadata", loadedMetaData);
 //비디오 '재생시간/전체시간'
 
 timeline.addEventListener("input", timelineInput);
+timeline.addEventListener("change", timelineChange);
 // 비디오 타임라인 조절 막대
 
 fullScreenBtn.addEventListener("click", fullScreenClick);
