@@ -5,6 +5,7 @@ const volumeRange = document.getElementById("volume");
 
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
+const timeline = document.getElementById("timeline");
 
 let volumeValue = 0.5;
 
@@ -72,6 +73,8 @@ const formatTime = (seconds) => {
 
 const timeUpdate = () => {
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
+
+  timeline.value = Math.floor(video.currentTime);
 };
 
 const loadedMetaData = () => {
@@ -79,7 +82,24 @@ const loadedMetaData = () => {
     Math.floor(video.duration) - Math.floor(video.duration)
   );
   totalTime.innerText = formatTime(Math.floor(video.duration));
+
+  timeline.max = Math.floor(video.duration);
 };
+
+let again = true;
+
+const timelineInput = (event) => {
+  const {
+    target: { value }, // 타입라인 막대를 조절한 값
+  } = event;
+
+  video.currentTime = value;
+  // 타임라인 막대에 따라 실제 영상시간 조절
+
+  // 만약 비디오가 재생중이였을 경우 타임라인 움직이는동안 재생멈춤
+};
+
+const timelineChange = (event) => {};
 
 playBtn.addEventListener("click", clickPlayBtn);
 
@@ -91,3 +111,6 @@ volumeRange.addEventListener("change", volumeChange);
 
 video.addEventListener("timeupdate", timeUpdate);
 video.addEventListener("loadedmetadata", loadedMetaData);
+
+timeline.addEventListener("input", timelineInput);
+timeline.addEventListener("change", timelineChange);
