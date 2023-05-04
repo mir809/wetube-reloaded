@@ -3,11 +3,14 @@ const playBtn = document.getElementById("play");
 const muteBtn = document.getElementById("mute");
 const volumeRange = document.getElementById("volume");
 
+let volumeValue = 0.5;
+
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const timeline = document.getElementById("timeline");
 
-let volumeValue = 0.5;
+const fullScreenBtn = document.getElementById("fullScreen");
+const videoBox = document.getElementById("videoBox");
 
 video.volume = volumeValue; // 영상의 실제 소리
 
@@ -86,8 +89,6 @@ const loadedMetaData = () => {
   timeline.max = Math.floor(video.duration);
 };
 
-let again = true;
-
 const timelineInput = (event) => {
   const {
     target: { value }, // 타입라인 막대를 조절한 값
@@ -101,6 +102,17 @@ const timelineInput = (event) => {
 
 const timelineChange = (event) => {};
 
+const fullScreenClick = () => {
+  const fullScreen = document.fullscreenElement;
+  if (fullScreen) {
+    document.exitFullscreen();
+    fullScreenBtn.innerText = "전체화면";
+  } else {
+    videoBox.requestFullscreen();
+    fullScreenBtn.innerText = "전체화면 종료";
+  }
+};
+
 playBtn.addEventListener("click", clickPlayBtn);
 
 muteBtn.addEventListener("click", clickMuteBtn);
@@ -111,6 +123,9 @@ volumeRange.addEventListener("change", volumeChange);
 
 video.addEventListener("timeupdate", timeUpdate);
 video.addEventListener("loadedmetadata", loadedMetaData);
+//비디오 '재생시간/전체시간'
 
 timeline.addEventListener("input", timelineInput);
-timeline.addEventListener("change", timelineChange);
+// 비디오 타임라인 조절 막대
+
+fullScreenBtn.addEventListener("click", fullScreenClick);
