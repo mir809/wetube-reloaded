@@ -4,6 +4,7 @@ const muteBtn = document.getElementById("mute");
 const volumeRange = document.getElementById("volume");
 
 let volumeValue = 0.5;
+video.volume = volumeValue; // 영상의 실제 소리
 
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
@@ -14,7 +15,9 @@ let playAgain = false;
 const fullScreenBtn = document.getElementById("fullScreen");
 const videoBox = document.getElementById("videoBox");
 
-video.volume = volumeValue; // 영상의 실제 소리
+const videoControler = document.getElementById("videoControler");
+
+let controlsTimeout = null;
 
 //  플레이/일시정지 버튼
 const clickPlayBtn = () => {
@@ -119,8 +122,27 @@ const fullScreenClick = () => {
   }
 };
 
-playBtn.addEventListener("click", clickPlayBtn);
+const mouseMove = () => {
+  if (controlsTimeout) {
+    clearTimeout(controlsTimeout);
+    controlsTimeout = null;
+  }
+  // 마우스가 비디오 밖으로 나갔다 클래스가 사라지기전 다시 돌아올경우
+  // 클래스를 지우기위해 대기하던 'setTimeout'을 제거해줌
 
+  videoControler.classList.add("showing");
+  // 마우스가 비디오 안에서 움직일때 클래스 추가
+};
+
+const mouseLeave = () => {
+  controlsTimeout = setTimeout(() => {
+    videoControler.classList.remove("showing");
+  }, 3000);
+  // 마우스가 비디오 밖으로 이동할경우 3초뒤에 클래스제거
+};
+
+playBtn.addEventListener("click", clickPlayBtn);
+//동영상 일시정지, 시작
 muteBtn.addEventListener("click", clickMuteBtn);
 volumeRange.addEventListener("input", volumeInput);
 volumeRange.addEventListener("change", volumeChange);
@@ -137,3 +159,6 @@ timeline.addEventListener("change", timelineChange);
 
 fullScreenBtn.addEventListener("click", fullScreenClick);
 //전체화면, 전체화면 종료
+
+video.addEventListener("mousemove", mouseMove);
+video.addEventListener("mouseleave", mouseLeave);
