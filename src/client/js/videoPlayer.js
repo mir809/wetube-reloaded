@@ -18,15 +18,10 @@ video.volume = volumeValue; // 영상의 실제 소리
 
 //  플레이/일시정지 버튼
 const clickPlayBtn = () => {
-  if (video.paused) {
-    video.play();
-    playAgain = true;
-  } else {
-    video.pause();
-    playAgain = false;
-  }
+  playAgain = video.paused;
+
+  video.paused ? video.play() : video.pause();
   playBtn.innerText = video.paused ? "Play" : "Pause";
-  console.log(playAgain);
 };
 
 // 음량 - 음소거 버튼, 볼륨 막대
@@ -88,7 +83,7 @@ const timeUpdate = () => {
 const loadedMetaData = () => {
   currentTime.innerText = formatTime(
     Math.floor(video.duration) - Math.floor(video.duration)
-  );
+  ); // 시작시 동영상 현재시간 = 전체시간 - 전체시간
   totalTime.innerText = formatTime(Math.floor(video.duration));
 
   timeline.max = Math.floor(video.duration);
@@ -107,22 +102,19 @@ const timelineInput = (event) => {
 };
 
 const timelineChange = (event) => {
-  if (playAgain) {
-    video.play();
-  } else {
-    video.pause();
-  }
+  playAgain ? video.play() : video.pause();
 };
 /* 타임라인 막대 조절 전 동영상이 재생중인지 정지인지 여부에 따라
- 타임라인 막대 조절 후 다시재생 or 그대로 정지 */
+ 타임라인 막대 조절 후 다시재생시작 or 정지상태 유지 */
 
 const fullScreenClick = () => {
   const fullScreen = document.fullscreenElement;
+  //현재 전체화면상태인지 파악
   if (fullScreen) {
-    document.exitFullscreen();
+    document.exitFullscreen(); //전체화면 해제
     fullScreenBtn.innerText = "전체화면";
   } else {
-    videoBox.requestFullscreen();
+    videoBox.requestFullscreen(); // 전체화면으로
     fullScreenBtn.innerText = "전체화면 종료";
   }
 };
@@ -144,3 +136,4 @@ timeline.addEventListener("change", timelineChange);
 // 비디오 타임라인 조절 막대
 
 fullScreenBtn.addEventListener("click", fullScreenClick);
+//전체화면, 전체화면 종료
