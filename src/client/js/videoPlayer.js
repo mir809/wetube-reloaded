@@ -3,7 +3,7 @@ const playBtn = document.getElementById("play");
 const muteBtn = document.getElementById("mute");
 const volumeRange = document.getElementById("volume");
 
-let volumeValue = 0.5;
+let volumeValue = 0.5; // 볼륨 초기값
 video.volume = volumeValue; // 영상의 실제 소리
 
 const currentTime = document.getElementById("currentTime");
@@ -37,6 +37,7 @@ const clickMuteBtn = () => {
   }
   muteBtn.innerText = video.muted ? "음소거 해제" : "음소거";
   volumeRange.value = video.muted ? 0 : volumeValue;
+  // 음소거 해제시 볼륨막대 위치가 음소거 하기 전으로 돌아감
 };
 
 const volumeInput = (event) => {
@@ -59,7 +60,7 @@ const volumeChange = (event) => {
   } = event;
   if (Number(value) !== 0) {
     volumeValue = value;
-  }
+  } // 볼륨조절 막대가 마지막에 멈춰있던 값을 기억함 (0일때 제외)
 };
 
 // 동영상 시간
@@ -107,8 +108,8 @@ const timelineInput = (event) => {
 const timelineChange = (event) => {
   playAgain ? video.play() : video.pause();
 };
-/* 타임라인 막대 조절 전 동영상이 재생중인지 정지인지 여부에 따라
- 타임라인 막대 조절 후 다시재생시작 or 정지상태 유지 */
+/* 타임라인 막대 조절 후 다시재생시작 or 정지상태 유지 여부 결정
+ (타임라인 막대 조절 전 동영상이 재생중인지 정지인지에 따라) */
 
 const fullScreenClick = () => {
   const fullScreen = document.fullscreenElement;
@@ -117,7 +118,7 @@ const fullScreenClick = () => {
     document.exitFullscreen(); //전체화면 해제
     fullScreenBtn.innerText = "전체화면";
   } else {
-    videoBox.requestFullscreen(); // 전체화면으로
+    videoBox.requestFullscreen(); // 전체화면으로 변경
     fullScreenBtn.innerText = "전체화면 종료";
   }
 };
@@ -126,8 +127,9 @@ const mouseMove = () => {
   if (controlsTimeout) {
     //전역변수 'controlsTimeout'에 값이 있을경우(=null이 아닌경우)
     clearTimeout(controlsTimeout);
-    controlsTimeout = null;
-  } // 기존 타임아웃 제거 => 클래스 유지
+    // 기존 타임아웃 제거 => 클래스 유지
+    controlsTimeout = null; // 변수 초기화
+  }
   videoControler.classList.add("showing");
   // 마우스가 비디오 안에서 움직일때 클래스 추가
 
@@ -135,7 +137,7 @@ const mouseMove = () => {
     videoControler.classList.remove("showing");
   }, 3000);
   /* 마우스가 비디오 안에서 멈추거나 비디오 밖으로 나가서 더이상
- 이벤트가 발생하지 않을 때 3초 뒤에 클래스를 제거함, 
+ 이벤트가 발생하지 않는 시점부터 3초 뒤에 클래스를 제거함, 
   setTimeout 함수의 id를 전역변수인 'controlsTimeout'에 넣어줌*/
 };
 
