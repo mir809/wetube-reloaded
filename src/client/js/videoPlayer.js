@@ -124,21 +124,19 @@ const fullScreenClick = () => {
 
 const mouseMove = () => {
   if (controlsTimeout) {
+    //전역변수 'controlsTimeout'에 값이 있을경우(=null이 아닌경우)
     clearTimeout(controlsTimeout);
     controlsTimeout = null;
-  }
-  // 마우스가 비디오 밖으로 나갔다 클래스가 사라지기전 다시 돌아올경우
-  // 클래스를 지우기위해 대기하던 'setTimeout'을 제거해줌
-
+  } // 기존 타임아웃 제거 => 클래스 유지
   videoControler.classList.add("showing");
   // 마우스가 비디오 안에서 움직일때 클래스 추가
-};
 
-const mouseLeave = () => {
   controlsTimeout = setTimeout(() => {
     videoControler.classList.remove("showing");
   }, 3000);
-  // 마우스가 비디오 밖으로 이동할경우 3초뒤에 클래스제거
+  /* 마우스가 비디오 안에서 멈추거나 비디오 밖으로 나가서 더이상
+ 이벤트가 발생하지 않을 때 3초 뒤에 클래스를 제거함, 
+  setTimeout 함수의 id를 전역변수인 'controlsTimeout'에 넣어줌*/
 };
 
 playBtn.addEventListener("click", clickPlayBtn);
@@ -161,4 +159,4 @@ fullScreenBtn.addEventListener("click", fullScreenClick);
 //전체화면, 전체화면 종료
 
 video.addEventListener("mousemove", mouseMove);
-video.addEventListener("mouseleave", mouseLeave);
+// 컨트롤러 표시, 비표시
