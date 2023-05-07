@@ -7,8 +7,8 @@
     "url": "git+https://github.com/mir809/wetube-reloaded.git"
   },
   "scripts": {
-    "dev": "nodemon -L --exec babel-node src/init.js",
-    "ast": "webpack --config webpack.config.js"
+    "dev": "nodemon",
+    "ast": "webpack"
   },
   "license": "MIT",
   "bugs": {

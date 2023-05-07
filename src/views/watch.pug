@@ -15,7 +15,7 @@ block content
                 input(type="range", step="1" value=0 min="0" )#timeline
             div
                 button#fullScreen 전체화면
-    //-
+    
         div
             h2=video.title
             p=video.description
@@ -25,6 +25,8 @@ block content
         div 
             small Uploaded by 
                 a(href=`/users/${video.owner._id}`) #{video.owner.name}
+            br
+            span 조회수 #{video.meta.views}회
         
         if String(video.owner._id) === String(loggedInUser._id)
             a(href=`${video.id}/edit`) Edit Video &#10132;

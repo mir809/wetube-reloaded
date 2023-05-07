@@ -6,5 +6,10 @@ mixin video(video)
         ul
             each hashtag in video.hashtags
                 li=hashtag
+        small Uploaded by 
+            a(href=`/users/${video.owner._id}`) #{video.owner.name}
+        br
+        span 조회수 #{video.meta.views}회
+        br
         small=video.createdAt
         hr
