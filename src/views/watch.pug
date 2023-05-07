@@ -1,7 +1,7 @@
 extends base
 
 block content
-    div#videoBox
+    div#videoBox(data-id=video._id)
         video(src="/"+video.fileUrl, )
         div#videoControler
             button#play Play 

@@ -141,6 +141,17 @@ const mouseMove = () => {
   setTimeout 함수의 id를 전역변수인 'controlsTimeout'에 넣어줌*/
 };
 
+const videoEnd = () => {
+  // 비디오 재생이 끝난경우 (시청 후)\
+  const { id } = videoBox.dataset;
+  fetch(`/api/videos/${id}/view`, {
+    method: "post",
+  });
+
+  playBtn.innerText = "Replay";
+  // 재생버튼 -> '다시시작'으로 변경
+};
+
 playBtn.addEventListener("click", clickPlayBtn);
 //동영상 일시정지, 시작
 muteBtn.addEventListener("click", clickMuteBtn);
@@ -162,3 +173,6 @@ fullScreenBtn.addEventListener("click", fullScreenClick);
 
 video.addEventListener("mousemove", mouseMove);
 // 컨트롤러 표시, 비표시
+
+video.addEventListener("ended", videoEnd);
+// 비디오 시청 후 조회수 증가
