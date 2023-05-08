@@ -1,12 +1,18 @@
 const record_Btn = document.getElementById("startBtn");
 const video = document.getElementById("preview");
+const download_Btn = document.getElementById("download");
 
 let stream;
+let recorder;
+
+const download = () => {};
 
 const record_Stop = () => {
-  record_Btn.innerText = "Start Recording";
+  record_Btn.innerText = "Restart Recording";
   record_Btn.removeEventListener("click", record_Stop);
   record_Btn.addEventListener("click", record_Start);
+
+  recorder.stop(); // 녹화 종료
 };
 
 const record_Start = () => {
@@ -14,22 +20,23 @@ const record_Start = () => {
   record_Btn.removeEventListener("click", record_Start);
   record_Btn.addEventListener("click", record_Stop);
 
-  const recorder = new MediaRecorder(stream);
+  recorder = new MediaRecorder(stream);
+  //stream(미리 보기)중인 화면을 촬영
 
   recorder.ondataavailable = (event) => {
     //녹화 종료시 자동 발생되는 이벤트
-    console.log("recording done");
-    console.log(event);
-    console.log(event.data); // 녹화된 데이터
+    const videoFile = URL.createObjectURL(event.data);
+    // 녹화된 데이터를 웹사이트가 아닌 브라우저의 메모리에 할당
+    //(실제 인터넷 주소가아닌 브라우저상에 존재하는 파일을 가리킴)
+    video.srcObject = null;
+    video.src = videoFile;
+    video.loop = true;
+    video.play();
   };
 
-  console.log(recorder); // 시작 전 - 비활성화 상태
   recorder.start(); //실제 촬영 시작
-  console.log(recorder); // 시작 후 - 녹화중 상태
-
-  setTimeout(() => {
-    recorder.stop();
-  }, 5000); // 5초후 자동으로 촬영 종료
+  video.srcObject = stream;
+  video.play();
 };
 
 const init = async () => {
@@ -46,3 +53,5 @@ const init = async () => {
 init();
 
 record_Btn.addEventListener("click", record_Start);
+
+download_Btn.addEventListener("click", download);
