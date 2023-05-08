@@ -3,8 +3,8 @@ extends base
 block content 
     div 
         video#preview
-        button#startBtn Start Recording
-        button#download Download Video
+        button#startBtn 녹화 시작
+        button#download 다운로드
     if errorMessage 
         span=errorMessage
     form(method="post", enctype="multipart/form-data")
