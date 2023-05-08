@@ -1,6 +1,8 @@
 extends base
 
 block content 
+    div
+        button#startBtn Start Recording
     if errorMessage 
         span=errorMessage
     form(method="post", enctype="multipart/form-data")
@@ -13,3 +15,6 @@ block content
         input(name="description", placeholder="Description", required, minlength=1)
         input(name="hashtags", placeholder="Hashtags, separated by comma.", )
         input(type="submit", value="Upload")
+
+block scripts 
+    script(src="/ast/js/recorder.js")
