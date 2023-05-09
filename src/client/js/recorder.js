@@ -16,9 +16,16 @@ const download = async () => {
 
   await ffmpeg.run("-i", "recording.webm", "-r", "60", "output.mp4");
 
+  const mp4File = ffmpeg.FS("readFile", "output.mp4");
+
+  const mp4Blob = new Blob([mp4File.buffer], { type: "video/mp4" });
+
+  const mp4Url = URL.createObjectURL(mp4Blob);
+
+  /* 다운로드 */
   const a = document.createElement("a");
-  a.href = videoFile;
-  a.download = "MyRecoding.webm";
+  a.href = mp4Url;
+  a.download = "MyRecoding.mp4";
   //링크 클릭시 주소이동이 아닌, 다운로드
   document.body.appendChild(a);
   //링크를 클릭하기위해 실제 html body에 추가
