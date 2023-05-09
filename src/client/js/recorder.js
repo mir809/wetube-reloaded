@@ -1,3 +1,5 @@
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+
 const record_Btn = document.getElementById("startBtn");
 const video = document.getElementById("preview");
 const download_Btn = document.getElementById("download");
@@ -6,7 +8,14 @@ let stream; // 컴퓨터 카메라로 촬영 (실시간으로 보기만)
 let recorder; // 녹화 시작
 let videoFile; // 녹화된 파일
 
-const download = () => {
+const download = async () => {
+  const ffmpeg = createFFmpeg({ log: true });
+  await ffmpeg.load();
+
+  ffmpeg.FS("writeFile", "recording.webm", await fetchFile(videoFile));
+
+  await ffmpeg.run("-i", "recording.webm", "-r", "60", "output.mp4");
+
   const a = document.createElement("a");
   a.href = videoFile;
   a.download = "MyRecoding.webm";
