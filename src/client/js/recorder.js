@@ -8,27 +8,55 @@ let stream; // 컴퓨터 카메라로 촬영 (실시간으로 보기만)
 let recorder; // 녹화 시작
 let videoFile; // 녹화된 파일
 
+download_Btn.disabled = true;
+// 다운로드 버튼 비활성화 된 상태로 시작
+// (촬영한 영상 없는 상태에서 다운로드시 에러 방지)
+
+const files = {
+  input: "recording.webm",
+  output: "output.mp4",
+  thumb: "thumbnail.jpg",
+};
+
+const downloadFile = (fileURL, fileName) => {
+  /* 다운로드 */
+  const a = document.createElement("a");
+  a.href = fileURL;
+  a.download = fileName;
+  //링크 클릭시 주소이동이 아닌, 다운로드
+  document.body.appendChild(a);
+  //링크를 클릭하기위해 실제 html body에 추가
+  a.click(); // html a태그(링크)를 사용자가 직접누른것과 똑같이 동작
+};
+
 const download = async () => {
+  download_Btn.removeEventListener("click", download);
+  /* 다운로드 진행중에는 버튼을 다시 클릭해도 
+  이벤트가 발생하지 않도록 변경*/
+  download_Btn.innerText = "파일 다운중...";
+  download_Btn.disabled = true;
+  //button을 비활성화 시킴
+
   const ffmpeg = createFFmpeg({ log: true });
   await ffmpeg.load();
 
-  ffmpeg.FS("writeFile", "recording.webm", await fetchFile(videoFile));
+  ffmpeg.FS("writeFile", files.input, await fetchFile(videoFile));
   // 특정 파일을 파일시스템(FS)상에서 존재하도록 만듦
 
-  await ffmpeg.run("-i", "recording.webm", "-r", "60", "output.mp4");
+  await ffmpeg.run("-i", files.input, "-r", "60", files.output);
   await ffmpeg.run(
     "-i",
-    "recording.webm",
+    files.input,
     "-ss",
     "00:00:01",
     "-frames:v",
     "1",
-    "thumbnail.jpg"
+    files.thumb
   );
   // 파일시스템(FS)를 통해 만들어진 파일을 원하는 형식으로 바꿈
 
-  const mp4File = ffmpeg.FS("readFile", "output.mp4");
-  const thumbFile = ffmpeg.FS("readFile", "thumbnail.jpg");
+  const mp4File = ffmpeg.FS("readFile", files.output);
+  const thumbFile = ffmpeg.FS("readFile", files.thumb);
   // 파일시스템에서 변형한 파일을 읽음
 
   const mp4Blob = new Blob([mp4File.buffer], { type: "video/mp4" });
@@ -39,30 +67,24 @@ const download = async () => {
   const thumbUrl = URL.createObjectURL(thumbBlob);
   // 파일들의 위치를 알수있는 URL을 생성
 
-  /* 다운로드 */
-  const a = document.createElement("a");
-  a.href = mp4Url;
-  a.download = "MyRecoding.mp4";
-  //링크 클릭시 주소이동이 아닌, 다운로드
-  document.body.appendChild(a);
-  //링크를 클릭하기위해 실제 html body에 추가
-  a.click(); // html a태그(링크)를 사용자가 직접누른것과 똑같이 동작
+  downloadFile(mp4Url, "MyVideo.mp4");
+  downloadFile(thumbUrl, "MyThumbnail.jpg");
+  // 파일 다운로드 함수실행
 
-  const thumbA = document.createElement("a");
-  thumbA.href = thumbUrl;
-  thumbA.download = "MyThumbnail.jpg";
-  document.body.appendChild(thumbA);
-  thumbA.click();
-
-  ffmpeg.FS("unlink", "recording.webm");
-  ffmpeg.FS("unlink", "output.mp4");
-  ffmpeg.FS("unlink", "thumbnail.jpg");
+  ffmpeg.FS("unlink", files.input);
+  ffmpeg.FS("unlink", files.output);
+  ffmpeg.FS("unlink", files.thumb);
   // 파일시스템 상에 있는 파일들 삭제
 
   URL.revokeObjectURL(mp4Url);
   URL.revokeObjectURL(thumbUrl);
   URL.revokeObjectURL(videoFile);
   // 브라우저 메모리에 있는 URL들 삭제
+
+  download_Btn.addEventListener("click", download);
+  download_Btn.innerText = "다운로드";
+  // 다운이 끝나면 글씨, 이벤트 원래대로,
+  // !!(다시 녹화 하기 전에는 버튼 비활성화 유지)
 };
 
 const record_Stop = () => {
@@ -71,6 +93,11 @@ const record_Stop = () => {
   record_Btn.addEventListener("click", record_Start);
 
   recorder.stop(); // 녹화 종료
+
+  download_Btn.disabled = false;
+  download_Btn.addEventListener("click", download);
+  // 녹화 종료 후 영상파일이 생겼을 때만 다운로드 버튼 활성화
+  // + 버튼 클릭시 이벤트 발생
 };
 
 const record_Start = () => {
@@ -112,5 +139,3 @@ const init = async () => {
 init();
 
 record_Btn.addEventListener("click", record_Start);
-
-download_Btn.addEventListener("click", download);
