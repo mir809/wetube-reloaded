@@ -57,10 +57,12 @@ const download = async () => {
   ffmpeg.FS("unlink", "recording.webm");
   ffmpeg.FS("unlink", "output.mp4");
   ffmpeg.FS("unlink", "thumbnail.jpg");
+  // 파일시스템 상에 있는 파일들 삭제
 
   URL.revokeObjectURL(mp4Url);
   URL.revokeObjectURL(thumbUrl);
   URL.revokeObjectURL(videoFile);
+  // 브라우저 메모리에 있는 URL들 삭제
 };
 
 const record_Stop = () => {
