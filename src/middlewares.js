@@ -14,7 +14,7 @@ export const Log_In_Only = (req, res, next) => {
   if (req.session.loggedIn) {
     next();
   } else {
-    req.flash("error", "Not authorized");
+    req.flash("error", "로그인 후 이용가능합니다.");
     return res.redirect("/login");
   }
 }; // '로그인' 되있는 경우에만 그대로 진행
