@@ -7,6 +7,7 @@ const download_Btn = document.getElementById("download");
 let stream; // 컴퓨터 카메라로 촬영 (실시간으로 보기만)
 let recorder; // 녹화 시작
 let videoFile; // 녹화된 파일
+let recordTimeout;
 
 download_Btn.disabled = true;
 // 다운로드 버튼 비활성화 된 상태로 시작
@@ -122,7 +123,10 @@ const record_Start = () => {
   recorder.start(); //실제 녹화 시작
   video.srcObject = stream;
   video.play();
-  // 녹화 재시작지 현재 카메라에 보이는 모습 표시
+  // 녹화 재시작시 현재 카메라에 보이는 모습 표시
+  recordTimeout = setTimeout(() => {
+    record_Stop(); // 함수호출
+  }, 5000); // 녹화 시작 후 최대 5초까지만 촬영 가능하도록 설정
 };
 
 const init = async () => {
