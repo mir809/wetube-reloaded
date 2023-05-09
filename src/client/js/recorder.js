@@ -13,14 +13,31 @@ const download = async () => {
   await ffmpeg.load();
 
   ffmpeg.FS("writeFile", "recording.webm", await fetchFile(videoFile));
+  // 특정 파일을 파일시스템(FS)상에서 존재하도록 만듦
 
   await ffmpeg.run("-i", "recording.webm", "-r", "60", "output.mp4");
+  await ffmpeg.run(
+    "-i",
+    "recording.webm",
+    "-ss",
+    "00:00:01",
+    "-frames:v",
+    "1",
+    "thumbnail.jpg"
+  );
+  // 파일시스템(FS)를 통해 만들어진 파일을 원하는 형식으로 바꿈
 
   const mp4File = ffmpeg.FS("readFile", "output.mp4");
+  const thumbFile = ffmpeg.FS("readFile", "thumbnail.jpg");
+  // 파일시스템에서 변형한 파일을 읽음
 
   const mp4Blob = new Blob([mp4File.buffer], { type: "video/mp4" });
+  const thumbBlob = new Blob([thumbFile.buffer], { type: "image/jpg" });
+  // 읽어낸 파일을 Blob으로 바꿔줌
 
   const mp4Url = URL.createObjectURL(mp4Blob);
+  const thumbUrl = URL.createObjectURL(thumbBlob);
+  // 파일들의 위치를 알수있는 URL을 생성
 
   /* 다운로드 */
   const a = document.createElement("a");
@@ -30,6 +47,20 @@ const download = async () => {
   document.body.appendChild(a);
   //링크를 클릭하기위해 실제 html body에 추가
   a.click(); // html a태그(링크)를 사용자가 직접누른것과 똑같이 동작
+
+  const thumbA = document.createElement("a");
+  thumbA.href = thumbUrl;
+  thumbA.download = "MyThumbnail.jpg";
+  document.body.appendChild(thumbA);
+  thumbA.click();
+
+  ffmpeg.FS("unlink", "recording.webm");
+  ffmpeg.FS("unlink", "output.mp4");
+  ffmpeg.FS("unlink", "thumbnail.jpg");
+
+  URL.revokeObjectURL(mp4Url);
+  URL.revokeObjectURL(thumbUrl);
+  URL.revokeObjectURL(videoFile);
 };
 
 const record_Stop = () => {
