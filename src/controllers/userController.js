@@ -141,6 +141,7 @@ export const finishGithubLogin = async (req, res) => {
 //users
 export const logout = (req, res) => {
   req.session.destroy();
+  req.flash("info", "로그아웃 되었습니다.");
   return res.redirect("/");
 };
 
@@ -172,6 +173,11 @@ export const postEdit = async (req, res) => {
 
 export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly === true) {
+    req.flash(
+      "error",
+      "비밀번호를 변경할 수 없습니다. (Github로 로그인한 계정입니다.)"
+    );
+
     return res.redirect("/");
   }
   return res.render("users/change-password", { pageTitle: "Change Password" });
@@ -209,6 +215,8 @@ export const postChangePassword = async (req, res) => {
   _id;
   user.password = newPass;
   await user.save();
+  req.flash("info", "비밀번호가 변경되었습니다.");
+
   req.session.destroy();
   return res.redirect("/login");
 };
@@ -217,6 +225,8 @@ export const profile = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id).populate("videos");
   if (!user) {
+    req.flash("error", "존재하지 않는 사용자 입니다.");
+
     return res.status(404).render("404", { pageTitle: "User not found" });
   }
 

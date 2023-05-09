@@ -56,6 +56,10 @@ export const postEdit = async (req, res) => {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
   if (String(video.owner) !== String(_id)) {
+    req.flash(
+      "error",
+      "동영상을 변경할 수 없습니다. (동영상 수정은 게시자만 가능합니다.)"
+    );
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {

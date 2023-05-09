@@ -1,4 +1,6 @@
 import express from "express";
+import flash from "express-flash";
+
 import morgan from "morgan";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -31,6 +33,7 @@ app.use(
   })
 );
 
+app.use(flash()); // 플래시메시지를 남기기위한 모듈
 app.use(localsMiddleware);
 /* 서버에 있는 모든 페이지로 이동하기 전에 (=모든 컨트롤러 사용 이전)
  localsMiddleware를 거친 후에 감 */

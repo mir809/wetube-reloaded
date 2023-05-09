@@ -7,6 +7,7 @@ mixin video(video)
             ul
                 each hashtag in video.hashtags
                     li=hashtag
+            img(scr=video.owner.avatarUrl width="50px", height="50px")   
             small Uploaded by #{video.owner.name}
                     
             br
