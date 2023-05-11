@@ -80,6 +80,8 @@ const formatTime = (seconds) => {
 
 const timeUpdate = () => {
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
+  totalTime.innerText = formatTime(Math.floor(video.duration));
+  timeline.max = Math.floor(video.duration);
 
   timeline.value = Math.floor(video.currentTime);
 };
@@ -144,12 +146,13 @@ const mouseMove = () => {
 const videoEnd = () => {
   // 비디오 재생이 끝난경우 (시청 후)\
   const { id } = videoBox.dataset;
+  // 해당 영상의 id 추출
   fetch(`/api/videos/${id}/view`, {
     method: "post",
-  });
+  }); // 동영상 조회수 증가
 
   playBtn.innerText = "Replay";
-  // 재생버튼 -> '다시시작'으로 변경
+  // 동영상재생버튼 -> '다시시작'으로 변경
 };
 
 playBtn.addEventListener("click", clickPlayBtn);

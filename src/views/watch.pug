@@ -16,22 +16,30 @@ block content
             div
                 button#fullScreen 전체화면
     
-        div
-            h2=video.title
-            p=video.description
-            span=video.hashtags
-            br
-            small=video.createdAt
+    div.video_data
+        h2=video.title
+        p=video.description
+        span=video.hashtags
+        br
+        small=video.createdAt
         div 
             small Uploaded by 
-                a(href=`/users/${video.owner._id}`) #{video.owner.name}
-            br
-            span 조회수 #{video.meta.views}회
+                a(href=`/users/${video.owner._id}`) #{video.owner.name}    
+        span 조회수 #{video.meta.views}회
         
         if String(video.owner._id) === String(loggedInUser._id)
             a(href=`${video.id}/edit`) Edit Video &#10132;
             br
             a(href=`${video.id}/delete`) Delete Video &#10132;	  
 
+    div.video_comment
+        if loggedIn
+            form.video_comment_form#commentForm
+                textarea(placeholder="Write a nice comment...",cols="30",rows="10")
+                button Add Comment
+
+
 block scripts    
     script(src="/ast/js/videoPlayer.js")
+    script(src="/ast/js/commentSection.js")
+
