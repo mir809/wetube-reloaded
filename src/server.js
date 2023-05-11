@@ -20,6 +20,10 @@ app.set("views", process.cwd() + "/src/views");
 
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
+// form에 입력된 데이터를 서버가 이해하도록 해줌
+app.use(express.json());
+/* request로 들어오는 json string 형태의 object(text)를
+서버가 이해하고 object로 바꿔주도록 해줌*/
 
 app.use(
   session({
