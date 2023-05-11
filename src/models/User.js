@@ -12,6 +12,9 @@ const userSchema = new mongoose.Schema({
   videos: [
     { type: mongoose.Schema.Types.ObjectId, require: true, ref: `Video` },
   ],
+  comments: [
+    { type: mongoose.Schema.Types.ObjectId, require: true, ref: `Comment` },
+  ],
 });
 
 userSchema.pre("save", async function () {
