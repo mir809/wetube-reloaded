@@ -41,9 +41,10 @@ block content
         div.video_comments
             ul 
                 each comment in video.comments.reverse()
-                    li.video_comment
+                    li.video_comment(data-id=comment._id)
                         i.fas.fa-comment
                         span #{comment.text}
+                        span ❌ 
 
 block scripts    
     script(src="/ast/js/videoPlayer.js")

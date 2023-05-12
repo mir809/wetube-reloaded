@@ -168,7 +168,7 @@ export const createComment = async (req, res) => {
   });
   video.comments.push(comment._id);
   video.save();
-
+  return res.status(201).json({ newCommentId: comment._id });
   // --비디오와 똑같이 유저 DB에도 추가--
   /*const dbUser = await User.findById({ _id: user._id });
   if (!dbUser) {
@@ -179,5 +179,4 @@ export const createComment = async (req, res) => {
 */
   /* 만약 회원탈퇴할떄 해당유저가 작성한 모든 댓글을 삭제하기 위해
    필요하다고 판단되면 사용 */
-  return res.sendStatus(201);
 };
