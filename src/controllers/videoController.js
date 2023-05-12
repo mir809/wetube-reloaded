@@ -177,7 +177,7 @@ export const createComment = async (req, res) => {
   dbUser.comments.push(comment._id);
   dbUser.save();
 */
-  // 만약 회원탈퇴할떄 해당유저가 작성한 모든 댓글을 삭제하기 위해
-  // 필요하다고 판단되면 사용
+  /* 만약 회원탈퇴할떄 해당유저가 작성한 모든 댓글을 삭제하기 위해
+   필요하다고 판단되면 사용 */
   return res.sendStatus(201);
 };
