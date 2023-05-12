@@ -22,7 +22,8 @@ export const home = async (req, res) => {
 //videos
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id).populate("owner");
+  const video = await Video.findById(id).populate("owner").populate("comments");
+  // 해당 데이터베이스에 있는 내용을 더 자세히 보여줌
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
@@ -165,6 +166,18 @@ export const createComment = async (req, res) => {
     owner: user._id,
     video: id,
   });
+  video.comments.push(comment._id);
+  video.save();
 
+  // --비디오와 똑같이 유저 DB에도 추가--
+  /*const dbUser = await User.findById({ _id: user._id });
+  if (!dbUser) {
+    return res.sendStatus(404);
+  }
+  dbUser.comments.push(comment._id);
+  dbUser.save();
+*/
+  // 만약 회원탈퇴할떄 해당유저가 작성한 모든 댓글을 삭제하기 위해
+  // 필요하다고 판단되면 사용
   return res.sendStatus(201);
 };

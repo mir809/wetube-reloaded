@@ -80,19 +80,17 @@ const formatTime = (seconds) => {
 
 const timeUpdate = () => {
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
-  totalTime.innerText = formatTime(Math.floor(video.duration));
-  timeline.max = Math.floor(video.duration);
 
   timeline.value = Math.floor(video.currentTime);
 };
 
-const loadedMetaData = () => {
+const loadedMetaData = async () => {
   currentTime.innerText = formatTime(
     Math.floor(video.duration) - Math.floor(video.duration)
   ); // 시작시 동영상 현재시간 = 전체시간 - 전체시간
   totalTime.innerText = formatTime(Math.floor(video.duration));
 
-  timeline.max = Math.floor(video.duration);
+  timeline.max = await Math.floor(video.duration);
 };
 
 const timelineInput = (event) => {
