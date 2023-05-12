@@ -1,5 +1,6 @@
 import Video from "../models/Video";
 import User from "../models/User";
+import Comment from "../models/Comment";
 
 /* 기존 콜백 방식(지원 안함):
 
@@ -146,7 +147,24 @@ export const registerView = async (req, res) => {
 };
 
 export const createComment = async (req, res) => {
-  console.log(req.body);
-  console.log(req.params);
-  return res.end();
+  const {
+    session: { user },
+    body: { text },
+    params: { id },
+  } = req;
+
+  const video = await Video.findById(id);
+  //Video 모델(DB)에서 id가 일치하는 비디오를 찾음
+
+  if (!video) {
+    return res.sendStatus(404);
+  } // 없을경우 404호출 후 request 종료
+
+  const comment = await Comment.create({
+    text,
+    owner: user._id,
+    video: id,
+  });
+
+  return res.sendStatus(201);
 };
