@@ -1,0 +1,13 @@
+extends ../base.pug
+
+include ../mixins/video
+
+
+block content
+    
+    each videoInfo  in videos
+        +video(videoInfo)
+                
+    else 
+        li 업로드된 동영상이 없습니다.
+

@@ -1,7 +1,7 @@
 header 
     a(href="/").header_logo 
         i.fab.fa-youtube 
-        span wetube
+        span Newtube 
             small KR
 
     nav 
@@ -15,11 +15,20 @@ header
                 li 
                     a(href="/videos/upload") Video Upload
                 li 
-                    a(href=`/users/${loggedInUser._id}`) #{loggedInUser.name}의 프로필
+                    a(href=`/users/${loggedInUser._id}`)
+                        if loggedInUser.socialOnly 
+                            img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
+                        else
+                            if loggedInUser.defaultAvartar
+                                img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
+                            else
+                                img.header_avatar(src="/" + loggedInUser.avatarUrl)
+
                 li 
                     a(href="/users/edit") 프로필 수정(Edit Profile)
                 li 
-                    a(href="/users/logout") Log-Out    
+                    a(href="/users/logout") Log-Out
+                   
             else
                 li 
                     a(href="/join") Join

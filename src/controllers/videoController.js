@@ -16,7 +16,8 @@ export const home = async (req, res) => {
     .populate("owner")
     .sort({ createdAt: "desc" });
   //desc : 늦게 생성한게 위에 위치함(내림차순)
-  return res.render("home", { pageTitle: "Home", videos });
+
+  return res.render("videos/home", { pageTitle: "Home", videos });
 };
 
 //videos
@@ -27,7 +28,7 @@ export const watch = async (req, res) => {
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
-  return res.render("watch", { pageTitle: video.title, video });
+  return res.render("videos/watch", { pageTitle: video.title, video });
 };
 
 export const getEdit = async (req, res) => {
@@ -42,7 +43,7 @@ export const getEdit = async (req, res) => {
   if (String(video.owner) !== String(_id)) {
     return res.status(403).redirect("/");
   }
-  return res.render("edit-video", {
+  return res.render("videos/edit-video", {
     pageTitle: `Edit : ${video.title}`,
     video,
   });
@@ -74,7 +75,7 @@ export const postEdit = async (req, res) => {
 };
 
 export const getUpload = (req, res) => {
-  return res.render("upload", { pageTitle: "Upload Video" });
+  return res.render("videos/upload", { pageTitle: "Upload Video" });
 };
 export const postUpload = async (req, res) => {
   const {
@@ -96,7 +97,7 @@ export const postUpload = async (req, res) => {
     user.save();
     return res.redirect("/");
   } catch (error) {
-    return res.status(400).render("upload", {
+    return res.status(400).render("videos/upload", {
       pageTitle: "Upload Video",
       errorMessage: error._message,
     });
@@ -133,7 +134,7 @@ export const search = async (req, res) => {
       },
     });
   }
-  return res.render("search", { pageTitle: "Search", videos, keyword });
+  return res.render("videos/search", { pageTitle: "Search", videos, keyword });
 };
 
 export const registerView = async (req, res) => {
@@ -168,15 +169,37 @@ export const createComment = async (req, res) => {
   });
   video.comments.push(comment._id);
   video.save();
-  return res.status(201).json({ newCommentId: comment._id });
+
   // --비디오와 똑같이 유저 DB에도 추가--
-  /*const dbUser = await User.findById({ _id: user._id });
+  /*
+  const dbUser = await User.findById({ _id: user._id });
   if (!dbUser) {
     return res.sendStatus(404);
   }
   dbUser.comments.push(comment._id);
   dbUser.save();
-*/
-  /* 만약 회원탈퇴할떄 해당유저가 작성한 모든 댓글을 삭제하기 위해
+  */
+  /*만약 회원탈퇴할떄 해당유저가 작성한 모든 댓글을 삭제하기 위해
    필요하다고 판단되면 사용 */
+  return res.status(201).json({ newCommentId: comment._id });
+};
+
+export const deleteComment = async (req, res) => {
+  const {
+    body: { deleteId },
+    params: { id },
+  } = req;
+
+  const video = await Video.findById(id);
+
+  if (!video) {
+    return res.sendStatus(404);
+  } // 없을경우 404호출 후 request 종료
+
+  await Comment.findByIdAndDelete(deleteId);
+  video.comments.splice(video.comments.indexOf(id), 1);
+  // User DB속 videos배열에 있는 정보까지 삭제
+  video.save();
+
+  return res.sendStatus(201);
 };

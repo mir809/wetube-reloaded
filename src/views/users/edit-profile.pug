@@ -1,0 +1,51 @@
+extends ../base.pug
+
+
+block content
+    if loggedInUser.socialOnly 
+            img.now_avatar(src=loggedInUser.avatarUrl,crossorigin width="100px", height="100px")
+    else
+        if loggedInUser.defaultAvartar
+            img.now_avatar(src=loggedInUser.avatarUrl,crossorigin width="100px", height="100px" data-id="defualt")
+        else
+            img.now_avatar(src="/" + loggedInUser.avatarUrl width="100px", height="100px")
+    
+    if errorMessage
+        span=errorMessage
+    form(method="post" enctype="multipart/form-data")
+        //-label(for="avatar") Avatar
+        
+        small 업로드 가능한 프로필 사진 용량은 최대 3MB 입니다.
+        div.profile_selector
+            div
+                img(src=defaultAvatars[0] width="50px", height="50px")
+                img(src=defaultAvatars[1] width="50px", height="50px")
+                img(src=defaultAvatars[2] width="50px", height="50px")
+                img(src=defaultAvatars[3] width="50px", height="50px")
+                img(src=defaultAvatars[4] width="50px", height="50px")
+            div
+                img(src=defaultAvatars[5] width="50px", height="50px")
+                img(src=defaultAvatars[6] width="50px", height="50px")
+                img(src=defaultAvatars[7] width="50px", height="50px")
+                img(src=defaultAvatars[8] width="50px", height="50px")
+                input(name="avatar" type="file" id="avatar" accept="image/*")
+                //-i.fas.fa-plus
+            
+        br
+        br
+        input(name="name", placeholder="사용자 이름", value=loggedInUser.name , required )
+        input(name="email",placeholder="이메일",value=loggedInUser.email, type="email", required )
+        input(name="username", placeholder="아이디", value=loggedInUser.username,required , )
+        input(name="location" ,placeholder="지역",value=loggedInUser.location ,)
+        
+        input(type="submit", value="Update Profile",)
+        if !loggedInUser.socialOnly
+            hr
+            a(href="/users/edit/change-password") 비밀번호 변경
+        br
+        a(href="/users/account/delete") 회원 탈퇴
+            //- a(href="change-password") 비밀번호 변경 &#10132;   
+
+
+block scripts    
+    script(src="/ast/js/editProfile.js")

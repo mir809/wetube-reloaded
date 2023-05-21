@@ -7,10 +7,9 @@ const addComment = (text, newCommentId) => {
   // watch페이지(html)에 있는 .video_comments의 ul을 가져옴
   const newComment = document.createElement("li");
   newComment.className = "video_comment";
-  const icon = document.createElement("i");
-  icon.className = "fas fa-comment";
   const span = document.createElement("span");
   const span2 = document.createElement("span");
+  span2.className = "deleteComment";
   // html객체 생성 (li,i,span),
   // wathc페이지에 생성한 객체와 똑같이 class 부여
   span.innerText = text;
@@ -20,7 +19,6 @@ const addComment = (text, newCommentId) => {
   // 프론트엔드에서 자체적으로 추가한 댓글에 id 추가
   // => 생성 후 바로 삭제 가능
 
-  newComment.appendChild(icon);
   newComment.appendChild(span);
   newComment.appendChild(span2);
 
@@ -53,6 +51,28 @@ const commentSubmit = async (event) => {
   }
 };
 
+const commentDelete = async (event) => {
+  if (event.target.className === "deleteComment") {
+    const deleteId = event.target.parentElement.dataset.id;
+    const videoId = videoBox.dataset.id;
+    const response = await fetch(`/api/videos/${videoId}/comment`, {
+      // fetch(request)의 응답 결과에서 status 코드를 받음
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ deleteId }),
+    });
+
+    if (response.status === 201) {
+      const delLi = event.target.parentElement;
+      delLi.remove();
+    }
+  }
+};
+
 if (form) {
   form.addEventListener("submit", commentSubmit);
 }
+
+window.addEventListener("click", commentDelete);

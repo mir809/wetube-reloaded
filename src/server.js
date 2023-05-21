@@ -49,8 +49,11 @@ app.use("/ast", express.static("assets"));
 app.use((req, res, next) => {
   res.header("Cross-Origin-Embedder-Policy", "require-corp");
   res.header("Cross-Origin-Opener-Policy", "same-origin");
+  res.header("Cross-Origin-Resource-Policy", "cross-origin");
+
   next();
-});
+}); //동영상 촬영시 에러 나는부분 해결
+// !! 해당 코드 적용시 깃허브 프로필 이미지 연동 안됨
 
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);

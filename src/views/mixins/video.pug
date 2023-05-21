@@ -1,13 +1,19 @@
 mixin video(video)
     a(href=`/videos/${video.id}`) video
         div.video-mixin__thumb(style=`background-image:url(${video.thumbUrl});background-size:cover;background-position:center;width:300px;height:200px`)   
-        div 
+        div
             span=video.title
             p=video.description
             ul
                 each hashtag in video.hashtags
                     li=hashtag
-            img(scr=video.owner.avatarUrl width="50px", height="50px")   
+            if video.owner.socialOnly 
+                img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin width="50px", height="50px")
+            else
+                if video.owner.defaultAvartar
+                    img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin width="50px", height="50px")
+                else
+                    img.video_owner_avatar(src="/" + video.owner.avatarUrl width="50px", height="50px") 
             small Uploaded by #{video.owner.name}
                     
             br

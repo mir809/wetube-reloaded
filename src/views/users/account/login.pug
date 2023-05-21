@@ -1,0 +1,18 @@
+extends ../../base
+
+block content 
+    if errorMessage
+        span=errorMessage
+    form(method="post")
+        input(name="username", placeholder="아이디",required )
+        input(name="password", placeholder="비밀번호",required , type="password")
+       
+        input(type="submit", value="Log in",)
+
+        br
+        a(href="/users/github/start") Continue with GitHub &#10132;
+        
+    hr 
+    div    
+        span Don't have an account? 
+        a(href="/join") Create one now &#10132;

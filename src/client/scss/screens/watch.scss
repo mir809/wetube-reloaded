@@ -11,5 +11,12 @@
     margin-bottom: 10px;
     background-color: skyblue;
     color: black;
+    .deleteComment {
+      background-color: white;
+      &:hover {
+        background-color: black;
+        cursor: Pointer;
+      }
+    }
   }
 }

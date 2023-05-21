@@ -9,6 +9,8 @@ import {
   finishGithubLogin,
   getChangePassword,
   postChangePassword,
+  getDeleteAccount,
+  postDeleteAccount,
 } from "../controllers/userController";
 
 import { Log_In_Only, Log_Out_Only, avatarUpload } from "../middlewares";
@@ -28,9 +30,15 @@ userRouter
 userRouter.get("/:id", profile);
 
 userRouter
-  .route("/change-password")
+  .route("/edit/change-password")
   .all(Log_In_Only)
   .get(getChangePassword)
   .post(postChangePassword);
+
+userRouter
+  .route("/account/delete")
+  .all(Log_In_Only)
+  .get(getDeleteAccount)
+  .post(postDeleteAccount);
 
 export default userRouter;
