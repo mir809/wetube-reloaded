@@ -53,7 +53,6 @@ app.use((req, res, next) => {
 
   next();
 }); //동영상 촬영시 에러 나는부분 해결
-// !! 해당 코드 적용시 깃허브 프로필 이미지 연동 안됨
 
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);

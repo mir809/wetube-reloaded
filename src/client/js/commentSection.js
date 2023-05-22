@@ -30,6 +30,7 @@ const commentSubmit = async (event) => {
   const textarea = form.querySelector("textarea");
 
   const text = textarea.value;
+
   const videoId = videoBox.dataset.id;
   // 댓글을 작성한 동영상의 id받아옴
   if (text.trim() === "") {

@@ -191,7 +191,7 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id, avatarUrl },
+      user: { _id, avatarUrl, defaultAvartar },
     },
     body: { name, email, username, location },
     file,
@@ -212,7 +212,7 @@ export const postEdit = async (req, res) => {
     _id,
     {
       avatarUrl: file ? file.path : avatarUrl,
-      defaultAvartar: file ? false : true,
+      defaultAvartar: file ? false : defaultAvartar,
       name,
       email,
       username,
@@ -342,4 +342,26 @@ export const postDeleteAccount = async (req, res) => {
   req.session.destroy();
   // 현재 세션 지워줌 => 로그아웃
   return res.redirect("/");
+};
+
+export const changeDefaultAvatar = async (req, res) => {
+  const {
+    user: { _id },
+  } = req.session;
+  const { nowImgSrc } = req.body;
+  const user = await User.findById(_id);
+  if (!user) {
+    return res.sendStatus(404);
+  }
+
+  const updateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      avatarUrl: nowImgSrc,
+      defaultAvartar: true,
+    },
+    { new: true }
+  );
+  req.session.user = updateUser;
+  return res.sendStatus(200);
 };
