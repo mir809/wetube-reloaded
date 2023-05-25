@@ -276,36 +276,13 @@ const WindowKeyDown = (event) => {
     timeline.value += 5; // 타임라인 막대
   } // 방향키 좌/우 : 영상시간 +- 5초
 
-  if (event.code === "Numpad0" || event.code === "Digit0") {
-    video.currentTime = video.duration * 0;
-    timeline.value = video.duration * 0;
-  } else if (event.code === "Numpad1" || event.code === "Digit1") {
-    video.currentTime = video.duration * 0.1;
-    timeline.value = video.duration * 0.1;
-  } else if (event.code === "Numpad2" || event.code === "Digit2") {
-    video.currentTime = video.duration * 0.2;
-    timeline.value = video.duration * 0.2;
-  } else if (event.code === "Numpad3" || event.code === "Digit3") {
-    video.currentTime = video.duration * 0.3;
-    timeline.value = video.duration * 0.3;
-  } else if (event.code === "Numpad4" || event.code === "Digit4") {
-    video.currentTime = video.duration * 0.4;
-    timeline.value = video.duration * 0.4;
-  } else if (event.code === "Numpad5" || event.code === "Digit5") {
-    video.currentTime = video.duration * 0.5;
-    timeline.value = video.duration * 0.5;
-  } else if (event.code === "Numpad6" || event.code === "Digit6") {
-    video.currentTime = video.duration * 0.6;
-    timeline.value = video.duration * 0.6;
-  } else if (event.code === "Numpad7" || event.code === "Digit7") {
-    video.currentTime = video.duration * 0.7;
-    timeline.value = video.duration * 0.7;
-  } else if (event.code === "Numpad8" || event.code === "Digit8") {
-    video.currentTime = video.duration * 0.8;
-    timeline.value = video.duration * 0.8;
-  } else if (event.code === "Numpad9" || event.code === "Digit9") {
-    video.currentTime = video.duration * 0.9;
-    timeline.value = video.duration * 0.9;
+  if (event.code.includes("Numpad") || event.code.includes("Digit")) {
+    const digit = Number(event.code.slice(-1)); // event.code에서 마지막 문자열(숫자)을 추출
+    if (digit >= 0 && digit <= 9) {
+      const percentage = digit * 0.1;
+      video.currentTime = video.duration * percentage;
+      timeline.value = video.duration * percentage;
+    }
   } // 숫자키 0~9까지 : 전체 영상길이 중 해당 비율만큼 이동
 };
 
@@ -343,3 +320,19 @@ window.addEventListener("click", windowClick);
 window.addEventListener("keydown", VideoKeyDown);
 window.addEventListener("keydown", WindowKeyDown);
 // 최초상태 : 키보드 단축키 활성화
+
+const smallPlayerBtn = document.getElementById("smallPlayer");
+
+const smallPlayer = async () => {
+  videoTime = video.currentTime;
+
+  await fetch(`/api/small/time`, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ videoTime }),
+  });
+};
+
+smallPlayerBtn.addEventListener("click", smallPlayer);

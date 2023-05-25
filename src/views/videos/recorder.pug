@@ -1,0 +1,15 @@
+extends ../base.pug
+
+
+block content 
+    div 
+        video#preview
+        button#startBtn 녹화 시작
+        button#download 다운로드
+    hr  
+    a(href="upload") 지금 업로드하러 가기 &#10132;
+
+    
+
+block scripts 
+    script(src="/ast/js/recorder.js")

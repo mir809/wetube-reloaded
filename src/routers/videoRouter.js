@@ -7,6 +7,7 @@ import {
   getUpload,
   postUpload,
   deleteVideo,
+  record,
 } from "../controllers/videoController";
 
 import { Log_In_Only, Log_Out_Only, videoUpload } from "../middlewares";
@@ -35,5 +36,7 @@ videoRouter
     ]),
     postUpload
   );
+
+videoRouter.get("/record", record);
 
 export default videoRouter;

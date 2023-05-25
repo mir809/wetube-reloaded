@@ -2,16 +2,12 @@ extends ../base.pug
 
 
 block content 
-    div 
-        video#preview
-        button#startBtn 녹화 시작
-        button#download 다운로드
     if errorMessage 
         span=errorMessage
     form(method="post", enctype="multipart/form-data")
         label(for="video") Video File
         input(name="video" type="file" accept="video/*" id="video" required) 
-        small 업로드 가능한 동영상 용량은 최대 10MB 입니다.
+        small 업로드 가능한 동영상 용량은 최대 30MB 입니다.
         label(for="thumb") Thumbnail
         input(name="thumb" type="file" accept="image/*" id="thumb" required) 
         
@@ -21,6 +17,8 @@ block content
         input(name="description", placeholder="Description", required, minlength=1)
         input(name="hashtags", placeholder="Hashtags, separated by comma.", )
         input(type="submit", value="Upload")
+    
+    span 동영상이 없으신가요?
+    br
+    a(href="record") 지금 촬영하러 가기 &#10132;
 
-block scripts 
-    script(src="/ast/js/recorder.js")

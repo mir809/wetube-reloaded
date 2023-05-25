@@ -1,4 +1,4 @@
-import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+const { createFFmpeg, fetchFile } = require("@ffmpeg/ffmpeg");
 
 const record_Btn = document.getElementById("startBtn");
 const video = document.getElementById("preview");

@@ -16,6 +16,16 @@ const userSchema = new mongoose.Schema({
   comments: [
     { type: mongoose.Schema.Types.ObjectId, require: true, ref: `Comment` },
   ],
+  watchVideo: [
+    {
+      video: {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true,
+        ref: `Video`,
+      },
+      time: { type: Date, required: true },
+    },
+  ],
 });
 
 userSchema.pre("save", async function () {

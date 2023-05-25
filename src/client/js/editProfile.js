@@ -38,6 +38,8 @@ avatarInput.addEventListener("change", function (event) {
 defaultImgs.forEach((img) => {
   img.addEventListener("click", function () {
     avatarInput.value = "";
+    // 유저가 이미지 파일 선택한 상태에서 기본프로필 클릭시
+    // 선택했던 이미지 파일 제거
     nowAvatar.src = img.src;
     const markedImg = document.querySelector(".mark");
     if (markedImg) {

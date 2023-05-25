@@ -2,6 +2,9 @@ extends base
 
 block content 
     h1=pageTitle
-    span 해당 주소와 일치하는 결과를 찾을 수 없습니다.
-    br
-    span 주소가 잘못되지 않았는지 확인해 주세요.
+    if video
+        span 해당 영상이 존재하지 않습니다. 주소가 잘못되었거나 삭제된 영상입니다.
+    if user
+        span 해당 사용자가 존재하지 않습니다. 주소가 잘못되었거나 삭제된 계정입니다.
+    
+    

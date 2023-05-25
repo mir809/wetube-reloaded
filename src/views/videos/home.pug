@@ -4,10 +4,20 @@ include ../mixins/video
 
 
 block content
-    
+    if smallPlayer
+        div.small_player(data-id=smallVideoTime)
+            video(src="/"+smallVideo.fileUrl, )
+            button#smallPlayeClear ❌
+
+
     each videoInfo  in videos
         +video(videoInfo)
                 
     else 
         li 업로드된 동영상이 없습니다.
 
+    
+
+
+block scripts
+    script(src="/ast/js/homeVideos.js")

@@ -3,6 +3,8 @@ import {
   registerView,
   createComment,
   deleteComment,
+  deleteSmallPlayer,
+  nowTime,
 } from "../controllers/videoController";
 
 import { changeDefaultAvatar } from "../controllers/userController";
@@ -17,5 +19,8 @@ apiRouter
   .delete(deleteComment);
 
 apiRouter.post("/users/edit/avatar", changeDefaultAvatar);
+
+apiRouter.post("/small/time", nowTime);
+apiRouter.post("/small/clear", deleteSmallPlayer);
 
 export default apiRouter;

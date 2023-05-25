@@ -166,6 +166,8 @@ export const finishGithubLogin = async (req, res) => {
         password: "",
         socialOnly: true,
         location: userData.location,
+        defaultAvartar: false,
+        // 깃허브는 자체 기본프로필 이라도 받아오니까 무조건 false
       });
     }
     req.session.loggedIn = true;
@@ -282,7 +284,7 @@ export const profile = async (req, res) => {
   if (!user) {
     req.flash("error", "존재하지 않는 사용자 입니다.");
 
-    return res.status(404).render("404", { pageTitle: "User not found" });
+    return res.status(404).render("404", { pageTitle: "User not found", user });
   }
 
   return res.render("users/profile", {
@@ -299,9 +301,9 @@ export const getDeleteAccount = async (req, res) => {
 export const postDeleteAccount = async (req, res) => {
   const {
     session: {
-      user: { _id },
+      user: { _id, socialOnly },
     },
-    body: { username, password, password2 },
+    body: { username, password, password2, email },
   } = req;
 
   const user = await User.findById(_id).populate("videos");
@@ -313,31 +315,50 @@ export const postDeleteAccount = async (req, res) => {
   const videosArray = userComments.map((item) => item.video);
   console.log(videosArray);
   */
-
-  if (username !== user.username) {
-    return res.status(400).render("users/account/delete-account", {
-      pageTitle,
-      errorMessage: "아이디가 틀렸습니다.",
-    });
+  if (socialOnly) {
+    // 깃허브로 가입한 유저인 경우 email만 확인
+    if (email !== user.email) {
+      return res.status(400).render("users/account/delete-account", {
+        pageTitle,
+        errorMessage: "이메일이 일치하지 않습니다..",
+      });
+    }
+  } else {
+    // 사이트 자체 회원가입 계정
+    if (username !== user.username) {
+      return res.status(400).render("users/account/delete-account", {
+        pageTitle,
+        errorMessage: "아이디가 틀렸습니다.",
+      });
+    }
+    if (password !== password2) {
+      return res.status(400).render("users/account/delete-account", {
+        pageTitle,
+        errorMessage: `비밀번호 확인이 잘못되었습니다.`,
+      });
+    }
+    const passOk = await bcrypt.compare(password, user.password);
+    if (!passOk) {
+      return res.status(400).render("users/account/delete-account", {
+        pageTitle,
+        errorMessage: "비밀번호가 틀렸습니다.",
+      });
+    }
   }
-  if (password !== password2) {
-    return res.status(400).render("users/account/delete-account", {
-      pageTitle,
-      errorMessage: `비밀번호 확인이 잘못되었습니다.`,
-    });
-  }
-  const passOk = await bcrypt.compare(password, user.password);
-  if (!passOk) {
-    return res.status(400).render("users/account/delete-account", {
-      pageTitle,
-      errorMessage: "비밀번호가 틀렸습니다.",
-    });
-  }
+  const comments = await Comment.find({ owner: _id });
+  const commentIds = comments.map((comment) => comment._id);
 
   await Video.deleteMany({ owner: _id });
+  //해당 유저를 owner로 가진 video삭제
   await Comment.deleteMany({ owner: _id });
+  //해당 유저를 owner로 가진 comment삭제
   await User.findByIdAndDelete(_id);
-  await Video.updateMany({}, { $pull: { comments: { owner: _id } } });
+  // 해당 유저 삭제
+
+  await Video.updateMany({ $pull: { comments: { $in: commentIds } } });
+  // videos컬렉션 중 comments배열에 해당 유저가 작성한
+  // comment를 가진 video를 찾아 comments배열에서
+  // 해당 댓글들만 제거
 
   req.session.destroy();
   // 현재 세션 지워줌 => 로그아웃

@@ -5,9 +5,12 @@ block content
         span=errorMessage
     h2 계정 확인
     form(method="post") 
-        input( name="username"  placeholder="아이디" required)
-        input( name="password" placeholder="비밀번호" type="password" required)
-        input( name="password2" placeholder="비밀번호 확인" type="password" required)
+        if loggedInUser.socialOnly
+            input( name="email"  placeholder="깃허브 이메일" type="email" required)
+        else
+            input( name="username"  placeholder="아이디" required)
+            input( name="password" placeholder="비밀번호" type="password" required)
+            input( name="password2" placeholder="비밀번호 확인" type="password" required)
 
         input(type="submit" value="Delete Account")
 //- type="email" 나중에 넣어주기

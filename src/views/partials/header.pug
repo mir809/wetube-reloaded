@@ -4,13 +4,11 @@ header
         span Newtube 
             small KR
 
+    form(method="get" action="search")
+        input(name="keyword", value=keyword placeholder="Search by title")
+        input(type="submit", value="Search now")
     nav 
         ul  
-            
-            li 
-                a(href="/search") 
-                    i.fas.fa-search
-            
             if loggedIn
                 li 
                     a(href="/videos/upload") Video Upload

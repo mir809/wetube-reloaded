@@ -16,6 +16,7 @@ block content
                 input(type="range", step="1" value=0 min="0" )#timeline
             div
                 button#fullScreen 전체화면
+                a#smallPlayer(href=`/small/${video._id}/`) 소형 플레이어
     
     div.video_data
         h2=video.title
