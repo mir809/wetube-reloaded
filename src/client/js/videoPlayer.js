@@ -265,6 +265,14 @@ const WindowKeyDown = (event) => {
   if (event.code === "KeyF") {
     fullScreenClick();
   } // F : 동영상 전체화면/전체화면 해제
+  if (event.code === "Escape") {
+    const fullScreen = document.fullscreenElement;
+    //현재 전체화면상태인지 파악
+    if (fullScreen) {
+      document.exitFullscreen(); //전체화면 해제
+      fullScreenBtn.innerText = "전체화면";
+    }
+  } // Esc :전체화면 상태인 경우 전체화면 해제
 
   if (event.code === "ArrowLeft") {
     event.preventDefault();

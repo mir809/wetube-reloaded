@@ -40,20 +40,26 @@ export const postJoin = async (req, res) => {
   if (existsEmail) {
     return res.status(400).render("users/account/join", {
       pageTitle,
-      errorMessage: `🚫 이미 사용중인 이메일 입니다. 🚫`,
+      alreadyEmail: `이미 사용중인 이메일 입니다.`,
+      name,
     });
   }
   if (existsUsername) {
     return res.status(400).render("users/account/join", {
       pageTitle,
-      errorMessage: `🚫 이미 사용중인 아이디 입니다. 🚫`,
+      alreadyID: `이미 사용중인 아이디 입니다.`,
+      name,
+      email,
     });
   }
 
   if (password !== password2) {
     return res.status(400).render("users/account/join", {
       pageTitle,
-      errorMessage: `입력한 비밀번호가 일치하지 않습니다.`,
+      nonePass: `입력한 비밀번호가 일치하지 않습니다.`,
+      name,
+      email,
+      username,
     });
   }
   try {
@@ -86,14 +92,15 @@ export const postLogin = async (req, res) => {
   if (!user) {
     return res.status(400).render("users/account/login", {
       pageTitle,
-      errorMessage: "❗존재하지 않는 아이디 입니다.",
+      noneID: "존재하지 않는 아이디 입니다.",
     });
   }
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
     return res.status(400).render("users/account/login", {
       pageTitle,
-      errorMessage: "❗비밀번호가 틀렸습니다.❗",
+      wrongpass: "비밀번호가 틀렸습니다.",
+      username,
     });
   }
   req.session.loggedIn = true;
@@ -278,7 +285,7 @@ export const postChangePassword = async (req, res) => {
   return res.redirect("/login");
 };
 
-export const profile = async (req, res) => {
+export const channel = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id).populate("videos");
   if (!user) {
@@ -287,8 +294,8 @@ export const profile = async (req, res) => {
     return res.status(404).render("404", { pageTitle: "User not found", user });
   }
 
-  return res.render("users/profile", {
-    pageTitle: `${user.name}`,
+  return res.render("users/channel", {
+    pageTitle: `${user.name} - NewTube`,
     user,
   });
 };
@@ -384,5 +391,9 @@ export const changeDefaultAvatar = async (req, res) => {
     { new: true }
   );
   req.session.user = updateUser;
+  return res.sendStatus(200);
+};
+
+export const account = async (req, res) => {
   return res.sendStatus(200);
 };

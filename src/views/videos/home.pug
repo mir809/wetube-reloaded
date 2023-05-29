@@ -1,23 +1,27 @@
 extends ../base.pug
 
-include ../mixins/video
-
-
+include ../mixins/videos-home
+        
 block content
-    if smallPlayer
-        div.small_player(data-id=smallVideoTime)
-            video(src="/"+smallVideo.fileUrl, )
-            button#smallPlayeClear ❌
-
-
-    each videoInfo  in videos
-        +video(videoInfo)
-                
-    else 
-        li 업로드된 동영상이 없습니다.
-
+    include ../partials/sideVar/main
     
-
+    div.home_videos
+        each videoInfo  in videos
+            +video(videoInfo)
+            +video(videoInfo)
+            +video(videoInfo)
+            +video(videoInfo)
+            +video(videoInfo)
+            +video(videoInfo)
+            +video(videoInfo)
+            +video(videoInfo)
+                    
+        else 
+            li 업로드된 동영상이 없습니다.
+    if smallPlayer
+        include ../partials/smallPlayer
+        
+            
 
 block scripts
-    script(src="/ast/js/homeVideos.js")
+    script(src="/ast/js/videosList.js")

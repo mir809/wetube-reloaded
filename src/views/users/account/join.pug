@@ -1,20 +1,60 @@
-extends ../../base
+extends ../../base-account
 
 block content 
-    if errorMessage
-        span=errorMessage
-    form(method="post")
-        input(name="name", placeholder="사용자 이름", required )
-        input(name="email",placeholder="이메일", required , type="email")
-        input(name="username", placeholder="로그인 아이디",required )
-        input(name="password", placeholder="비밀번호",required , type="password")
-        input(name="password2", placeholder="비밀번호 확인",required , type="password")
-        input(name="location" ,placeholder="지역",)
-        
-        input(type="submit", value="Join",)
+    div.form_page.join_page
+        form.join_form(method="post")
+            div.form-header
+                div.header_logo 
+                    i.fab.fa-youtube 
+                    span NewTube 
+                        small KR
+                span NewTube 계정 만들기
+                a(href="/") NewTube 바로가기 &#10132;
+            div.input_box 
+                input(name="name",id="name" value=name, required )
+                label(for="name").placeholder 사용자 이름
+                span 다른 사용자들에게 표시되는 이름입니다.
+            div.input_box 
+                input(name="email" ,id="email",value=email, required , type="email")
+                label(for="email").placeholder 이메일
+                if alreadyEmail
+                    span.error_message=alreadyEmail
+                span 본인 확인을 위한 이메일입니다.
+                small 실제 이메일을 입력해야 하나요?
+                    span 아니요, 이메일 형식에만 맞춰서 입력하시면 됩니다.
+            div.input_box 
+                input(name="username",id="ID",value=username,required )
+                label(for="ID").placeholder 로그인 아이디 (6자리 이상)
+                if alreadyID
+                    span.error_message=alreadyID
+                span 로그인 시에 사용되는 아이디 입니다. 
+            div.input_box 
+                input(name="password",id="pass",required , type="password")
+                label(for="pass").placeholder 비밀번호 (7자리 이상)
+                span 확인을 위해 한번더 입력해 주세요.
+            
 
-    hr 
-    div    
-        span Already have an account? 
-        a(href="/login") Log in now &#10132;
-        a(href="/users/github/start") Continue with GitHub &#10132;
+            div.input_box 
+                input(name="password2",id="pass2",required , type="password")
+                label(for="pass2").placeholder 비밀번호 확인
+                if nonePass
+                    span.error_message=nonePass
+            div.showPass
+                input(type="checkbox" id="showPass")
+                label(for="showPass") 비밀번호 표시
+
+            div.input_box 
+                input(name="location" ,id="local")
+                label(for="local").placeholder 지역 (필수 입력 X)
+
+            input(type="submit", value="가입하기",)
+
+        div.form_footer
+            div
+                span 이미 계정이 있으신가요?
+                a(href="/login") 로그인 하러 가기 &#10132;
+            
+            div 
+                span GitHub계정이 있으신가요? 
+                a(href="/users/github/start") GitHub로 로그인 하기 &#10132;
+        

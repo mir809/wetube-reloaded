@@ -1,6 +1,7 @@
 extends ../base.pug
 
 block content
+
     div.imgDisplay
         if loggedInUser.socialOnly 
                 img.now_avatar(src=loggedInUser.avatarUrl,crossorigin )

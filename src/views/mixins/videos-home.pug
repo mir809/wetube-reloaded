@@ -1,0 +1,35 @@
+mixin video(video)
+    div.home-video-mixin
+        div.onwer_link_box
+            a.video-mixin_video_onwer_link(href=`/users/${video.owner._id}`)
+            a.video-mixin(href=`/videos/${video.id}`)
+                div.video-mixin_display
+                    video.video-mixin__video(src="/"+video.fileUrl ) 
+                    div.video-mixin_cover
+                        img.video-mixin__thumb(src="/"+video.thumbUrl alt="Image" loading="lazy")
+                        span.videoTime
+                div.video-mixin_data_box
+                    div.video-mixin_data
+                        if video.owner.socialOnly 
+                            img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin )
+                        else
+                            if video.owner.defaultAvartar
+                                img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin)
+                            else
+                                img.video_owner_avatar(src="/" + video.owner.avatarUrl ) 
+                        div.video-mixin_data_text 
+                            span.video-mixin_title=video.title
+                            span.video-mixin_owner=video.owner.name
+                            div.video-mixin_meta
+                                span.video-mixin_view 조회수 #{video.meta.views}회 • 
+                                span.video-mixin_time 1분전
+                    div.video-mixin_config-icon
+                        i.fas.fa-ellipsis-vertical
+        
+
+
+
+
+
+
+    

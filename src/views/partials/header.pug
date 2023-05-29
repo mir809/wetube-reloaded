@@ -1,19 +1,38 @@
 header 
-    a(href="/").header_logo 
-        i.fab.fa-youtube 
-        span Newtube 
-            small KR
+    div.header_left
+        div.side-var_OnOff-btn
+            i.fa-solid.fa-bars 
+        a(href="/").header_logo 
+            i.fab.fa-youtube 
+            span NewTube 
+                small KR
 
-    form(method="get" action="search")
-        input(name="keyword", value=keyword placeholder="Search by title")
-        input(type="submit", value="Search now")
+    form.search_form(method="get" action="/search")
+         div.search_var
+            div.search_var_null
+            input.search_input(name="keyword", value=keyword placeholder="검색")
+            button.search_btn
+                i.fas.fa-search
+                
     nav 
         ul  
             if loggedIn
+                li
+                    div.upload_btn
+                        i.fas.fa-upload
+                        div.upload_text 업로드
+                        div.upload_box.hidden
+                            a(href="/videos/upload") 
+                                i.fas.fa-file-video
+                                span 내 동영상 파일 업로드
+                            a(href="/videos/record") 
+                                i.fas.fa-video
+                                span 지금 촬영하기
+
+
+                        
                 li 
-                    a(href="/videos/upload") Video Upload
-                li 
-                    a(href=`/users/${loggedInUser._id}`)
+                    div.menu
                         if loggedInUser.socialOnly 
                             img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
                         else
@@ -21,16 +40,73 @@ header
                                 img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
                             else
                                 img.header_avatar(src="/" + loggedInUser.avatarUrl)
+                        div.menu_box.hidden
+                            div.user_info
+                                if loggedInUser.socialOnly 
+                                    img.user_info_avatar(src=loggedInUser.avatarUrl,crossorigin)
+                                else
+                                    if loggedInUser.defaultAvartar
+                                        img.user_info_avatar(src=loggedInUser.avatarUrl,crossorigin)
+                                    else
+                                        img.user_info_avatar(src="/" + loggedInUser.avatarUrl)
+                                div.user_info-text  
+                                    span.user_name=loggedInUser.name   
+                                    a(href="/users/account") 내 계정 관리
+                                    //- account 페이지로 이동               
+                            hr
+                            div.menu-btn-list
+                                a.menu-btn(href=`/users/${loggedInUser._id}`) 
+                                    div.menu-btn-left
+                                        i.fas.fa-user-circle
+                                        span 내 채널
 
-                li 
-                    a(href="/users/edit") 프로필 수정(Edit Profile)
-                li 
-                    a(href="/users/logout") Log-Out
-                   
+                                a.menu-btn(href="/users/logout") 
+                                    div.menu-btn-left
+                                        i.fas.fa-door-open
+                                        span 로그아웃
+
+                                hr
+                                span.not-working &#8251; 미구현 기능 &#8251;
+                                div.menu-btn 
+                                    div.menu-btn-left
+                                        i.fas.fa-cog
+                                        span 설정
+                                div.menu-btn
+                                    div.menu-btn-left
+                                        i.fas.fa-keyboard
+                                        span 단축키
+                                div.menu-btn
+                                    div.menu-btn-left
+                                        i.fas.fa-globe
+                                        if loggedInUser.location
+                                            span 위치 : #{loggedInUser.location}
+                                        else 
+                                            span 위치 : 알수없음
+                                    div.menu-btn-right
+                                        i.fas.fa-chevron-right
+                                div.menu-btn
+                                    div.menu-btn-left
+                                        i.fas.fa-language
+                                        span 언어 : 한국어 
+                                    div.menu-btn-right
+                                        i.fas.fa-chevron-right
+                                div.menu-btn
+                                    div.menu-btn-left
+                                        i.fas.fa-moon
+                                        span 테마 : 밝은 테마
+                                    div.menu-btn-right
+                                        i.fas.fa-chevron-right
+                                
+
+
+                           
+
+                
             else
                 li 
-                    a(href="/join") Join
+                    a(href="/join") 회원가입
                 li 
-                    a(href="/login").header_btn Log-in
+                    a(href="/login").login_btn 로그인
                 
+
 

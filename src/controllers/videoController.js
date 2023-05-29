@@ -9,7 +9,7 @@ export const home = async (req, res) => {
     .sort({ createdAt: "desc" });
   //desc : 늦게 생성한게 위에 위치함(내림차순)
 
-  return res.render("videos/home", { pageTitle: "Home", videos });
+  return res.render("videos/home", { pageTitle: "NewTube", videos });
 };
 
 export const search = async (req, res) => {
@@ -20,9 +20,13 @@ export const search = async (req, res) => {
       title: {
         $regex: new RegExp(keyword, "i"),
       },
-    });
+    }).populate("owner");
   }
-  return res.render("videos/search", { pageTitle: "Search", videos, keyword });
+  return res.render("videos/search", {
+    pageTitle: `${keyword} - NewTube`,
+    videos,
+    keyword,
+  });
 };
 
 export const showSmallPlayer = async (req, res) => {

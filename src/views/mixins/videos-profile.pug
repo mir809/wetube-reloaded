@@ -1,0 +1,17 @@
+mixin video(video)
+    div.user-video-mixin
+        a.video-mixin(href=`/videos/${video.id}`)
+            div.video-mixin_display
+                video.video-mixin__video(src="/"+video.fileUrl ) 
+                div.video-mixin_cover
+                    img.video-mixin__thumb(src="/"+video.thumbUrl )
+                    span.videoTime
+            div.video-mixin_data_box
+                div.video-mixin_data
+                    div.video-mixin_data_text 
+                        span.video-mixin_title=video.title
+                        div.video-mixin_meta
+                            span.video-mixin_view 조회수 #{video.meta.views}회 • 
+                            span.video-mixin_time 1분전
+                div.video-mixin_config-icon
+                    i.fas.fa-ellipsis-vertical

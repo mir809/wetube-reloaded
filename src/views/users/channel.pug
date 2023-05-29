@@ -1,0 +1,47 @@
+extends ../base.pug
+
+include ../mixins/videos-profile
+
+block content
+    include ../partials/sideVar/main
+
+    div.profile-page
+        //- if user.wallPaper 추가
+        div.wallPaper
+        div.user_info
+            div.user_info-left
+                if user.socialOnly 
+                    img.user_avatar(src=user.avatarUrl,crossorigin )
+                else
+                    if user.defaultAvartar
+                        img.user_avatar(src=user.avatarUrl,crossorigin)
+                    else
+                        img.user_avatar(src="/" + user.avatarUrl ) 
+                div.user_info-text
+                    span.user_info-name=user.name
+                    span.user_info-data 구독자 n명 | 동영상 #{user.videos.length}개
+                    //- if user.des 추가
+                    span.user_info-des 설명란
+                        i.fas.fa-chevron-right
+                    a.profile_edit-btn(href="/users/edit") 내 프로필 수정
+                        i.fas.fa-chevron-right
+            div.user_info-rigth
+        nav.profile_nav 
+            div.select 홈
+            div 동영상
+            div 재생목록
+            div 정보
+        div.user_videos
+            each videoInfo  in user.videos
+                +video(videoInfo)
+                +video(videoInfo)
+                
+            else 
+                li 업로드된 동영상이 없습니다.
+    
+    
+    if smallPlayer
+        include ../partials/smallPlayer
+
+block scripts
+    script(src="/ast/js/videosList.js")

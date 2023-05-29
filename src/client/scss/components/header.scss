@@ -1,40 +1,392 @@
 header {
-  padding: 10px 25px;
+  font-family: "Roboto", sans-serif;
+
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  background-color: white;
+
+  padding: 0 15px;
   display: flex;
+  width: 100%;
+  height: 60px;
+
+  box-sizing: border-box;
+
   justify-content: space-between;
   align-items: center;
-  .header_logo {
+
+  .header_left {
+    width: 230px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    i {
-      color: $red;
-      font-size: 35px;
+    .side-var_OnOff-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-right: 15px;
+      opacity: 0.5;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+
+      &:hover {
+        background-color: rgba($color: #000000, $alpha: 0.2);
+        cursor: pointer;
+      }
     }
-    span {
-      font-size: 25px;
-      margin-left: 5px;
+    .header_logo {
+      display: flex;
+      align-items: center;
+      i {
+        color: $red;
+        font-size: 28px;
+      }
+      span {
+        position: relative;
+        font-size: 22px;
+        margin-left: 2px;
+        font-weight: 600;
+        letter-spacing: -1px;
+        transform: scaleX(0.7);
+        transform-origin: left;
+
+        //font-stretch: 50%;
+        small {
+          position: absolute;
+          right: -18px;
+          top: -3px;
+          font-size: 10px;
+          font-weight: 500;
+          letter-spacing: 0px;
+
+          opacity: 0.5;
+
+          transform: scaleX(1.5);
+        }
+      }
     }
   }
-  ul {
+
+  .search_form {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    li {
-      margin-left: 25px;
-      font-size: 14px;
-      font-weight: 600;
-      // text-transform: uppercase; => 모든 문자 대문자로
+
+    margin: 0 auto;
+
+    width: 50%;
+
+    .search_var {
+      position: relative;
+      height: 40px;
+      max-width: 90%;
+      width: 80%;
+      border-radius: 20px;
+
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      border: 1px solid rgba($color: #000000, $alpha: 0.2);
+      box-shadow: inset 0.3px 0.3px 0.5px 0.5px
+        rgba($color: #000000, $alpha: 0.1);
+
+      .search_var_null {
+        width: 20px;
+        height: 10px;
+      }
+
+      .search_input {
+        all: unset;
+        height: 25px;
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid rgba($color: #000000, $alpha: 0.2);
+        // 미디어 쿼리 이용 어느정도 작아지면 사라지게 하기
+        border: none;
+      }
+
+      .search_btn {
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 40px;
+        width: 70px;
+
+        background-color: rgba($color: #000000, $alpha: 0.05);
+        color: rgba($color: #000000, $alpha: 0.7);
+        font-size: 20px;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border: none;
+        border-left: 1px solid rgba($color: #000000, $alpha: 0.2);
+
+        cursor: pointer;
+
+        font-size: 20px;
+      }
     }
   }
-  .header_btn {
-    background-color: #2196f3;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
+
+  nav {
+    box-sizing: border-box;
+    width: 230px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    ul {
+      display: flex;
+      align-items: center;
+      .upload_btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+          background-color: rgba($color: #000000, $alpha: 0.1);
+          cursor: pointer;
+        }
+
+        .upload_text {
+          position: absolute;
+          bottom: 5px;
+          left: -60px;
+
+          color: white;
+          font-size: 12px;
+          background-color: rgba($color: #000000, $alpha: 0.6);
+
+          padding: 8px 6px;
+
+          border-radius: 3px;
+
+          width: max-content;
+
+          display: none;
+        }
+
+        &:hover .upload_text {
+          display: block; /* .upload_btn에 호버(Hover) 효과가 적용될 때만 보이도록 설정 */
+        }
+        .upload_box {
+          position: absolute;
+          top: 0px;
+          right: 50px;
+
+          width: 230px;
+          background-color: white;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+          display: flex;
+          flex-direction: column;
+
+          padding: 8px 0;
+          border-radius: 10px;
+
+          a {
+            width: 100%;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 15px;
+
+            box-sizing: border-box;
+
+            &:hover {
+              background-color: rgba($color: #000000, $alpha: 0.05);
+            }
+            i {
+              display: flex;
+              justify-content: center;
+              width: 30px;
+              font-size: 22px;
+            }
+            span {
+              font-size: 16px;
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+
+      li {
+        margin-left: 25px;
+        font-size: 16px;
+
+        position: relative;
+
+        // text-transform: uppercase; => 모든 문자 대문자로
+
+        .menu {
+          position: relative;
+
+          .header_avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            &:hover {
+              cursor: pointer;
+            }
+          }
+
+          .menu_box {
+            display: flex;
+
+            position: absolute;
+            z-index: 20;
+            left: -315px;
+            top: 0;
+
+            width: 300px;
+            background-color: white;
+            border-radius: 10px;
+
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            hr {
+              width: 100%;
+              height: 1px;
+              background-color: rgba($color: #000000, $alpha: 0.15);
+              border: none;
+
+              margin: 8px 0;
+            }
+            .not-working {
+              font-size: 14px;
+              color: rgba($color: #000000, $alpha: 0.5);
+            }
+
+            .user_info {
+              width: 100%;
+              padding: 16px;
+
+              display: flex;
+              box-sizing: border-box;
+
+              .user_info_avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+              }
+              .user_info-text {
+                margin-top: 5px;
+                display: flex;
+                flex-direction: column;
+
+                margin-left: 20px;
+                .user_name {
+                  font-size: 18px;
+                }
+                a {
+                  margin-top: 10px;
+                  color: $blue;
+                  font-size: 14px;
+                }
+              }
+            }
+            .menu-btn-list {
+              display: flex;
+
+              width: 100%;
+
+              height: calc(100% - 99px);
+              overflow-y: auto;
+
+              margin-bottom: 8px;
+
+              flex-direction: column;
+              align-items: center;
+              .menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                padding: 0 16px;
+                box-sizing: border-box;
+
+                width: 100%;
+                height: 40px;
+
+                &:hover {
+                  background-color: rgba($color: #000000, $alpha: 0.05);
+                  cursor: pointer;
+                }
+                .menu-btn-left {
+                  display: flex;
+                  align-items: center;
+
+                  i {
+                    font-size: 20px;
+
+                    width: 25px;
+
+                    display: flex;
+                    justify-content: center;
+                  }
+                  span {
+                    font-size: 14px;
+                    margin-left: 18px;
+                  }
+                }
+                .menu-btn-right {
+                  margin-right: 10px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .login_btn {
+      background-color: $blue;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
   }
-  .header_avatar {
-    width: 50px;
-    height: 50px;
+}
+
+header nav ul li .menu .hidden {
+  display: none;
+  //나중에 js이용해서 적용하기
+}
+
+header nav ul li .upload_btn .hidden {
+  display: none;
+  //나중에 js이용해서 적용하기
+}
+
+@keyframes rotateAnimation {
+  0% {
+    transform: rotate(0deg);
   }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes rotateAnimationReverse {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.rotate {
+  animation: rotateAnimation 0.3s ease-in-out forwards;
+}
+
+.rotateReverse {
+  animation: rotateAnimationReverse 0.3s ease-in-out forwards;
 }

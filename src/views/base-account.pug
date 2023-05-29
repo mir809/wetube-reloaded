@@ -17,13 +17,11 @@ html(lang="ko")
             +message("info", messages.info)
         if messages.success 
             +message("success", messages.success)
-
-        include partials/header
-        main.content
+    
+        main
             block content   
             
         
     script(src="/ast/js/main.js")
-    script(src="/ast/js/sideVar.js")
-    script(src="/ast/js/header.js")
+    script(src="/ast/js/forms.js")
     block scripts
