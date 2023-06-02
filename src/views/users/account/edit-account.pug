@@ -1,0 +1,45 @@
+extends ../../base-account
+
+
+block content 
+    div.account_page
+        div.account_page_box
+            div.account_page_header
+                if loggedInUser.socialOnly
+                    h1 
+                        i.fab.fa-github
+                        |      Github 계정 정보
+                    
+                else
+                    h1 계정 정보 변경
+                span 해당 정보는 다른 사용자에게 공개되지 않습니다.
+            hr
+            
+
+            if loggedInUser.socialOnly
+                div.account_form.github_info
+     
+                    span Github 아이디 : #{loggedInUser.username}
+
+                    span 이메일 : #{loggedInUser.email}
+            else 
+                form.account_form(method="post" )
+                    div.input_box 
+                        input(name="username",id="ID"  value=loggedInUser.username,required , )
+                        label(for="ID").placeholder 로그인 아이디
+                        if alreadyID
+                            span.error_message=alreadyID
+                        span 로그인 시에 사용 되는 아이디입니다.
+                        
+                    div.input_box    
+                        input(name="email", id="email",value=loggedInUser.email, type="email", required )
+                        label(for="email").placeholder 이메일
+                        if alreadyEmail
+                            span.error_message=alreadyEmail
+                        span 본인 확인을 위한 이메일입니다.
+                        small 실제 이메일을 입력해야 하나요?
+                            span 아니요, 이메일 형식에만 맞춰서 입력하시면 됩니다.
+
+                    input#submit(type="submit", value="변경사항 저장")
+
+

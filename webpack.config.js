@@ -14,6 +14,7 @@ module.exports = {
     sideVar: BASE_JS + "sideVar.js",
     header: BASE_JS + "header.js",
     forms: BASE_JS + "forms.js",
+    videoInfo: BASE_JS + "videoInfo.js",
   },
   plugins: [
     new MiniCssExtractPlugin({

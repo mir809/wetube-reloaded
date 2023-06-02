@@ -1,38 +1,103 @@
-extends ../base-fullSideVar
+extends ../base-hideSideVar
 
+include ../mixins/videos-relation
 block content
     div.watch_page
-        div#videoBox(data-id=video._id)
-            video(src="/"+video.fileUrl, )
-            div#videoControler
-                button#play Play 
-                button#mute 음소거
-                input(type="range", step="0.01" value=0.5 min="0" max="1")#volume
-                div 
-                    span#currentTime 
-                    span  / 
-                    span#totalTime 
-                div
-                    input(type="range", step="1" value=0 min="0" )#timeline
-                div
-                    button#fullScreen 전체화면
-                    a#smallPlayer(href=`/small/${video._id}/`) 소형 플레이어
-        
-        div.video_data
-            h2=video.title
-            p=video.description
-            span=video.hashtags
-            br
-            small=video.createdAt
-            div 
-                small Uploaded by 
-                    a(href=`/users/${video.owner._id}`) #{video.owner.name}    
-            span 조회수 #{video.meta.views}회
-            
-            if String(video.owner._id) === String(loggedInUser._id)
-                a(href=`${video.id}/edit`) Edit Video &#10132;
-                br
-                a(href=`${video.id}/delete`) Delete Video &#10132;	  
+        div.watch_video
+            div#videoBox(data-id=video._id)
+                div.display_change_row
+                    div.display_change_circle
+                        span 5초
+                        div.triple_arrow
+                            i.fas.fa-caret-left
+                            i.fas.fa-caret-left
+                            i.fas.fa-caret-left
+                    div.display_change_circle
+                        i.fas.fa-play
+                    div.display_change_circle
+                        span 5초
+                        div.triple_arrow
+                            i.fas.fa-caret-right
+                            i.fas.fa-caret-right
+                            i.fas.fa-caret-right
+                div.display_change_column
+                    div.display_change_circle
+                        i.fas.fa-volume-up
+                    span.now_volume 100%
+                video(src="/"+video.fileUrl)
+                div#videoControler.videoControler.showing
+                    input#timeline.videoControls__timeline(type="range",step="1", value="0", min="0")
+                    div.control_Btns
+                        div.control_Btns-left
+                            div.videoControls__play
+                                span#play.videoControls__playBtn
+                                    i.fas.fa-play
+                                    div.text_box 재생(Space)
+
+                            div.videoControls__volume
+                                span#mute
+                                    i.fas.fa-volume-up
+                                    div.text_box 음소거(m)
+                                div.volume_box
+                                    input#volume(type="range",step="0.01", value=0.5, min="0", max="1")
+                                    div.text_box 음량조절
+
+                            div.videoControls__time
+                                span#currentTime
+                                span  /  
+                                span#totalTime 
+                            
+                            
+                                
+                        div.control_Btns-rigth
+                            a#smallPlayer(href=`/small/${video._id}/`)
+                                i.fas.fa-compress-alt
+                                div.text_box 소형 플레이어(i)
+ 
+                                //- 소형 플레이어
+                            span#fullScreen
+                                i.fas.fa-expand
+                                div.text_box 전체화면(f)
+
+                                //- 전체화면
+                                
+                            //- <i class="fas fa-compress-alt"></i>
+                            //- <i class="fas fa-external-link-alt"></i>
+            div.video_data
+                h1=video.title
+                div.user_info
+                    a(href=`/users/${video.owner._id}`)
+                        if video.owner.socialOnly 
+                            img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin )
+                        else
+                            if video.owner.defaultAvartar
+                                img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin)
+                            else
+                                img.video_owner_avatar(src="/" + video.owner.avatarUrl ) 
+                    div.user_info_text
+                        a(href=`/users/${video.owner._id}`)=video.owner.name
+                        small 구독자
+                        //-video.owner.subscriber
+                    div.subscribe_btn 구독하기
+
+                div.video_info
+                    div.video_meta
+                        span.video_view 조회수 #{video.meta.views}회
+                        span.video_createAt(data-id=video.createdAt)
+                        div.hashtags
+                            each hashtag  in video.hashtags
+                                - const tagValue = hashtag.slice(1)
+                                a.hashtag(href=`/hashtag/${tagValue}`)=hashtag
+                    div.video_des
+                        span=video.description
+                    
+                
+                
+                
+                if String(video.owner._id) === String(loggedInUser._id)
+                    a(href=`${video.id}/edit`) Edit Video &#10132;
+                    br
+                    a(href=`${video.id}/delete`) Delete Video &#10132;	  
 
         div.video_comment_section
             if loggedIn
@@ -48,7 +113,23 @@ block content
                             if String(comment.owner) === String(loggedInUser._id)
                                 span.deleteComment ❌ 
 
+    div.relation_videos
+        if !relationVideos
+            span 연관 동영상이 없습니다 
+        else
+            each videoInfo  in relationVideos
+                +video(videoInfo)
+                +video(videoInfo)
+                +video(videoInfo)
+
+
+
+            
+
 block scripts    
+    script(src="/ast/js/videosList.js")
     script(src="/ast/js/videoPlayer.js")
     script(src="/ast/js/commentSection.js")
+
+
 

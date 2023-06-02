@@ -1,0 +1,44 @@
+extends ../../base-account
+
+block content 
+
+    div.account_page
+        div.account_page_header
+            a(href="/users/edit").img_box
+                if loggedInUser.socialOnly 
+                    img.account_avatar(src=loggedInUser.avatarUrl,crossorigin)
+                else
+                    if loggedInUser.defaultAvartar
+                        img.account_avatar(src=loggedInUser.avatarUrl,crossorigin)
+                    else
+                        img.account_avatar(src="/" + loggedInUser.avatarUrl)
+                div.harf_circle.hidden
+                    i.fas.fa-image
+
+            h1 #{loggedInUser.name}님, 환영합니다
+            span 이곳에서 계정에 관한 설정을 관리할 수 있습니다.
+            if loggedInUser.socialOnly 
+                div.github_user
+                    i.fab.fa-github
+                    span GitHub로 로그인한 사용자 입니다.
+            
+            span.notify &#8251; GitHub로 로그인 한 경우 이메일, 비밀번호 변경등 일부 기능이 제한 될 수 있습니다 &#8251; 
+
+        hr
+
+        div.another
+            h1 다른 기능들을 찾고 계신가요?
+            div.another_box
+                a(href="/videos/manage") 
+                    h1 내 동영상 관리
+                    div.dec_text 
+                        i.fas.fa-video
+                        span 동영상을 촬영하고, 내가 직접 촬영한 동영상을 업로드 해보세요. 이미 업로드한 동영상의 정보를 변경하고 싶다면 지금 수정할 수 있습니다.
+                a() 
+                    h1 개인정보 보호
+                    span.none_function &#8251; 미구현 기능 &#8251;
+                    div.dec_text
+                        i.fas.fa-shield-alt
+                        span 내 개인정보가 안전한지 확인해보세요.
+
+

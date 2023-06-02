@@ -15,6 +15,12 @@ const defaultAvatars = [
   "data:image/png;base64,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",
 ];
 
+const selectProfile = true;
+const selectManage = true;
+const selectUserInfo = true;
+const selectPassChange = true;
+const selectDelete = true;
+
 // home(/)
 export const getJoin = (req, res) =>
   res.render("users/account/join", { pageTitle: "Join" });
@@ -191,100 +197,6 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 
-export const getEdit = (req, res) => {
-  res.render("users/edit-profile", {
-    pageTitle: "Edit Profile",
-    defaultAvatars,
-  });
-};
-export const postEdit = async (req, res) => {
-  const {
-    session: {
-      user: { _id, avatarUrl, defaultAvartar },
-    },
-    body: { name, email, username, location },
-    file,
-  } = req;
-  const nowUsername = req.session.user.username;
-  const nowEmail = req.session.user.email;
-  if (nowUsername !== username || nowEmail !== email) {
-    const Exists = await User.exists({ $or: [{ username }, { email }] });
-    if (Exists) {
-      return res.status(400).render("users/edit-profile", {
-        pageTitle: "Edit Profile",
-        errorMessage: `🚫 This E-mail/User Name is already taken 🚫`,
-      });
-    }
-  }
-
-  const updateUser = await User.findByIdAndUpdate(
-    _id,
-    {
-      avatarUrl: file ? file.path : avatarUrl,
-      defaultAvartar: file ? false : defaultAvartar,
-      name,
-      email,
-      username,
-      location,
-    },
-    { new: true }
-  );
-  req.session.user = updateUser;
-  res.redirect("/users/edit");
-};
-
-export const getChangePassword = (req, res) => {
-  if (req.session.user.socialOnly === true) {
-    req.flash(
-      "error",
-      "비밀번호를 변경할 수 없습니다. (Github로 로그인한 계정입니다.)"
-    );
-
-    return res.redirect("/");
-  }
-  return res.render("users/account/change-password", {
-    pageTitle: "Change Password",
-  });
-};
-export const postChangePassword = async (req, res) => {
-  const {
-    session: {
-      user: { _id },
-    },
-    body: { oldPass, newPass, newPass2 },
-  } = req;
-
-  const user = await User.findById(_id);
-  const ok = await bcrypt.compare(oldPass, user.password);
-  const pageTitle = "Change Password";
-  if (!ok) {
-    return res.status(400).render("users/account/change-password", {
-      pageTitle,
-      errorMessage: "❗기존 비밀번호가 일치하지 않습니다.",
-    });
-  }
-  if (oldPass === newPass) {
-    return res.status(400).render("users/account/change-password", {
-      pageTitle,
-      errorMessage: "⚠️새로운 비밀번호가 기존 비밀번호와 일치합니다.",
-    });
-  }
-  if (newPass !== newPass2) {
-    return res.status(400).render("users/account/change-password", {
-      pageTitle,
-      errorMessage:
-        "❗❗새로운 비밀번호 확인이 잘못되었습니다. 다시 입력해주세요.",
-    });
-  }
-  _id;
-  user.password = newPass;
-  await user.save();
-  req.flash("info", "비밀번호가 변경되었습니다.");
-
-  req.session.destroy();
-  return res.redirect("/login");
-};
-
 export const channel = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id).populate("videos");
@@ -297,79 +209,39 @@ export const channel = async (req, res) => {
   return res.render("users/channel", {
     pageTitle: `${user.name} - NewTube`,
     user,
+    id,
   });
 };
 
-export const getDeleteAccount = async (req, res) => {
-  return res.render("users/account/delete-account", {
-    pageTitle: "Delete Account",
+export const getProfileEdit = (req, res) => {
+  res.render("users/edit-profile", {
+    pageTitle: "프로필 수정",
+    defaultAvatars,
+    selectProfile,
   });
 };
-export const postDeleteAccount = async (req, res) => {
+export const postProfileEdit = async (req, res) => {
   const {
     session: {
-      user: { _id, socialOnly },
+      user: { _id, avatarUrl, defaultAvartar },
     },
-    body: { username, password, password2, email },
+    body: { name, location, chDiscription },
+    file,
   } = req;
 
-  const user = await User.findById(_id).populate("videos");
-  const pageTitle = "Delete Account";
-
-  /*
-  const userComments = await Comment.find({ owner: _id });
-  console.log(userComments);
-  const videosArray = userComments.map((item) => item.video);
-  console.log(videosArray);
-  */
-  if (socialOnly) {
-    // 깃허브로 가입한 유저인 경우 email만 확인
-    if (email !== user.email) {
-      return res.status(400).render("users/account/delete-account", {
-        pageTitle,
-        errorMessage: "이메일이 일치하지 않습니다..",
-      });
-    }
-  } else {
-    // 사이트 자체 회원가입 계정
-    if (username !== user.username) {
-      return res.status(400).render("users/account/delete-account", {
-        pageTitle,
-        errorMessage: "아이디가 틀렸습니다.",
-      });
-    }
-    if (password !== password2) {
-      return res.status(400).render("users/account/delete-account", {
-        pageTitle,
-        errorMessage: `비밀번호 확인이 잘못되었습니다.`,
-      });
-    }
-    const passOk = await bcrypt.compare(password, user.password);
-    if (!passOk) {
-      return res.status(400).render("users/account/delete-account", {
-        pageTitle,
-        errorMessage: "비밀번호가 틀렸습니다.",
-      });
-    }
-  }
-  const comments = await Comment.find({ owner: _id });
-  const commentIds = comments.map((comment) => comment._id);
-
-  await Video.deleteMany({ owner: _id });
-  //해당 유저를 owner로 가진 video삭제
-  await Comment.deleteMany({ owner: _id });
-  //해당 유저를 owner로 가진 comment삭제
-  await User.findByIdAndDelete(_id);
-  // 해당 유저 삭제
-
-  await Video.updateMany({ $pull: { comments: { $in: commentIds } } });
-  // videos컬렉션 중 comments배열에 해당 유저가 작성한
-  // comment를 가진 video를 찾아 comments배열에서
-  // 해당 댓글들만 제거
-
-  req.session.destroy();
-  // 현재 세션 지워줌 => 로그아웃
-  return res.redirect("/");
+  const updateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      avatarUrl: file ? file.path : avatarUrl,
+      defaultAvartar: file ? false : defaultAvartar,
+      name,
+      location,
+      chDiscription,
+    },
+    { new: true }
+  );
+  req.session.user = updateUser;
+  res.redirect("/users/edit");
 };
 
 export const changeDefaultAvatar = async (req, res) => {
@@ -394,6 +266,197 @@ export const changeDefaultAvatar = async (req, res) => {
   return res.sendStatus(200);
 };
 
-export const account = async (req, res) => {
-  return res.sendStatus(200);
+export const accountManage = async (req, res) => {
+  return res.render("users/account/account-manage", {
+    pageTitle: "계정 관리",
+    selectManage,
+  });
+};
+
+export const getAccountEdit = async (req, res) => {
+  const {
+    session: {
+      user: { socialOnly },
+    },
+  } = req;
+
+  let pageTitle;
+
+  if (socialOnly) {
+    // 깃허브로 가입한 유저인 경우
+    pageTitle = "계정 정보";
+  } else {
+    // 일반 가입 유저인 경우
+    pageTitle = "계정 정보 변경";
+  }
+  console.log(pageTitle);
+  res.render("users/account/edit-account", {
+    pageTitle,
+    selectUserInfo,
+  });
+};
+
+export const postAccountEdit = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { email, username },
+  } = req;
+  const nowUsername = req.session.user.username;
+  const nowEmail = req.session.user.email;
+  if (nowUsername !== username) {
+    const Exists = await User.exists({ username });
+    if (Exists) {
+      return res.status(400).render("users/account/edit-account", {
+        pageTitle: "Edit Account",
+        alreadyID: `이미 사용중인 아이디 입니다.`,
+      });
+    }
+  }
+  if (nowEmail !== email) {
+    const Exists = await User.exists({ email });
+    if (Exists) {
+      return res.status(400).render("users/account/edit-account", {
+        pageTitle: "Edit Account",
+        alreadyEmail: `이미 사용중인 이메일 입니다.`,
+      });
+    }
+  }
+
+  const updateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      email,
+      username,
+    },
+    { new: true }
+  );
+  req.session.user = updateUser;
+  res.redirect("/users/account/edit");
+};
+
+export const getChangePassword = (req, res) => {
+  if (req.session.user.socialOnly === true) {
+    req.flash(
+      "error",
+      "비밀번호를 변경할 수 없습니다. (Github로 로그인한 계정입니다.)"
+    );
+
+    return res.redirect("/users/account/manage");
+  }
+  return res.render("users/account/change-password", {
+    pageTitle: "비밀번호 변경",
+    selectPassChange,
+  });
+};
+export const postChangePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { oldPass, newPass, newPass2 },
+  } = req;
+
+  const user = await User.findById(_id);
+  const ok = await bcrypt.compare(oldPass, user.password);
+  const pageTitle = "Change Password";
+  if (!ok) {
+    return res.status(400).render("users/account/change-password", {
+      pageTitle,
+      wrongOldPass: "기존 비밀번호가 틀렸습니다. 다시 입력해주세요.",
+    });
+  }
+  if (oldPass === newPass) {
+    return res.status(400).render("users/account/change-password", {
+      pageTitle,
+      samePass: "새로운 비밀번호가 기존 비밀번호와 일치합니다.",
+    });
+  }
+  if (newPass !== newPass2) {
+    return res.status(400).render("users/account/change-password", {
+      pageTitle,
+      noneNewPass: "새로운 비밀번호 확인이 잘못되었습니다. 다시 입력해주세요.",
+    });
+  }
+  _id;
+  user.password = newPass;
+  await user.save();
+  req.flash("info", "비밀번호가 변경되었습니다.");
+
+  req.session.destroy();
+  return res.redirect("/login");
+};
+
+export const getDeleteAccount = async (req, res) => {
+  return res.render("users/account/delete-account", {
+    pageTitle: "회원 탈퇴",
+    selectDelete,
+  });
+};
+export const postDeleteAccount = async (req, res) => {
+  const {
+    session: {
+      user: { _id, socialOnly },
+    },
+    body: { username, password, password2, email },
+  } = req;
+
+  const user = await User.findById(_id).populate("videos");
+  const pageTitle = "Delete Account";
+
+  /*
+  const userComments = await Comment.find({ owner: _id });
+  console.log(userComments);
+  const videosArray = userComments.map((item) => item.video);
+  console.log(videosArray);
+  */
+  if (socialOnly) {
+    // 깃허브로 가입한 유저인 경우 email만 확인
+    if (email !== user.email) {
+      return res.status(400).render("users/account/delete-account", {
+        pageTitle,
+        wrongEmail: "이메일이 일치하지 않습니다.",
+      });
+    }
+  } else {
+    // 사이트 자체 회원가입 계정
+    if (username !== user.username) {
+      return res.status(400).render("users/account/delete-account", {
+        pageTitle,
+        noneID: "아이디가 일치하지 않습니다.",
+      });
+    }
+    if (password !== password2) {
+      return res.status(400).render("users/account/delete-account", {
+        pageTitle,
+        nonePass: `비밀번호 확인이 잘못되었습니다.`,
+      });
+    }
+    const passOk = await bcrypt.compare(password, user.password);
+    if (!passOk) {
+      return res.status(400).render("users/account/delete-account", {
+        pageTitle,
+        wrongPass: "비밀번호가 틀렸습니다.",
+      });
+    }
+  }
+  const comments = await Comment.find({ owner: _id });
+  const commentIds = comments.map((comment) => comment._id);
+
+  await Video.deleteMany({ owner: _id });
+  //해당 유저를 owner로 가진 video삭제
+  await Comment.deleteMany({ owner: _id });
+  //해당 유저를 owner로 가진 comment삭제
+  await User.findByIdAndDelete(_id);
+  // 해당 유저 삭제
+
+  await Video.updateMany({ $pull: { comments: { $in: commentIds } } });
+  // videos컬렉션 중 comments배열에 해당 유저가 작성한
+  // comment를 가진 video를 찾아 comments배열에서
+  // 해당 댓글들만 제거
+
+  req.session.destroy();
+  // 현재 세션 지워줌 => 로그아웃
+  return res.redirect("/");
 };

@@ -92,11 +92,6 @@ header {
       box-shadow: inset 0.3px 0.3px 0.5px 0.5px
         rgba($color: #000000, $alpha: 0.1);
 
-      .search_var_null {
-        width: 20px;
-        height: 10px;
-      }
-
       .search_input {
         all: unset;
         height: 25px;
@@ -105,6 +100,8 @@ header {
         border: 1px solid rgba($color: #000000, $alpha: 0.2);
         // 미디어 쿼리 이용 어느정도 작아지면 사라지게 하기
         border: none;
+        padding: 0 10px;
+        padding-left: 20px;
       }
 
       .search_btn {
@@ -268,6 +265,7 @@ header {
             .user_info {
               width: 100%;
               padding: 16px;
+              padding-bottom: 8px;
 
               display: flex;
               box-sizing: border-box;

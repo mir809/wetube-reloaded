@@ -2,9 +2,10 @@ extends ../base.pug
 
 
 block content 
-    if errorMessage 
-        span=errorMessage
+    
     form(method="post", enctype="multipart/form-data")
+        if errorMessage 
+            span=errorMessage
         label(for="video") Video File
         input(name="video" type="file" accept="video/*" id="video" required) 
         small 업로드 가능한 동영상 용량은 최대 30MB 입니다.

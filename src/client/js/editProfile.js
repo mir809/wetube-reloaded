@@ -74,3 +74,30 @@ const submitChange = async (event) => {
 };
 
 submit.addEventListener("click", submitChange);
+
+function handleDisplayBtnClick() {
+  const selectorBox = document.querySelector(".selector_box");
+  selectorBox.classList.toggle("hidden");
+
+  const displayBtn = document.querySelector(".display_btn");
+  const blueColor = getComputedStyle(document.documentElement).getPropertyValue(
+    "--blue-color"
+  );
+  const bgColor = getComputedStyle(document.documentElement).getPropertyValue(
+    "--bg-color"
+  );
+
+  if (selectorBox.classList.contains("hidden")) {
+    displayBtn.style.backgroundColor = blueColor;
+    displayBtn.style.color = bgColor;
+    displayBtn.style.boxShadow = `none`;
+  } else {
+    displayBtn.style.backgroundColor = bgColor;
+    displayBtn.style.color = blueColor;
+    displayBtn.style.boxShadow = `1px 2px 4px rgba(0, 0, 0, 0.2)`;
+  }
+}
+
+// .display_btn 요소에 클릭 이벤트 리스너 추가
+const displayBtn = document.querySelector(".display_btn");
+displayBtn.addEventListener("click", handleDisplayBtnClick);

@@ -1,57 +1,221 @@
-.imgDisplay {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  img {
-    width: 100%;
-    height: 100%;
+.profile_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  //height: calc(100vh - 60px);
+  width: 100vw;
 
-    position: absolute;
-    top: 0;
-    left: 0;
+  .profile_page_box {
+    box-sizing: border-box;
+    position: relative;
+    max-height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border: 5px solid rgba($color: $blue, $alpha: 0.8);
+    border-radius: 30px;
+
+    padding: 0 40px;
+
+    .profile_img_box {
+      position: relative;
+
+      display: flex;
+
+      flex-direction: column;
+
+      height: 200px;
+      width: 560px;
+
+      .box-footer {
+        display: flex;
+        justify-content: space-between;
+
+        margin-top: 10px;
+
+        .box-footer-left {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            font-size: 16px;
+
+            margin-top: 5px;
+          }
+
+          small {
+            font-size: 13px;
+
+            margin-top: 8px;
+
+            color: rgba($color: $color, $alpha: 0.5);
+          }
+        }
+
+        .box-footer-rigth {
+          margin-right: 20px;
+
+          .display_btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 100px;
+            height: 40px;
+            color: $bg;
+            background-color: $blue;
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            &:hover {
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+              background-color: $bg;
+              color: $blue;
+            }
+          }
+        }
+      }
+
+      .imgDisplay {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        img {
+          width: 100%;
+          height: 100%;
+
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        .circle {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: calc(100% - 6px); // boder 두께 X 2만큼 빼주기
+          height: calc(100% - 6px);
+          border: 3px dashed rgba($color: #000000, $alpha: 0.6);
+          border-radius: 50%;
+        }
+        .circle2 {
+          position: absolute;
+          top: 1px;
+          left: 1px;
+          width: calc(100% - 8px);
+          height: calc(100% - 8px);
+          border: 3px dashed rgba($color: white, $alpha: 0.6);
+          border-radius: 50%;
+        }
+      }
+
+      .selector_box {
+        position: absolute;
+
+        top: -25px;
+        right: -0px;
+
+        .profile_selector {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          width: 300px;
+          height: 140px;
+          padding: 15px;
+          border-radius: 20px;
+
+          border: 5px solid rgba($color: $blue, $alpha: 0.4);
+          background-color: $bg;
+
+          small {
+            margin-top: 5px;
+            font-size: 12px;
+            color: rgba($color: $color, $alpha: 0.5);
+          }
+
+          .one_box {
+            width: 60px;
+            height: 60px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+
+            img {
+              border-radius: 5px;
+              width: 50px;
+              height: 50px;
+              cursor: pointer;
+            }
+
+            .file_button {
+              position: relative;
+              overflow: hidden;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 50px;
+              width: 50px;
+              background-color: #ccc;
+              color: #ffffff;
+              font-size: 30px;
+              border-radius: 5px;
+              border: 2px dashed gray;
+              cursor: pointer;
+
+              &:hover {
+                background-color: rgba($color: #000000, $alpha: 0.3);
+                box-shadow: 0 2px 4px rgba($color: #000000, $alpha: 0.2);
+              }
+            }
+
+            input {
+              display: block;
+              position: absolute;
+              opacity: 0;
+              width: 100%;
+              height: 100%;
+              z-index: -1;
+            }
+          }
+        }
+      }
+    }
+
+    .profile_form {
+      border: none;
+      padding: 0;
+      margin: 20px 0;
+
+      width: 100%;
+      min-height: 0px;
+    }
   }
-  .circle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 92px;
-    height: 92px;
-    border: 4px dashed rgba($color: #000000, $alpha: 0.4);
-    border-radius: 50%;
+}
+
+.profile_page_header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 20px;
+  h1 {
+    font-size: 25px;
+    font-weight: 600;
+  }
+  span {
+    margin-top: 6px;
+    font-size: 14px;
   }
 }
 
 .mark {
-  border: 4px solid black;
-}
-
-.profile_selector {
-  display: flex;
-  img {
-    margin: 5px;
-    border-radius: 5px;
-  }
-  .file_button {
-    margin: 5px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    width: 50px;
-    background-color: #ccc;
-    color: #ffffff;
-    font-size: 30px;
-    border-radius: 5px;
-
-    input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-    }
-  }
+  border: 4px solid $blue;
 }

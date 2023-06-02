@@ -19,11 +19,23 @@ const videoSchema = new mongoose.Schema({
 
 videoSchema.static("formatHashtags", function (hashtags) {
   if (hashtags.trim() === "") {
-    return "";
+    return [];
   }
-  return hashtags
+  const formattedHashtags = hashtags
     .split(",")
-    .map((word) => (word.startsWith(`#`) ? word : `#${word}`));
+    .map((word) => {
+      word = word.trim(); // 입력된 문자열의 앞뒤 공백 제거
+      if (word === "") {
+        return null; // 빈 문자열인 경우 null 반환
+      }
+      if (!word.startsWith("#")) {
+        word = `#${word}`; // '#'로 시작하지 않는 경우 '#' 추가
+      }
+      return word;
+    })
+    .filter((word) => word !== null); // null 필터링
+
+  return formattedHashtags;
 });
 
 const videoModel = mongoose.model("Video", videoSchema);

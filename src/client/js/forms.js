@@ -2,16 +2,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const inputFields = document.querySelectorAll(".input_box input");
   const labels = document.querySelectorAll(".input_box label");
 
-  Array.from(inputFields).forEach((inputField, index) => {
-    // 초기 실행
-    handleInputBlur(inputField, labels[index]);
-
-    // 이벤트 리스너 추가
-    inputField.addEventListener("blur", () => {
+  if (inputFields) {
+    Array.from(inputFields).forEach((inputField, index) => {
+      // 초기 실행
       handleInputBlur(inputField, labels[index]);
+
+      // 이벤트 리스너 추가
+      inputField.addEventListener("blur", () => {
+        handleInputBlur(inputField, labels[index]);
+      });
     });
-  });
+  }
 });
+
 function handleInputBlur(inputField, label) {
   const value = inputField.value;
 
@@ -33,29 +36,53 @@ function handleInputBlur(inputField, label) {
 const inputFields = document.querySelectorAll(".input_box input");
 const labels = document.querySelectorAll(".input_box label");
 
-Array.from(inputFields).forEach((inputField, index) => {
-  inputField.addEventListener("focus", () => {
-    //input클릭시 실행 (focus같은 역할)
-    const value = inputField.value;
-    if (value === "") {
-      // input이 비어있을 때만
-      labels[index].style.color = "#2196f3";
-      labels[index].style.backgroundColor = "white";
-      labels[index].style.animation = "smaller 0.1s ease-in-out forwards";
-    }
+if (inputFields) {
+  Array.from(inputFields).forEach((inputField, index) => {
+    inputField.addEventListener("focus", () => {
+      //input클릭시 실행 (focus같은 역할)
+      const value = inputField.value;
+      if (value === "") {
+        // input이 비어있을 때만
+        labels[index].style.color = "#2196f3";
+        labels[index].style.backgroundColor = "white";
+        labels[index].style.animation = "smaller 0.1s ease-in-out forwards";
+      } else {
+        labels[index].style.color = "#2196f3";
+      }
+    });
   });
-});
 
-const pass = document.getElementById("pass");
-const pass2 = document.getElementById("pass2");
-const checkBox = document.getElementById("showPass");
+  const pass = document.getElementById("pass");
+  const pass2 = document.getElementById("pass2");
 
-checkBox.addEventListener("change", function () {
-  if (checkBox.checked) {
-    pass.type = "text";
-    pass2.type = "text";
-  } else {
-    pass.type = "password";
-    pass2.type = "password";
+  const oldPass = document.getElementById("oldPass");
+  const newPass = document.getElementById("newPass");
+  const newPass2 = document.getElementById("newPass2");
+
+  const checkBox = document.getElementById("showPass");
+
+  if (checkBox) {
+    checkBox.addEventListener("change", function () {
+      if (pass) {
+        if (checkBox.checked) {
+          pass.type = "text";
+          pass2.type = "text";
+        } else {
+          pass.type = "password";
+          pass2.type = "password";
+        }
+      }
+      if (oldPass) {
+        if (checkBox.checked) {
+          oldPass.type = "text";
+          newPass.type = "text";
+          newPass2.type = "text";
+        } else {
+          oldPass.type = "password";
+          newPass.type = "password";
+          newPass2.type = "password";
+        }
+      }
+    });
   }
-});
+}

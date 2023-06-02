@@ -9,6 +9,7 @@ html(lang="ko")
             --bg-color: #ffffff;
             --main-color: #0f0f0f;
             --red-color:#ff0000;
+
             }
         title #{pageTitle}
         link(rel="shortcut icon" href="https://www.youtube.com/s/desktop/286e6262/img/favicon.ico" type="image/x-icon")
@@ -26,11 +27,9 @@ html(lang="ko")
             +message("success", messages.success)
 
         include partials/header
-        include partials/sideVar/main
+        include partials/sideVar/hide
 
-        main.content
-            
-
+        main.hideSideVar
             block content   
             
         

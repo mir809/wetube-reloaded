@@ -3,6 +3,13 @@ include mixins/message
 doctype html 
 html(lang="ko")
     head 
+        style.
+            :root {
+            --blue-color: #2196f3;
+            --bg-color: #ffffff;
+            --main-color: #0f0f0f;
+            --red-color:#ff0000;
+            }
         title #{pageTitle}
         link(rel="shortcut icon" href="https://www.youtube.com/s/desktop/286e6262/img/favicon.ico" type="image/x-icon")
         link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" )
@@ -17,11 +24,17 @@ html(lang="ko")
             +message("info", messages.info)
         if messages.success 
             +message("success", messages.success)
-    
-        main
+
+        include partials/noneSearch-header
+
+        
+        include partials/sideVar/account-side
+        main.account
             block content   
             
         
     script(src="/ast/js/main.js")
+    script(src="/ast/js/sideVar.js")
+    script(src="/ast/js/header.js")
     script(src="/ast/js/forms.js")
     block scripts

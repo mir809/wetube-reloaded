@@ -1,8 +1,8 @@
-extends ../../base-account
+extends ../../base-noneHeader
 
 block content 
     div.form_page
-        form.login_form(method="post")
+        form.account_form(method="post")
             div.form-header
                 div.header_logo 
                     i.fab.fa-youtube 
@@ -33,5 +33,5 @@ block content
                 a(href="/join") 회원가입 하러가기 &#10132;
             
             div 
-                span GitHub계정으로 로그인하신적이 있나요?? 
+                span GitHub계정이 있으신가요? 
                 a(href="/users/github/start") GitHub로 로그인 하기 &#10132;

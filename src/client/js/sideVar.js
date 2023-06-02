@@ -6,6 +6,8 @@ const sideVarMini = document.querySelector(".side_var-mini");
 
 const fullSideVar = document.querySelector(".side_var-fullscreen");
 
+const mainContent = document.querySelector(".content");
+
 let isRotated = false;
 
 if (sideVarMini) {
@@ -18,6 +20,7 @@ if (sideVarMini) {
       isRotated = false;
       sideVar.classList.toggle("hidden");
       sideVarMini.classList.toggle("hidden");
+      mainContent.style.paddingLeft = "230px";
     } else {
       changeBtns.forEach((btn) => {
         btn.classList.add("rotate");
@@ -26,6 +29,7 @@ if (sideVarMini) {
       isRotated = true;
       sideVar.classList.toggle("hidden");
       sideVarMini.classList.toggle("hidden");
+      mainContent.style.paddingLeft = "72px";
     }
   };
 
@@ -75,8 +79,10 @@ if (fullSideVar) {
     "wheel",
     function (event) {
       if (isRotated) {
-        event.preventDefault();
-        event.stopPropagation();
+        if (event.target === fullSideVar) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
       }
     },
     { passive: false }

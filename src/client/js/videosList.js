@@ -51,3 +51,40 @@ if (smallPlayer) {
 
   smallVideo.currentTime = time;
 }
+
+const homeVideoMixin = document.querySelectorAll(".home-video-mixin");
+const userVideoMixin = document.querySelectorAll(".user-video-mixin");
+
+if (homeVideoMixin.length > 0) {
+  if (homeVideoMixin.length < 3) {
+    const requiredCount = 3 - homeVideoMixin.length;
+
+    for (let i = 0; i < requiredCount; i++) {
+      const virtualMixin = document.createElement("div");
+      virtualMixin.classList.add("home-video-mixin");
+      // 가상 요소의 스타일을 설정할 수 있으면 설정하세요.
+      // virtualMixin.style.width = '350px';
+      // virtualMixin.style.height = '200px';
+
+      // 가상 요소를 .home_videos 요소에 추가합니다.
+      document.querySelector(".home_videos").appendChild(virtualMixin);
+    }
+  }
+}
+
+if (userVideoMixin.length > 0) {
+  if (userVideoMixin.length < 5) {
+    const requiredCount = 5 - userVideoMixin.length;
+
+    for (let i = 0; i < requiredCount; i++) {
+      const virtualMixin = document.createElement("div");
+      virtualMixin.classList.add("user-video-mixin");
+      // 가상 요소의 스타일을 설정할 수 있으면 설정하세요.
+      // virtualMixin.style.width = '350px';
+      // virtualMixin.style.height = '200px';
+
+      // 가상 요소를 .user_videos 요소에 추가합니다.
+      document.querySelector(".user_videos").appendChild(virtualMixin);
+    }
+  }
+}

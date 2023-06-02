@@ -131,7 +131,7 @@ const record_Start = () => {
 
 const init = async () => {
   stream = await navigator.mediaDevices.getUserMedia({
-    audio: false,
+    audio: true,
     video: true,
     //{ width: 500, height: 300 } - 촬영크기 설정 가능
   });

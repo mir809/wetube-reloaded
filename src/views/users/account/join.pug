@@ -1,8 +1,8 @@
-extends ../../base-account
+extends ../../base-noneHeader
 
 block content 
     div.form_page.join_page
-        form.join_form(method="post")
+        form.account_form(method="post")
             div.form-header
                 div.header_logo 
                     i.fab.fa-youtube 
@@ -31,14 +31,14 @@ block content
             div.input_box 
                 input(name="password",id="pass",required , type="password")
                 label(for="pass").placeholder 비밀번호 (7자리 이상)
-                span 확인을 위해 한번더 입력해 주세요.
             
-
             div.input_box 
                 input(name="password2",id="pass2",required , type="password")
                 label(for="pass2").placeholder 비밀번호 확인
                 if nonePass
                     span.error_message=nonePass
+                span 확인을 위해 한번더 입력해 주세요.
+                
             div.showPass
                 input(type="checkbox" id="showPass")
                 label(for="showPass") 비밀번호 표시

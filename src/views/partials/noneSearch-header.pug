@@ -1,17 +1,11 @@
 header 
     div.header_left
-        div.side-var_OnOff-btn
-            i.fa-solid.fa-bars 
         a(href="/").header_logo 
             i.fab.fa-youtube 
             span NewTube 
                 small KR
-
-    form.search_form(method="get" action="/search")
-         div.search_var
-            input.search_input(name="keyword", value=keyword placeholder="검색")
-            button.search_btn
-                i.fas.fa-search
+        span 계정
+  
                 
     nav 
         ul  
@@ -69,7 +63,7 @@ header
                                         span 로그아웃
 
                                 hr
-                                span.none_function &#8251; 미구현 기능 &#8251;
+                                span.not-working &#8251; 미구현 기능 &#8251;
                                 div.menu-btn 
                                     div.menu-btn-left
                                         i.fas.fa-cog

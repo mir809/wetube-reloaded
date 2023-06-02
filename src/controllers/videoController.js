@@ -4,12 +4,11 @@ import Comment from "../models/Comment";
 
 // home(/)
 export const home = async (req, res) => {
-  const videos = await Video.find({})
-    .populate("owner")
-    .sort({ createdAt: "desc" });
-  //desc : 늦게 생성한게 위에 위치함(내림차순)
+  const videos = await Video.find({}).populate("owner");
+  const randomVideos = videos.sort(() => Math.random() - 0.5);
+  // videos 배열안의 내용을 랜덤으로 정렬
 
-  return res.render("videos/home", { pageTitle: "NewTube", videos });
+  return res.render("videos/home", { pageTitle: "NewTube", randomVideos });
 };
 
 export const search = async (req, res) => {
@@ -63,6 +62,7 @@ export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id).populate("owner").populate("comments");
   // 해당 데이터베이스에 있는 내용을 더 자세히 보여줌
+
   if (!video) {
     return res
       .status(404)
@@ -70,7 +70,16 @@ export const watch = async (req, res) => {
   }
   req.session.smallPlayer = false;
 
-  return res.render("videos/watch", { pageTitle: video.title, video });
+  const videos = await Video.find({}).populate("owner");
+  const relationVideos = videos
+    .filter((v) => v._id.toString() !== id)
+    .sort(() => Math.random() - 0.5);
+
+  return res.render("videos/watch", {
+    pageTitle: video.title,
+    video,
+    relationVideos,
+  });
 };
 
 export const getEdit = async (req, res) => {
@@ -148,7 +157,7 @@ export const postUpload = async (req, res) => {
     console.log("Upload Failed");
     return res.status(400).render("videos/upload", {
       pageTitle: "Upload Video",
-      errorMessage: error._message,
+      errorMessage: "동영상 업로드 실패",
     });
   }
 };

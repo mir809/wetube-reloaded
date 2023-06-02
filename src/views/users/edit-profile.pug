@@ -1,48 +1,67 @@
-extends ../base.pug
+extends ../base-account
 
 block content
+    div.profile_page
+        form.profile_page_box(method="post" enctype="multipart/form-data" )
 
-    div.imgDisplay
-        if loggedInUser.socialOnly 
-                img.now_avatar(src=loggedInUser.avatarUrl,crossorigin )
-        else
-            if loggedInUser.defaultAvartar
-                img.now_avatar(src=loggedInUser.avatarUrl,crossorigin  data-id="defualt")
-            else
-                img.now_avatar(src="/" + loggedInUser.avatarUrl)
-        div.circle
-    small 실제로 표시되는 부분은 점선 안의 영역과 같습니다.   
-    if errorMessage
-        span=errorMessage
-    form(method="post" enctype="multipart/form-data" )
-        //-label(for="avatar") Avatar
-        
-        
-        div.profile_selector
-            each defaultAvatar in defaultAvatars
-                img(src=defaultAvatar width="50px", height="50px")
-            label.file_button( for="avatar" ) 
-                i.fas.fa-plus
-                input(name="avatar" type="file" id="avatar" accept="image/*")
-                
-                //-i.fas.fa-plus
-        small 업로드 가능한 프로필 사진 용량은 최대 3MB 입니다.        
-            
-        br
-        br
-        input(name="name", placeholder="사용자 이름", value=loggedInUser.name , required )
-        input(name="email",placeholder="이메일",value=loggedInUser.email, type="email", required )
-        input(name="username", placeholder="아이디", value=loggedInUser.username,required , )
-        input(name="location" ,placeholder="지역",value=loggedInUser.location ,)
-        
-        input#submit(type="submit", value="변경사항 저장",)
-        if !loggedInUser.socialOnly
+            div.profile_page_header
+                h1 프로필 정보 수정
+                span NewTube를 이용하는 다른 사용자들에게 표시되는 정보입니다.
+
             hr
-            a(href="/users/edit/change-password") 비밀번호 변경
-        br
-        a(href="/users/account/delete") 회원 탈퇴
-            //- a(href="change-password") 비밀번호 변경 &#10132;   
 
+            div.profile_img_box
+                div.imgDisplay
+                    if loggedInUser.socialOnly 
+                            img.now_avatar(src=loggedInUser.avatarUrl,crossorigin )
+                    else
+                        if loggedInUser.defaultAvartar
+                            img.now_avatar(src=loggedInUser.avatarUrl,crossorigin  data-id="defualt")
+                        else
+                            img.now_avatar(src="/" + loggedInUser.avatarUrl)
+                    div.circle
+                    div.circle2
+                div.box-footer
+                    div.box-footer-left
+                        span 다른 사용자들에게 표시되는 사진입니다.
+                        small &#8251; 실제로 표시되는 부분은 점선 안의 영역과 같습니다. 
+                    div.box-footer-rigth
+                        div.display_btn 프로필 선택
+
+                div.selector_box.hidden
+                    div.profile_selector
+                        each defaultAvatar in defaultAvatars
+                            div.one_box
+                                img(src=defaultAvatar )
+                        div.one_box
+                            label.file_button(for="avatar")
+                                i.fas.fa-plus
+                                input(name="avatar" type="file" id="avatar" accept="image/*")
+                        small &#8251; 업로드 가능한 프로필 사진 용량은 최대 3MB 입니다.   
+
+            
+
+            div.profile_form
+                div.input_box 
+                    input(name="name",id="name",  value=loggedInUser.name , required )
+                    label(for="name").placeholder 사용자 이름
+                    span 다른 사용자들에게 표시되는 이름입니다.
+                div.input_box    
+                    input(name="location" ,id="local",value=loggedInUser.location ,)
+                    label(for="local").placeholder 지역 (필수 입력 X)
+                div.input_box    
+                    input(name="chDiscription" ,id="chDis",value=loggedInUser.chDiscription )
+                    label(for="chDis").placeholder 채널 설명 (필수 입력 X)
+                    span 채널 방문자들에게 보여지는 설명입니다.
+
+                
+                input#submit(type="submit", value="변경사항 저장",)
+
+            
 
 block scripts    
     script(src="/ast/js/editProfile.js")
+
+
+
+    

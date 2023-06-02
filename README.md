@@ -6,15 +6,15 @@
 /search -> Search
 
 /users/logout -> Log Out
-/users/:id -> See User Profile (해당 유저 프로필)
-(실제 유튜브는 일반인이랑 유튜버랑 조금 다른거같은데 그냥 통일)
+/users/:id -> See User channel 채널 (해당 유저 채널)
 홈, 재생목록, 채널, 정보
 
-/users/edit -> Edit MY Profile (프로필 수정)
+/users/edit -> Edit MY Profile (프로필 수정) (이름/프로필 사진/채널 배경사진/채널설명)
 
-/users/account/edit -> Edit Account (계정정보 수정)
+/users/accout/manage -> 내 계정관리
+/users/account/edit -> 계정정보 수정 (이메일, 아이디)
+/users/accout/change-password -> 비밀번호 변경
 /users/account/delete -> Delete Account (계정 삭제)
-/user
 
 /videos/:id -> Watch Video (영상 시청)
 /videos/:id/edit -> Edit Video (동영상 수정)

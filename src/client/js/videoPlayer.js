@@ -1,8 +1,13 @@
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
+const playBtnIcon = playBtn.querySelector("i");
+const playBtnText = playBtn.querySelector(".text_box");
+
 const muteBtn = document.getElementById("mute");
+const muteBtnIcon = muteBtn.querySelector("i");
+const muteBtnText = muteBtn.querySelector(".text_box");
+
 const volumeRange = document.getElementById("volume");
-const textarea = document.querySelector("textarea");
 
 let volumeValue = 0.5; // 볼륨 초기값
 video.volume = volumeValue; // 영상의 실제 소리
@@ -15,22 +20,52 @@ const timeline = document.getElementById("timeline");
 let playAgain = false;
 
 const fullScreenBtn = document.getElementById("fullScreen");
+const fullScreenIcon = fullScreenBtn.querySelector("i");
+const fullScreenText = fullScreenBtn.querySelector(".text_box");
+
 const videoBox = document.getElementById("videoBox");
 
 const videoControler = document.getElementById("videoControler");
 
-let controlsTimeout = null;
+let controlsTimeout = null; // 컨트롤러
+let backAndForwardTimeout = null; // 시간 앞,뒤로가기 표시
+let centerDisplayTimeout; //음소거,해제 or 재생,정지
+
+const redColor = getComputedStyle(document.documentElement).getPropertyValue(
+  "--red-color"
+);
+const beforeColor = `rgba(255, 255, 255, 0.3)`;
+// 타임라인 막대에 넣어줄 색깔
+
+// 모든 div.display_change_circle 요소를 선택하여 NodeList로 반환
+const ChangeCircles = document.querySelectorAll(".display_change_circle");
+
+// 개별적으로 선택된 요소에 접근하여 조작
+const leftCircle = ChangeCircles[0];
+const playCircle = ChangeCircles[1];
+const playCircleIcon = playCircle.querySelector("i");
+const rightCircle = ChangeCircles[2];
+const muteCircle = ChangeCircles[3];
+const nowVolume = document.querySelector(".now_volume");
 
 // 영상 재생/일시정지
 const clickPlayBtn = () => {
-  playAgain = video.paused;
+  centerdisplay(playCircle);
 
+  playAgain = video.paused;
   video.paused ? video.play() : video.pause();
-  playBtn.innerText = video.paused ? "Play" : "Pause";
+  playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
+  playCircleIcon.classList = video.paused ? "fas fa-pause" : "fas fa-play";
+
+  playBtnText.innerText = video.paused ? "재생(Space)" : "일시중지(Space)";
+
+  showingClassAddOrRemove();
 }; //버튼 클릭시
 
 // 음량 - 음소거 버튼, 볼륨 막대
-const clickMuteBtn = () => {
+const clickMuteBtn = (event) => {
+  event.stopPropagation();
+
   if (video.muted) {
     video.muted = false;
     DummyMute = false;
@@ -38,26 +73,42 @@ const clickMuteBtn = () => {
   } else {
     video.muted = true;
   }
-  muteBtn.innerText = video.muted ? "음소거 해제" : "음소거";
+  muteBtnIcon.classList = video.muted
+    ? "fas fa-volume-mute"
+    : "fas fa-volume-up";
+  muteBtnText.innerText = video.muted ? "음소거 해제(m)" : "음소거(m)";
   volumeRange.value = video.muted ? 0 : volumeValue;
   // 음소거 해제시 볼륨막대 위치가 음소거 하기 전으로 돌아감
+  volumeVarColor();
+  centerdisplay(muteCircle);
+  showNowVolume();
 };
 
 const volumeInput = (event) => {
+  event.stopPropagation();
+
   const {
     target: { value }, // 볼륨 막대를 조절한 값
   } = event;
   if (Number(value) === 0) {
-    muteBtn.innerText = "음소거 해제";
+    muteBtnIcon.classList = "fas fa-volume-mute";
+    muteBtnText.innerText = "음소거 해제(m)";
+
     video.muted = true;
   } else {
     video.muted = false;
-    muteBtn.innerText = "음소거";
+    muteBtnIcon.classList = "fas fa-volume-up";
+    muteBtnText.innerText = "음소거(m)";
   }
   video.volume = value; // 영상의 실제 소리
+  showNowVolume();
+  //video.removeEventListener("click", clickPlayBtn);
+  //videoControler.removeEventListener("click", clickPlayBtn);
 };
 
 const volumeChange = (event) => {
+  event.stopPropagation();
+
   const {
     target: { value }, // 볼륨 막대를 조절한 값
   } = event;
@@ -65,6 +116,10 @@ const volumeChange = (event) => {
     volumeValue = value;
   } // 볼륨조절 막대가 마지막에 멈춰있던 값을 기억함 (0일때 제외)
 };
+
+volumeRange.addEventListener("click", function (event) {
+  event.stopPropagation();
+});
 
 // 동영상 시간
 const formatTime = (seconds) => {
@@ -81,10 +136,16 @@ const formatTime = (seconds) => {
   return new Date(seconds * 1000).toISOString().substring(N, 19);
 };
 
-const timeUpdate = () => {
+const timeUpdate = async () => {
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
 
+  totalTime.innerText = formatTime(Math.floor(video.duration));
+  // 영상 전체시간
+
   timeline.value = Math.floor(video.currentTime);
+  timeline.max = await Math.floor(video.duration);
+
+  timelineColor();
 };
 
 const loadedMetaData = async () => {
@@ -92,8 +153,11 @@ const loadedMetaData = async () => {
     Math.floor(video.duration) - Math.floor(video.duration)
   ); // 시작시 동영상 현재시간 = 전체시간 - 전체시간
   totalTime.innerText = formatTime(Math.floor(video.duration));
+  // 영상 전체시간
 
   timeline.max = await Math.floor(video.duration);
+
+  volumeVarColor();
 };
 
 const timelineInput = (event) => {
@@ -114,35 +178,31 @@ const timelineChange = (event) => {
 /* 타임라인 막대 조절 후 다시재생시작 or 정지상태 유지 여부 결정
  (타임라인 막대 조절 전 동영상이 재생중인지 정지인지에 따라) */
 
-const fullScreenClick = () => {
+const fullScreenClick = (event) => {
+  event.stopPropagation();
   const fullScreen = document.fullscreenElement;
   //현재 전체화면상태인지 파악
   if (fullScreen) {
     document.exitFullscreen(); //전체화면 해제
-    fullScreenBtn.innerText = "전체화면";
+    fullScreenIcon.classList = "fas fa-expand";
+    fullScreenText.innerText = "전체화면(f)";
   } else {
     videoBox.requestFullscreen(); // 전체화면으로 변경
-    fullScreenBtn.innerText = "전체화면 종료";
+    fullScreenIcon.classList = "fas fa-compress";
+    fullScreenText.innerText = "전체화면 종료(f)";
   }
 };
 
 const mouseMove = () => {
-  if (controlsTimeout) {
-    //전역변수 'controlsTimeout'에 값이 있을경우(=null이 아닌경우)
-    clearTimeout(controlsTimeout);
-    // 기존 타임아웃 제거 => 클래스 유지
-    controlsTimeout = null; // 변수 초기화
-  }
-  videoControler.classList.add("showing");
-  // 마우스가 비디오 안에서 움직일때 클래스 추가
+  showingClassAddOrRemove();
+};
 
-  controlsTimeout = setTimeout(() => {
-    videoControler.classList.remove("showing");
-  }, 3000);
-  /* 마우스가 비디오 안에서 멈추거나 비디오 밖으로 나가서 더이상
+videoBox.addEventListener("mouseup", mouseMove);
+videoBox.addEventListener("mousemove", mouseMove);
+
+/* 마우스가 비디오 안에서 멈추거나 비디오 밖으로 나가서 더이상
  이벤트가 발생하지 않는 시점부터 3초 뒤에 클래스를 제거함, 
   setTimeout 함수의 id를 전역변수인 'controlsTimeout'에 넣어줌*/
-};
 
 const videoEnd = () => {
   // 비디오 재생이 끝난경우 (시청 후)\
@@ -152,12 +212,16 @@ const videoEnd = () => {
     method: "post",
   }); // 동영상 조회수 증가
 
-  playBtn.innerText = "Replay";
+  playBtnIcon.classList = "fas fa-redo-alt";
+  playBtnText.innerText = "다시 보기";
+
   // 동영상재생버튼 -> '다시시작'으로 변경
 };
 
 playBtn.addEventListener("click", clickPlayBtn);
+playBtnIcon.addEventListener("click", clickPlayBtn);
 video.addEventListener("click", clickPlayBtn);
+videoControler.addEventListener("click", clickPlayBtn);
 //동영상 일시정지, 시작
 
 muteBtn.addEventListener("click", clickMuteBtn);
@@ -175,10 +239,9 @@ timeline.addEventListener("change", timelineChange);
 // 비디오 타임라인 조절 막대
 
 fullScreenBtn.addEventListener("click", fullScreenClick);
+video.addEventListener("dblclick", fullScreenClick);
+videoControler.addEventListener("dblclick", fullScreenClick);
 //전체화면, 전체화면 종료
-
-videoBox.addEventListener("mousemove", mouseMove);
-// 컨트롤러 표시, 비표시
 
 video.addEventListener("ended", videoEnd);
 // 비디오 시청 후 조회수 증가
@@ -206,7 +269,9 @@ const VideoKeyDown = (event) => {
         // 바로 음소거 해제 + 값 0.1로 고정
         video.muted = false;
         DummyMute = false;
-        muteBtn.innerText = "음소거";
+        muteBtnIcon.classList = "fas fa-volume-up";
+        muteBtnText.innerText = "음소거(m)";
+
         volumeValue = 0.05;
         video.volume = volumeValue; //실제 볼륨
         volumeRange.value = volumeValue; //볼륨 막대
@@ -218,6 +283,9 @@ const VideoKeyDown = (event) => {
         volumeRange.value = volumeValue; //볼륨 막대
       }
     }
+    volumeVarColor();
+    centerdisplay(muteCircle);
+    showNowVolume();
   }
   if (event.code === "ArrowDown") {
     // 아래쪽 방향키 : 음량 - 10%
@@ -243,10 +311,15 @@ const VideoKeyDown = (event) => {
         }
       }
       if (volumeValue === 0) {
-        muteBtn.innerText = "음소거 해제";
+        muteBtnIcon.classList = "fas fa-volume-mute";
+        muteBtnText.innerText = "음소거 해제(m)";
+
         volumeValue = lastVolume;
       }
     }
+    volumeVarColor();
+    centerdisplay(muteCircle);
+    showNowVolume();
   }
 };
 
@@ -278,10 +351,12 @@ const WindowKeyDown = (event) => {
     event.preventDefault();
     video.currentTime -= 5; //실제 영상 시간
     timeline.value -= 5; // 타임라인 막대
+    backAndForward(leftCircle);
   } else if (event.code === "ArrowRight") {
     event.preventDefault();
     video.currentTime += 5; //실제 영상 시간
     timeline.value += 5; // 타임라인 막대
+    backAndForward(rightCircle);
   } // 방향키 좌/우 : 영상시간 +- 5초
 
   if (event.code.includes("Numpad") || event.code.includes("Digit")) {
@@ -342,5 +417,92 @@ const smallPlayer = async () => {
     body: JSON.stringify({ videoTime }),
   });
 };
-
 smallPlayerBtn.addEventListener("click", smallPlayer);
+
+const timelineColor = () => {
+  const value = timeline.value;
+  const max = timeline.max;
+  const percent = (value / max) * 100;
+
+  timeline.style.background = `linear-gradient(to right, ${redColor} ${percent}%, ${beforeColor} ${percent}%)`;
+};
+timeline.addEventListener("input", timelineColor);
+
+const volumeVarColor = () => {
+  const value = volumeRange.value;
+  const max = volumeRange.max;
+  const percent = (value / max) * 100;
+
+  volumeRange.style.background = `linear-gradient(to right, white ${percent}%, ${beforeColor} ${percent}%)`;
+};
+
+volumeRange.addEventListener("input", volumeVarColor);
+
+const showingClassAddOrRemove = () => {
+  if (controlsTimeout) {
+    //전역변수 'controlsTimeout'에 값이 있을경우(=null이 아닌경우)
+    clearTimeout(controlsTimeout);
+    // 기존 타임아웃 제거 => 클래스 유지
+    controlsTimeout = null; // 변수 초기화
+  }
+
+  videoControler.classList.add("showing");
+  // 마우스가 비디오 안에서 움직일때 클래스 추가
+
+  if (!video.paused) {
+    controlsTimeout = setTimeout(() => {
+      videoControler.classList.remove("showing");
+    }, 3000);
+  }
+};
+
+const backAndForward = (circle) => {
+  if (backAndForwardTimeout) {
+    clearTimeout(backAndForwardTimeout);
+    backAndForwardTimeout = null;
+  }
+
+  ChangeCircles.forEach((circle) => {
+    circle.classList.remove("goTo_backAndforward");
+  });
+  setTimeout(() => {
+    circle.classList.add("goTo_backAndforward");
+  }, 50);
+
+  backAndForwardTimeout = setTimeout(() => {
+    circle.classList.remove("goTo_backAndforward");
+  }, 600);
+};
+
+const centerdisplay = (circle) => {
+  if (centerDisplayTimeout) {
+    clearTimeout(centerDisplayTimeout);
+    centerDisplayTimeout = null;
+  }
+
+  ChangeCircles.forEach((circle) => {
+    circle.classList.remove("display_center");
+  });
+  setTimeout(() => {
+    circle.classList.add("display_center");
+  }, 50);
+
+  centerDisplayTimeout = setTimeout(() => {
+    circle.classList.remove("display_center");
+  }, 600);
+};
+
+const showNowVolume = () => {
+  if (centerDisplayTimeout) {
+    clearTimeout(centerDisplayTimeout);
+    centerDisplayTimeout = null;
+  }
+  const nowVolumeValue = Math.floor(video.volume * 100);
+  nowVolume.innerText = `${nowVolumeValue}%`;
+
+  nowVolume.classList.add("showing");
+
+  centerDisplayTimeout = setTimeout(() => {
+    nowVolume.classList.remove("showing");
+  }, 600);
+};

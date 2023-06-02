@@ -1,17 +1,19 @@
 import express from "express";
 
 import {
-  getEdit,
-  postEdit,
-  logout,
   startGithubLogin,
   finishGithubLogin,
+  logout,
+  channel,
+  getProfileEdit,
+  postProfileEdit,
+  accountManage,
+  getAccountEdit,
+  postAccountEdit,
   getChangePassword,
   postChangePassword,
   getDeleteAccount,
   postDeleteAccount,
-  account,
-  channel,
 } from "../controllers/userController";
 
 import { Log_In_Only, Log_Out_Only, avatarUpload } from "../middlewares";
@@ -27,11 +29,19 @@ userRouter.get("/:id([0-9a-f]{24})", channel);
 userRouter
   .route("/edit")
   .all(Log_In_Only)
-  .get(getEdit)
-  .post(avatarUpload.single("avatar"), postEdit);
+  .get(getProfileEdit)
+  .post(avatarUpload.single("avatar"), postProfileEdit);
+
+userRouter.get("/account/manage", Log_In_Only, accountManage);
 
 userRouter
-  .route("/edit/change-password")
+  .route("/account/edit")
+  .all(Log_In_Only)
+  .get(getAccountEdit)
+  .post(postAccountEdit);
+
+userRouter
+  .route("/account/change-password")
   .all(Log_In_Only)
   .get(getChangePassword)
   .post(postChangePassword);
@@ -41,7 +51,5 @@ userRouter
   .all(Log_In_Only)
   .get(getDeleteAccount)
   .post(postDeleteAccount);
-
-userRouter.get("/account", account);
 
 export default userRouter;
