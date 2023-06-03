@@ -72,6 +72,11 @@ main {
   display: flex;
   justify-content: center;
   width: 100vw;
+  padding: 60px 5vw;
+  margin-bottom: 60px;
+  box-sizing: border-box;
+
+  min-height: max-content;
 }
 
 .hidden {

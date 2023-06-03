@@ -64,8 +64,6 @@ const clickPlayBtn = () => {
 
 // 음량 - 음소거 버튼, 볼륨 막대
 const clickMuteBtn = (event) => {
-  event.stopPropagation();
-
   if (video.muted) {
     video.muted = false;
     DummyMute = false;
@@ -82,6 +80,8 @@ const clickMuteBtn = (event) => {
   volumeVarColor();
   centerdisplay(muteCircle);
   showNowVolume();
+
+  event.stopPropagation();
 };
 
 const volumeInput = (event) => {
@@ -179,7 +179,6 @@ const timelineChange = (event) => {
  (타임라인 막대 조절 전 동영상이 재생중인지 정지인지에 따라) */
 
 const fullScreenClick = (event) => {
-  event.stopPropagation();
   const fullScreen = document.fullscreenElement;
   //현재 전체화면상태인지 파악
   if (fullScreen) {
@@ -191,6 +190,8 @@ const fullScreenClick = (event) => {
     fullScreenIcon.classList = "fas fa-compress";
     fullScreenText.innerText = "전체화면 종료(f)";
   }
+
+  event.stopPropagation();
 };
 
 const mouseMove = () => {
@@ -378,7 +379,10 @@ const vidoeBoxClick = (event) => {
 
 const windowClick = (event) => {
   //화면 클릭시
-  if (event.target.id === "textInput") {
+  if (
+    event.target.tagName.toLowerCase() === "input" ||
+    event.target.tagName.toLowerCase() === "textarea"
+  ) {
     // 댓글 입력창 (or 검색창) 클릭시 단축키 비활성화
     window.removeEventListener("keydown", VideoKeyDown);
     window.removeEventListener("keydown", WindowKeyDown);
@@ -506,3 +510,21 @@ const showNowVolume = () => {
     nowVolume.classList.remove("showing");
   }, 600);
 };
+
+const relationCenter = document.querySelector(".relation_videos_center");
+const relationSide = document.querySelector(".relation_videos_side");
+
+const windowSize = () => {
+  const windowWidth = window.innerWidth;
+
+  if (windowWidth >= 1000) {
+    relationCenter.classList.add("hidden");
+    relationSide.classList.remove("hidden");
+  } else {
+    relationCenter.classList.remove("hidden");
+    relationSide.classList.add("hidden");
+  }
+};
+
+windowSize();
+window.addEventListener("resize", windowSize);

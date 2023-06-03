@@ -16,11 +16,14 @@ if (videoCreateAtElements.length > 0) {
     const formattedTime = formatVideoCreateTime(createdAt, new Date()); // 현재 시간을 함수에 전달
     element.textContent = formattedTime;
 
-    if (formattedTime.includes("시간") && newVideoElements.length > 0) {
+    //if (formattedTime.includes("시간") && newVideoElements.length > 0)
+    // 시간 표시하는 글씨에서 단위 확인
+    if (newVideoElements.length > 0) {
       //.new_video 객체가 1개라도 있으면 실행
-      // 시간 표시하는 글씨에서 단위 확인
+
       const elapsed = new Date() - new Date(createdAt); // 경과 시간(밀리초 단위) 계산
       const elapsedHour = Math.floor(elapsed / hour);
+      // 시간 기준
 
       if (elapsedHour >= 1) {
         // 단위 앞에 붙는 숫자가 해당 조건 이상일경우
@@ -73,3 +76,37 @@ if (formattedTime.includes("일") && newVideoElements.length > 0) {
   }
 }
 */
+
+const videoConfigIcon = document.querySelector(".video-mixin_config-icon i");
+const videoMenuBox = document.querySelector(".video_menu_box");
+
+if (videoMenuBox) {
+  // 클릭 이벤트 처리
+  document.addEventListener("click", function (event) {
+    const target = event.target;
+
+    // videoMenuBox가 보여지는 상태인 경우
+    if (!videoMenuBox.classList.contains("hidden")) {
+      // videoMenuBox 외부를 클릭하거나 videoConfigIcon 다시 클릭한 경우
+      if (!videoMenuBox.contains(target) || target === videoConfigIcon) {
+        videoMenuBox.classList.add("hidden");
+      }
+    } else {
+      // videoMenuBox가 숨겨진 상태인 경우 videoConfigIcon 클릭하면 보여지도록 처리
+      if (target === videoConfigIcon) {
+        videoMenuBox.classList.remove("hidden");
+      }
+    }
+  });
+}
+
+const commentCreateAt = document.querySelectorAll(".comment_createAt");
+
+if (commentCreateAt.length > 0) {
+  // .comment_createAt 객체가 1개라도 있으면 실행
+  commentCreateAt.forEach((element) => {
+    const createdAt = element.getAttribute("data-id");
+    const formattedTime = formatVideoCreateTime(createdAt, new Date()); // 현재 시간을 함수에 전달
+    element.textContent = formattedTime;
+  });
+}

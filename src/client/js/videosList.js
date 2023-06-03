@@ -88,3 +88,29 @@ if (userVideoMixin.length > 0) {
     }
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const mixins = document.querySelectorAll(
+    ".home-video-mixin, .search-video-mixin"
+  );
+
+  mixins.forEach((mixin) => {
+    const ownerAvatar = mixin.querySelector(".video_owner_avatar");
+    const ownerName = mixin.querySelector(".video_owner_name");
+    const ownerLink = mixin.querySelector(".video-mixin_video_onwer_link");
+
+    if (ownerAvatar) {
+      ownerAvatar.addEventListener("click", (event) => {
+        event.preventDefault();
+        ownerLink.click();
+      });
+    }
+
+    if (ownerName) {
+      ownerName.addEventListener("click", (event) => {
+        event.preventDefault();
+        ownerLink.click();
+      });
+    }
+  });
+});

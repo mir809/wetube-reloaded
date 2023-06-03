@@ -88,3 +88,31 @@ if (fullSideVar) {
     { passive: false }
   );
 }
+
+const windowSize = () => {
+  const windowWidth = window.innerWidth;
+  if (sideVarMini) {
+    if (windowWidth >= 1200) {
+      changeBtns.forEach((btn) => {
+        btn.classList.remove("rotate");
+        btn.classList.add("rotateReverse");
+      });
+      isRotated = false;
+      sideVar.classList.remove("hidden");
+      sideVarMini.classList.add("hidden");
+      mainContent.style.paddingLeft = "230px";
+    } else {
+      changeBtns.forEach((btn) => {
+        btn.classList.add("rotate");
+        btn.classList.remove("rotateReverse");
+      });
+      isRotated = true;
+      sideVar.classList.add("hidden");
+      sideVarMini.classList.remove("hidden");
+      mainContent.style.paddingLeft = "72px";
+    }
+  }
+};
+
+windowSize();
+window.addEventListener("resize", windowSize);

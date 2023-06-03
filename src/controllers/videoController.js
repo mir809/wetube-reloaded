@@ -60,7 +60,14 @@ export const deleteSmallPlayer = async (req, res) => {
 //videos
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id).populate("owner").populate("comments");
+  const video = await Video.findById(id)
+    .populate("owner")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "owner",
+      },
+    });
   // 해당 데이터베이스에 있는 내용을 더 자세히 보여줌
 
   if (!video) {
@@ -221,7 +228,7 @@ export const createComment = async (req, res) => {
   video.comments.push(comment._id);
   video.save();
 
-  return res.status(201).json({ newCommentId: comment._id });
+  return res.status(201).json({ newCommentId: comment._id, user });
 };
 
 export const deleteComment = async (req, res) => {

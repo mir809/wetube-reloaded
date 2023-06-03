@@ -64,22 +64,47 @@ block content
                             //- <i class="fas fa-compress-alt"></i>
                             //- <i class="fas fa-external-link-alt"></i>
             div.video_data
+                
                 h1=video.title
                 div.user_info
-                    a(href=`/users/${video.owner._id}`)
-                        if video.owner.socialOnly 
-                            img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin )
-                        else
-                            if video.owner.defaultAvartar
-                                img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin)
+                    div.user_info_column
+                        a(href=`/users/${video.owner._id}`)
+                            if video.owner.socialOnly 
+                                img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin )
                             else
-                                img.video_owner_avatar(src="/" + video.owner.avatarUrl ) 
-                    div.user_info_text
-                        a(href=`/users/${video.owner._id}`)=video.owner.name
-                        small 구독자
-                        //-video.owner.subscriber
-                    div.subscribe_btn 구독하기
+                                if video.owner.defaultAvartar
+                                    img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin)
+                                else
+                                    img.video_owner_avatar(src="/" + video.owner.avatarUrl ) 
+                        div.user_info_text
+                            a(href=`/users/${video.owner._id}`)=video.owner.name
+                            small 구독자
+                            //-video.owner.subscriber
+                        div.subscribe_btn 구독하기
 
+                    div.user_info_column
+                        div.goodAndBad
+                            div.good_btn
+                                i.far.fa-thumbs-up
+                                small 좋아요 
+                            div.line
+                            div.bad_btn 
+                                i.far.fa-thumbs-up
+                                small 싫어요
+
+                        div.video-mixin_config-icon
+                            i.fas.fa-ellipsis-vertical
+                            div.video_menu_box.hidden
+                                if String(video.owner._id) === String(loggedInUser._id)
+                                    a.video_menu_btn(href=`${video.id}/edit`) 
+                                        i.fas.fa-edit
+                                        span 동영상 수정
+                                    a.video_menu_btn(href=`${video.id}/delete`) 
+                                        i.fas.fa-trash-alt 
+                                        span 동영상 삭제
+                                div.video_menu_btn
+                                    i.fas.fa-folder-plus
+                                    span 나중에 보기
                 div.video_info
                     div.video_meta
                         span.video_view 조회수 #{video.meta.views}회
@@ -91,29 +116,96 @@ block content
                     div.video_des
                         span=video.description
                     
+        div.relation_videos_center
+            if !relationVideos
+                span 연관 동영상이 없습니다 
+            else
+                each videoInfo  in relationVideos.slice(0, 10)
+                    //- 비디오 10개까지만 표시                                    
+                    +video(videoInfo)
+                    +video(videoInfo)
+                    +video(videoInfo)
+                    +video(videoInfo)
+                    +video(videoInfo)
+                    +video(videoInfo)   
+                    +video(videoInfo)
+                    +video(videoInfo)
+                    +video(videoInfo)         
+                    
                 
-                
-                
-                if String(video.owner._id) === String(loggedInUser._id)
-                    a(href=`${video.id}/edit`) Edit Video &#10132;
-                    br
-                    a(href=`${video.id}/delete`) Delete Video &#10132;	  
+                    
 
         div.video_comment_section
+            div.video_comment_section_header
+                div
+                    span 댓글 
+                    span.comments_number(data-id=video.comments.length)=video.comments.length
+                    span 개
             if loggedIn
-                form.video_comment_form#commentForm
-                    textarea#textInput(placeholder="Write a nice comment...",cols="30",rows="10")
-                    button Add Comment
+                div.writing_comment(data-id=loggedInUser)
+                    if loggedInUser.socialOnly 
+                        img.loggedIn_avatar(src=loggedInUser.avatarUrl,crossorigin)
+                    else
+                        if loggedInUser.defaultAvartar
+                            img.loggedIn_avatar(src=loggedInUser.avatarUrl,crossorigin)
+                        else
+                            img.loggedIn_avatar(src="/" + loggedInUser.avatarUrl)
+
+                    form.video_comment_form#commentForm
+                        textarea#textInput(placeholder="댓글 작성" rows="1")
+
+                        div.comment_form_btns.hidden
+                            button.remove_btn 취소
+                            button.add_btn 댓글
             
             div.video_comments
                 ul 
                     each comment in video.comments.reverse()
                         li.video_comment(data-id=comment._id)
-                            span #{comment.text}
-                            if String(comment.owner) === String(loggedInUser._id)
-                                span.deleteComment ❌ 
+                            a(href=`/users/${comment.owner._id}`)
+                                if comment.owner.socialOnly 
+                                    img.comment_avatar(src=comment.owner.avatarUrl,crossorigin)
+                                else
+                                    if comment.owner.defaultAvartar
+                                        img.comment_avatar(src=comment.owner.avatarUrl,crossorigin)
+                                    else
+                                        img.comment_avatar(src="/" + comment.owner.avatarUrl)
+                            
+                            div.comment_box
+                                div.comment_box_column
+                                    div.comment_owner
+                                        a.comment_owner_name(href=`/users/${comment.owner._id}`)=comment.owner.name   
+                                        span.comment_createAt(data-id=comment.createdAt)
+                                    span.comment_text=comment.text
+                                    div.goodAndBad
+                                        div.good_btn
+                                            i.far.fa-thumbs-up
+                                            small 좋아요
+                                        div.bad_btn 
+                                            i.far.fa-thumbs-up
+                                            small 싫어요
 
-    div.relation_videos
+
+                                div.comment_box_column
+                                    div.comment_config-icon
+                                        i.fas.fa-ellipsis-vertical
+                                        div.comment_menu_box.hidden
+                                            if String(comment.owner._id) === String(loggedInUser._id)
+                                                div.comment_menu_btn
+                                                    i.fas.fa-edit
+                                                    span 댓글 수정
+                                            if String(comment.owner._id) === String(loggedInUser._id) || String(video.owner._id) === String(loggedInUser._id) 
+                                                div.comment_menu_btn.deleteComment 
+                                                    i.fas.fa-trash-alt 
+                                                    span 댓글 삭제
+                                            div.comment_menu_btn
+                                                i.fas.fa-flag
+                                                span 댓글 신고
+                           
+                                   
+
+
+    div.relation_videos_side
         if !relationVideos
             span 연관 동영상이 없습니다 
         else

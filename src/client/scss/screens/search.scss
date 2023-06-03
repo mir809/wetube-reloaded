@@ -56,24 +56,6 @@
 
         margin: 8px 0;
 
-        .onwer_link_box {
-          position: relative;
-          width: 100%;
-        }
-
-        .video-mixin_video_onwer_link {
-          z-index: 10;
-          display: block;
-          height: 25px;
-          width: 25px;
-          border-radius: 50%;
-
-          position: absolute;
-
-          bottom: 96px;
-          left: 368px;
-        }
-
         .video-mixin {
           display: flex;
           width: 100%;
@@ -169,8 +151,9 @@
                   height: 25px;
                   border-radius: 50%;
                 }
-                .video_owner-name {
+                .video_owner_name {
                   margin-left: 8px;
+                  font-size: 14px;
                 }
               }
 
@@ -184,6 +167,13 @@
                 text-overflow: ellipsis;
 
                 line-height: 1.2;
+
+                margin-top: 20px;
+                max-width: 100%;
+
+                white-space: pre-wrap;
+                word-wrap: break-word; //줄넘김
+                line-height: 1.5;
               }
 
               .new_video {
@@ -201,11 +191,22 @@
             }
           }
           .video-mixin_config-icon {
-            width: 30px;
+            position: relative;
+
+            width: 35px;
+            height: 35px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            border-radius: 50%;
 
-            font-size: 17px;
+            font-size: 17px; // 페이지마다 조절
+
+            cursor: pointer;
+
+            &:hover {
+              background-color: rgba($color: $color, $alpha: 0.1);
+            }
           }
         }
       }

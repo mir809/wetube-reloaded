@@ -1,32 +1,49 @@
 mixin video(video)
-    div.home-video-mixin
-        div.onwer_link_box
-            a.video-mixin_video_onwer_link(href=`/users/${video.owner._id}`)
-            a.video-mixin(href=`/videos/${video.id}`)
-                div.video-mixin_display
-                    video.video-mixin__video(src="/"+video.fileUrl ) 
-                    div.video-mixin_cover
-                        img.video-mixin__thumb(src="/"+video.thumbUrl alt="Image" loading="lazy")
-                        span.videoTime
-                div.video-mixin_data_box
-                    div.video-mixin_data
-                        if video.owner.socialOnly 
-                            img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin )
+    div.home-video-mixin   
+        a.video-mixin_video_onwer_link(href=`/users/${video.owner._id}`)
+        a.video-mixin(href=`/videos/${video.id}`)
+            div.video-mixin_display
+                video.video-mixin__video(src="/"+video.fileUrl ) 
+                div.video-mixin_cover
+                    img.video-mixin__thumb(src="/"+video.thumbUrl alt="Image" loading="lazy")
+                    span.videoTime
+            div.video-mixin_data_box
+                div.video-mixin_data
+                    if video.owner.socialOnly 
+                        img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin )
+                    else
+                        if video.owner.defaultAvartar
+                            img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin)
                         else
-                            if video.owner.defaultAvartar
-                                img.video_owner_avatar(src=video.owner.avatarUrl,crossorigin)
-                            else
-                                img.video_owner_avatar(src="/" + video.owner.avatarUrl ) 
-                        div.video-mixin_data_text 
-                            span.video-mixin_title=video.title
-                            span.video-mixin_owner=video.owner.name
-                            div.video-mixin_meta
-                                span.video-mixin_view 조회수 #{video.meta.views}회 • 
-                                span.video_createAt(data-id=video.createdAt)
-                                div.new_video 새 동영상
-                    div.video-mixin_config-icon
-                        i.fas.fa-ellipsis-vertical
+                            img.video_owner_avatar(src="/" + video.owner.avatarUrl ) 
+                    div.video-mixin_data_text 
+                        span.video-mixin_title=video.title
+                        span.video_owner_name=video.owner.name
+                        div.video-mixin_meta
+                            span.video-mixin_view 조회수 #{video.meta.views}회 • 
+                            span.video_createAt(data-id=video.createdAt)
+                            div.new_video 새 동영상
+                div.video-mixin_config-icon
+                    i.fas.fa-ellipsis-vertical
+                        
+
+
+//-
+                        div.video_menu_box.hidden
+                                if String(video.owner._id) === String(loggedInUser._id)
+                                    a.video_menu_btn(href=`${video.id}/edit`) 
+                                        i.fas.fa-edit
+                                        span 동영상 수정
+                                    a.video_menu_btn(href=`${video.id}/delete`) 
+                                        i.fas.fa-trash-alt 
+                                        span 동영상 삭제
+                                div.video_menu_btn
+                                    i.fas.fa-folder-plus
+                                    span 나중에 보기
+                        
+                        
         
+
 
 
 

@@ -225,11 +225,22 @@
           }
 
           .video-mixin_config-icon {
+            position: relative;
+
             width: 30px;
+            height: 30px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            border-radius: 50%;
 
-            font-size: 17px;
+            font-size: 17px; // 페이지마다 조절
+
+            cursor: pointer;
+
+            &:hover {
+              background-color: rgba($color: $color, $alpha: 0.1);
+            }
           }
         }
       }
