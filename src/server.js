@@ -9,7 +9,7 @@ import rootRouter from "./routers/rootRouter";
 import videoRouter from "./routers/videoRouter";
 import userRouter from "./routers/userRouter";
 
-import { localsMiddleware, smallVideoPlayer } from "./middlewares";
+import { localsMiddleware, smallVideoPlayer, lastPage } from "./middlewares";
 import apiRouter from "./routers/apiRouter";
 
 const app = express();
@@ -39,6 +39,7 @@ app.use(
 
 app.use(flash()); // 플래시메시지를 남기기위한 모듈
 app.use(localsMiddleware);
+app.use(lastPage);
 app.use(smallVideoPlayer);
 /* 서버에 있는 모든 페이지에 요청이 가기 전 공통적으로 사용하는 미들웨어*/
 app.use("/uploads", express.static("uploads"));

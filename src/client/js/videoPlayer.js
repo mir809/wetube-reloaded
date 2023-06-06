@@ -46,7 +46,11 @@ const playCircle = ChangeCircles[1];
 const playCircleIcon = playCircle.querySelector("i");
 const rightCircle = ChangeCircles[2];
 const muteCircle = ChangeCircles[3];
+const muteCircleIcon = muteCircle.querySelector("i");
 const nowVolume = document.querySelector(".now_volume");
+
+const changRow = document.querySelector(".display_change_row");
+const changColumn = document.querySelector(".display_change_column");
 
 // 영상 재생/일시정지
 const clickPlayBtn = () => {
@@ -74,6 +78,10 @@ const clickMuteBtn = (event) => {
   muteBtnIcon.classList = video.muted
     ? "fas fa-volume-mute"
     : "fas fa-volume-up";
+  muteCircleIcon.classList = video.muted
+    ? "fas fa-volume-mute"
+    : "fas fa-volume-up";
+
   muteBtnText.innerText = video.muted ? "음소거 해제(m)" : "음소거(m)";
   volumeRange.value = video.muted ? 0 : volumeValue;
   // 음소거 해제시 볼륨막대 위치가 음소거 하기 전으로 돌아감
@@ -92,12 +100,14 @@ const volumeInput = (event) => {
   } = event;
   if (Number(value) === 0) {
     muteBtnIcon.classList = "fas fa-volume-mute";
+    muteCircleIcon.classList = "fas fa-volume-mute";
     muteBtnText.innerText = "음소거 해제(m)";
 
     video.muted = true;
   } else {
     video.muted = false;
     muteBtnIcon.classList = "fas fa-volume-up";
+    muteCircleIcon.classList = "fas fa-volume-up";
     muteBtnText.innerText = "음소거(m)";
   }
   video.volume = value; // 영상의 실제 소리
@@ -185,10 +195,12 @@ const fullScreenClick = (event) => {
     document.exitFullscreen(); //전체화면 해제
     fullScreenIcon.classList = "fas fa-expand";
     fullScreenText.innerText = "전체화면(f)";
+    videoControler.style.bottom = `0px`;
   } else {
     videoBox.requestFullscreen(); // 전체화면으로 변경
     fullScreenIcon.classList = "fas fa-compress";
     fullScreenText.innerText = "전체화면 종료(f)";
+    videoControler.style.bottom = `12px`;
   }
 
   event.stopPropagation();
@@ -221,8 +233,7 @@ const videoEnd = () => {
 
 playBtn.addEventListener("click", clickPlayBtn);
 playBtnIcon.addEventListener("click", clickPlayBtn);
-video.addEventListener("click", clickPlayBtn);
-videoControler.addEventListener("click", clickPlayBtn);
+videoBox.addEventListener("click", clickPlayBtn);
 //동영상 일시정지, 시작
 
 muteBtn.addEventListener("click", clickMuteBtn);
@@ -271,6 +282,7 @@ const VideoKeyDown = (event) => {
         video.muted = false;
         DummyMute = false;
         muteBtnIcon.classList = "fas fa-volume-up";
+        muteCircleIcon.classList = "fas fa-volume-up";
         muteBtnText.innerText = "음소거(m)";
 
         volumeValue = 0.05;
@@ -313,6 +325,7 @@ const VideoKeyDown = (event) => {
       }
       if (volumeValue === 0) {
         muteBtnIcon.classList = "fas fa-volume-mute";
+        muteCircleIcon.classList = "fas fa-volume-mute";
         muteBtnText.innerText = "음소거 해제(m)";
 
         volumeValue = lastVolume;
@@ -501,7 +514,7 @@ const showNowVolume = () => {
     clearTimeout(centerDisplayTimeout);
     centerDisplayTimeout = null;
   }
-  const nowVolumeValue = Math.floor(video.volume * 100);
+  const nowVolumeValue = Math.floor(volumeValue * 100);
   nowVolume.innerText = `${nowVolumeValue}%`;
 
   nowVolume.classList.add("showing");
@@ -528,3 +541,8 @@ const windowSize = () => {
 
 windowSize();
 window.addEventListener("resize", windowSize);
+
+window.addEventListener("resize", () => {
+  const videoBox = document.getElementById("videoBox"); // 비디오 컨테이너 요소
+  const video = videoBox.querySelector("video"); // 비디오 요소
+});

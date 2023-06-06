@@ -23,7 +23,7 @@ block content
                 div.display_change_column
                     div.display_change_circle
                         i.fas.fa-volume-up
-                    span.now_volume 100%
+                    span.now_volume 
                 video(src="/"+video.fileUrl)
                 div#videoControler.videoControler.showing
                     input#timeline.videoControls__timeline(type="range",step="1", value="0", min="0")
@@ -60,9 +60,7 @@ block content
                                 div.text_box 전체화면(f)
 
                                 //- 전체화면
-                                
-                            //- <i class="fas fa-compress-alt"></i>
-                            //- <i class="fas fa-external-link-alt"></i>
+                        
             div.video_data
                 
                 h1=video.title

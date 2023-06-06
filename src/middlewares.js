@@ -63,3 +63,9 @@ export const logoTextStudio = (req, res, next) => {
 
   next();
 };
+
+export const lastPage = (req, res, next) => {
+  res.locals.lastpage = req.session.lastpage;
+
+  next();
+};

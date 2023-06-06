@@ -4,7 +4,9 @@
   padding-top: 57.14%;
 
   .display_change_column {
+    z-index: 2;
     position: absolute;
+    top: 0px;
     height: 100%;
     width: 100px;
 
@@ -57,6 +59,8 @@
   }
 
   .display_change_row {
+    z-index: 2;
+
     position: absolute;
     height: 100px;
     width: 100%;
@@ -143,7 +147,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
 
     background-color: black;
   }
@@ -151,6 +155,7 @@
   .videoControler {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+
     &.showing {
       opacity: 1;
     }

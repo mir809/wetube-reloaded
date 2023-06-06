@@ -8,6 +8,8 @@ export const home = async (req, res) => {
   const randomVideos = videos.sort(() => Math.random() - 0.5);
   // videos 배열안의 내용을 랜덤으로 정렬
 
+  req.session.lastpage = req.url;
+
   return res.render("videos/home", { pageTitle: "NewTube", randomVideos });
 };
 
@@ -154,14 +156,11 @@ export const videosManage = async (req, res) => {
     return { ...video._doc, formattedDate };
   });
 
-  return res.render("videos/studio/videos-manage", {
-    pageTitle: "동영상 관리",
-    videos: formattedVideos,
-  });
+  req.session.lastpage = "/videos/" + req.url;
 
   return res.render("videos/studio/videos-manage", {
     pageTitle: "동영상 관리",
-    videos,
+    videos: formattedVideos,
   });
 };
 
@@ -238,7 +237,7 @@ export const deleteVideo = async (req, res) => {
   user.save();
   await Comment.deleteMany({ video: id });
   // Comment 컬렉션에서 해당 video 의 id를 가진 항목을 모두삭제
-  return res.redirect("/");
+  return res.redirect(req.session.lastpage);
 };
 
 export const registerView = async (req, res) => {
