@@ -11,7 +11,7 @@ mixin video(video)
                 div.video-mixin_data 
                     div.video-mixin_title=video.title
                     div.video-mixin_meta
-                        span.video-mixin_view 조회수 #{video.meta.views}회 • 
+                        span.video-mixin_view 조회수 #{video.meta.views}회 •&nbsp; 
                         span.video_createAt(data-id=video.createdAt)
                     div.video_owner-info
                         if video.owner.socialOnly 

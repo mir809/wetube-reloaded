@@ -71,6 +71,7 @@
             .video-mixin__video {
               height: 200px;
               width: 350px;
+              object-fit: cover;
             }
             .video-mixin_cover {
               z-index: 5;

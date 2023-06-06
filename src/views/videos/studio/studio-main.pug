@@ -1,0 +1,43 @@
+extends ../../base-studio
+
+
+block content
+    div.studio_page.studio_main
+        h1.studio_page_title
+            i.fab.fa-youtube 
+            span NewTube
+            span 스튜디오
+        div.studio_page_sub-Title
+            span #{loggedInUser.name}님, NewTube 스튜디오에 오신것을 환영합니다.
+            small 나만의 영상을 촬영, 업로드 해보세요.
+            small 기존에 업로드한 영상 정보를 수정하거나 삭제 할 수 있습니다.
+
+        div.studio_main_content
+            a(href="/videos/upload").studio_main_box
+                h1.studio_main_box-title 
+                    i.fas.fa-upload
+                    span 동영상 업로드
+                div.studio_main_box-text
+                    span 내가 가진 동영상파일을 업로드해보세요.
+            a(href="/videos/record").studio_main_box
+                h1.studio_main_box-title 
+                    i.fas.fa-video
+                    span 동영상 촬영
+                div.studio_main_box-text
+                    span 동영상 파일이 없으신가요? 
+                    span 그렇다면 지금 바로 촬영해보세요.
+            a(href="/videos/manage").studio_main_box
+                h1.studio_main_box-title 
+                    i.fas.fa-file-video
+                    span 동영상 관리
+                div.studio_main_box-text
+                    span 내가 업로드한 동영상을 한 곳에서 전부 관리해보세요.
+
+            hr
+            h1.another 다른 기능들을 찾고 계신가요?
+            a(href="/users/account/manage").studio_main_box.another_box
+                h1.studio_main_box-title 
+                    i.fas.fa-user-circle
+                    span 내 계정 관리
+                div.studio_main_box-text
+                    span 내 프로필, 계정 정보를 변경하고 싶다면 클릭하세요.

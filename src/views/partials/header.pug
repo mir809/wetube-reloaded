@@ -15,7 +15,46 @@ header
                 
     nav 
         ul  
-            if loggedIn
+            if !loggedIn
+                li 
+                    div.menu.not_login_menu
+                        div.menu_open_btn
+                            i.fas.fa-ellipsis-vertical
+                        div.menu_box.hidden
+                            
+                            div.menu-btn-list
+                                div.menu-btn
+                                    div.menu-btn-left
+                                        i.fas.fa-keyboard
+                                        span 단축키
+                                hr
+                                span.none_function &#8251; 미구현 기능 &#8251;
+                                div.menu-btn 
+                                    div.menu-btn-left
+                                        i.fas.fa-cog
+                                        span 설정
+                                
+                                
+                                    div.menu-btn-right
+                                        i.fas.fa-chevron-right
+                                div.menu-btn
+                                    div.menu-btn-left
+                                        i.fas.fa-language
+                                        span 언어 : 한국어 
+                                    div.menu-btn-right
+                                        i.fas.fa-chevron-right
+                                div.menu-btn
+                                    div.menu-btn-left
+                                        i.fas.fa-moon
+                                        span 테마 : 밝은 테마
+                                    div.menu-btn-right
+                                        i.fas.fa-chevron-right
+                li 
+                    a(href="/login").login_btn 
+                        i.fas.fa-user-circle
+                        span 로그인
+
+            else
                 li
                     div.upload_btn
                         i.fas.fa-upload
@@ -32,13 +71,14 @@ header
                         
                 li 
                     div.menu
-                        if loggedInUser.socialOnly 
-                            img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
-                        else
-                            if loggedInUser.defaultAvartar
+                        div.menu_open_btn
+                            if loggedInUser.socialOnly 
                                 img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
                             else
-                                img.header_avatar(src="/" + loggedInUser.avatarUrl)
+                                if loggedInUser.defaultAvartar
+                                    img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
+                                else
+                                    img.header_avatar(src="/" + loggedInUser.avatarUrl)
                         div.menu_box.hidden
                             div.user_info
                                 if loggedInUser.socialOnly 
@@ -62,22 +102,19 @@ header
                                     div.menu-btn-left
                                         i.fas.fa-user-circle
                                         span 프로필 수정
+                                a.menu-btn(href="/studio/main")
+                                    div.menu-btn-left
+                                        i.fas.fa-film
+                                        span NewTube 스튜디오
+                                
 
                                 a.menu-btn(href="/users/logout") 
                                     div.menu-btn-left
                                         i.fas.fa-door-open
                                         span 로그아웃
+                                
 
                                 hr
-                                span.none_function &#8251; 미구현 기능 &#8251;
-                                div.menu-btn 
-                                    div.menu-btn-left
-                                        i.fas.fa-cog
-                                        span 설정
-                                div.menu-btn
-                                    div.menu-btn-left
-                                        i.fas.fa-keyboard
-                                        span 단축키
                                 div.menu-btn
                                     div.menu-btn-left
                                         i.fas.fa-globe
@@ -85,6 +122,20 @@ header
                                             span 위치 : #{loggedInUser.location}
                                         else 
                                             span 위치 : 알수없음
+
+                                div.menu-btn
+                                    div.menu-btn-left
+                                        i.fas.fa-keyboard
+                                        span 단축키
+
+                                hr
+                                span.none_function &#8251; 미구현 기능 &#8251;
+                                div.menu-btn 
+                                    div.menu-btn-left
+                                        i.fas.fa-cog
+                                        span 설정
+                                
+                                
                                     div.menu-btn-right
                                         i.fas.fa-chevron-right
                                 div.menu-btn
@@ -105,11 +156,7 @@ header
                            
 
                 
-            else
-                li 
-                    a(href="/join") 회원가입
-                li 
-                    a(href="/login").login_btn 로그인
+            
                 
 
 

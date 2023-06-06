@@ -46,8 +46,9 @@
         background-color: black;
 
         .video-mixin__video {
-          height: 200px;
-          width: 350px;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
         .video-mixin_cover {
           z-index: 5;
@@ -96,7 +97,7 @@
 
         .video-mixin_data {
           display: flex;
-
+          width: 100%;
           max-width: calc(100% - 30px);
 
           .video_owner_avatar {
@@ -111,9 +112,11 @@
             margin-left: 10px;
 
             max-width: calc(100% - 60px);
+            width: 100%;
 
             .video-mixin_title {
               font-size: 16px;
+              width: 100%;
 
               display: -webkit-box;
               -webkit-line-clamp: 2;

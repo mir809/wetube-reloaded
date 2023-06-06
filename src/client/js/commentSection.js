@@ -239,9 +239,11 @@ const formBtns = document.querySelector(".comment_form_btns");
 const addBtn = document.querySelector(".add_btn");
 const removeBtn = document.querySelector(".remove_btn");
 
+const defaultHeight = textarea.scrollHeight + "px";
+
 textarea.addEventListener("input", () => {
-  textarea.style.height = "0px";
-  textarea.style.height = `${textarea.scrollHeight}px`; // 텍스트 내용에 맞게 높이 조정
+  textarea.style.height = defaultHeight;
+  textarea.style.height = textarea.scrollHeight + "px"; // 텍스트 내용에 맞게 높이 조정
 });
 
 textarea.addEventListener("focus", function () {

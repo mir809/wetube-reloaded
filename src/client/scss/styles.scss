@@ -12,6 +12,7 @@
 @import "./components/message.scss";
 @import "./components/forms.scss";
 @import "./components/account.scss";
+@import "./components/studio.scss";
 @import "./components/video-player.scss";
 
 // Screens
@@ -20,6 +21,10 @@
 @import "./screens/channel.scss";
 @import "./screens/search.scss";
 @import "./screens/edit-profile.scss";
+@import "./screens/upload.scss";
+@import "./screens/studio-main.scss";
+@import "./screens/record.scss";
+@import "./screens/video-manage.scss";
 
 // Defaults
 
@@ -58,12 +63,14 @@ main {
   display: flex;
 }
 
-.account {
+.account,
+.studio {
   // height: calc(100vh - 60px);
   box-sizing: border-box;
   padding-left: 280px;
 
   display: flex;
+  flex-direction: column;
 
   width: 100%;
 }

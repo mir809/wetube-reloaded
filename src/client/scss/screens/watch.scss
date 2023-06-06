@@ -538,6 +538,7 @@
       .video-mixin__video {
         height: 96px;
         width: 168px;
+        object-fit: cover;
       }
 
       .video-mixin_cover {

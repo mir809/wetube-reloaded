@@ -51,3 +51,15 @@ export const videoUpload = multer({
     fileSize: 50000000, // 최대 50MB
   },
 });
+
+export const logoTextAccount = (req, res, next) => {
+  res.locals.logoTextAccount = "계정";
+
+  next();
+};
+
+export const logoTextStudio = (req, res, next) => {
+  res.locals.logoTextStudio = "스튜디오";
+
+  next();
+};

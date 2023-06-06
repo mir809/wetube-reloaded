@@ -1,0 +1,48 @@
+extends ../../base-studio
+
+block content 
+    div.studio_page.record_page
+        h1.studio_page_title=pageTitle
+        div.video_box
+            span 촬영한 동영상이 이곳에 표시됩니다.
+            span &#8251; 브라우저에서 카메라/마이크 접근 권한을 허용해주세요 &#8251;
+            video#preview
+        div.stat_box
+            div.record_timer.hidden
+                span#record_time 0 : 00
+            span.now_state 
+            span.now_state2 
+
+        div.btn_box
+            button#startBtn
+                i.fas.fa-play
+                span 녹화 시작
+            button#download 
+                i.fas.fa-download
+                span 다운로드
+
+        div.phrase_text 
+            span ※ 촬영가능한 최대 시간은     
+            span 30초   
+            span 입니다.
+        div.phrase_text 
+            span ※ 썸네일 이미지는 
+            span 녹화시작 1초 후   
+            span 장면으로 선택됩니다.
+        div.phrase_text.last_phrase_text
+            div
+                span ※ 영상 길이가 최대시간에 가까울수록 다운로드에 많은 시간이 소요됩니다. 
+                span 최대한 녹화를 짧게 
+                span 하는걸 권장해 드립니다.
+            small (대략 영상 시간 4배 소요)
+
+        hr  
+        
+        div.now_upload
+            span 마음에 드는 영상을 촬영하셨거나 이미 가지고 있는 동영상이 있으신가요?
+            a(href="upload") 지금 업로드하러 가기 &#10132;
+
+    
+
+block scripts 
+    script(src="/ast/js/recorder.js")

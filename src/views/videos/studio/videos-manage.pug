@@ -1,0 +1,42 @@
+extends ../../base-studio
+
+
+block content 
+    div.studio_page.manage_page
+        h1.studio_page_title=pageTitle
+        h1.studio_page_subTitle 내 동영상 목록
+            span (동영상을 또는 썸네일을 클릭하면 해당 동영상 시청 화면으로 이동합니다.)
+        ul 
+            li.video_list_header 
+                div.list_left
+                    span.video_file 동영상
+                    span.video_thumb 썸네일
+                    span.video_info 영상 제목, 설명
+                div.list_rigth
+                    span.video_create 업로드 날짜
+                    span.video_view 조회수
+                    span.video_comments 댓글수
+                    span.video_btn 
+
+            each video  in videos
+                li.video_list
+                    div.list_left
+                        a(href=`${video._id}`).video_file  
+                            video(src="/"+video.fileUrl) 
+                        a(href=`${video._id}`).video_thumb  
+                            img(src="/"+video.thumbUrl )
+                        div.video_info  
+                            span.video_title=video.title
+                            if video.description
+                                span.video_des=video.description
+                            else 
+                                span.video_des (설명 없음)
+                    div.list_rigth
+                        span.video_create=video.formattedDate
+                        span.video_view=video.meta.views
+                        span.video_comments=video.comments.length
+                        div.video_btn 
+                            a.edit_btn(href=`${video._id}/edit`) 수정
+                            a.delete_btn(href=`${video._id}/delete`) 삭제
+
+

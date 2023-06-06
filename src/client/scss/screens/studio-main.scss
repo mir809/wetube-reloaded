@@ -1,0 +1,129 @@
+.studio_main {
+  padding: 0 30px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  white-space: nowrap;
+
+  .studio_page_title {
+    font-family: "Roboto", sans-serif;
+
+    font-size: 40px;
+    margin-top: 20px;
+
+    i {
+      color: $red;
+      margin-right: 10px;
+    }
+    span:last-child {
+      color: $blue;
+      margin-left: 10px;
+    }
+  }
+
+  .studio_page_sub-Title {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    align-items: center;
+
+    span {
+      margin-bottom: 5px;
+    }
+    small {
+      margin-top: 5px;
+      font-size: 14px;
+      color: rgba($color: $color, $alpha: 0.6);
+    }
+  }
+
+  .studio_main_content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    margin-top: 30px;
+
+    white-space: pre-wrap;
+
+    .another {
+      margin-top: 10px;
+      width: 100%;
+      font-size: 25px;
+    }
+
+    .studio_main_box {
+      width: 280px;
+      height: 160px;
+      border: 5px solid rgba($color: $color, $alpha: 0.2);
+      border-radius: 30px;
+
+      margin: 20px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      padding: 0 20px;
+      box-sizing: border-box;
+
+      &:nth-child(1) {
+        border-color: rgba($color: skyblue, $alpha: 0.7);
+        & > .studio_main_box-title i {
+          color: skyblue;
+        }
+      }
+      &:nth-child(2) {
+        border-color: rgba($color: yellowgreen, $alpha: 0.7);
+        & > .studio_main_box-title i {
+          color: yellowgreen;
+        }
+      }
+      &:nth-child(3) {
+        border-color: rgba($color: purple, $alpha: 0.7);
+        & > .studio_main_box-title i {
+          color: purple;
+        }
+      }
+
+      .studio_main_box-title {
+        font-size: 23px;
+
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid rgba($color: $color, $alpha: 0.2);
+
+        i {
+          font-size: 25px;
+
+          margin-right: 10px;
+        }
+      }
+
+      .studio_main_box-text {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        color: rgba($color: $color, $alpha: 0.6);
+        line-height: 1.2;
+      }
+    }
+
+    .another_box {
+      border-color: rgba($color: $blue, $alpha: 0.7);
+      & > .studio_main_box-title i {
+        color: $blue;
+      }
+    }
+  }
+}

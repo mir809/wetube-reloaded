@@ -12,7 +12,7 @@ mixin video(video)
                 span.video_owner-name=video.owner.name
 
                 div.video-mixin_meta
-                    span.video-mixin_view 조회수 #{video.meta.views}회 • 
+                    span.video-mixin_view 조회수 #{video.meta.views}회 •&nbsp; 
                     span.video_createAt(data-id=video.createdAt)
 
                 //- 영상 게시일 1~3일 미만 일경우 '새동영상'표시

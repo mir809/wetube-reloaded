@@ -12,7 +12,7 @@ block content
                         img.account_avatar(src=loggedInUser.avatarUrl,crossorigin)
                     else
                         img.account_avatar(src="/" + loggedInUser.avatarUrl)
-                div.harf_circle.hidden
+                div.harf_circle.hidden 
                     i.fas.fa-image
 
             h1 #{loggedInUser.name}님, 환영합니다
@@ -29,8 +29,8 @@ block content
         div.another
             h1 다른 기능들을 찾고 계신가요?
             div.another_box
-                a(href="/videos/manage") 
-                    h1 내 동영상 관리
+                a(href="/studio/main") 
+                    h1 NewTube 스튜디오
                     div.dec_text 
                         i.fas.fa-video
                         span 동영상을 촬영하고, 내가 직접 촬영한 동영상을 업로드 해보세요. 이미 업로드한 동영상의 정보를 변경하고 싶다면 지금 수정할 수 있습니다.

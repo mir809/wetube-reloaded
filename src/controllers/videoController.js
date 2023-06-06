@@ -57,6 +57,12 @@ export const deleteSmallPlayer = async (req, res) => {
   return res.sendStatus(201);
 };
 
+export const studioMain = async (req, res) => {
+  return res.render("videos/studio/studio-main", {
+    pageTitle: "NewTube 스튜디오",
+  });
+};
+
 //videos
 export const watch = async (req, res) => {
   const { id } = req.params;
@@ -89,6 +95,76 @@ export const watch = async (req, res) => {
   });
 };
 
+export const getUpload = (req, res) => {
+  return res.render("videos/studio/upload", { pageTitle: "동영상 업로드" });
+};
+
+export const postUpload = async (req, res) => {
+  const {
+    user: { _id },
+  } = req.session;
+  const { video, thumb } = req.files;
+  const { title, description, hashtags } = req.body;
+  const videoPath = video[0].path;
+
+  const trimmedDescription = description.replace(/^\n+|\n+$/g, "");
+  // 영상설명에서 양끝 줄바꿈 제거
+
+  try {
+    const newVideo = await Video.create({
+      title,
+      description: trimmedDescription,
+      fileUrl: videoPath,
+      thumbUrl: thumb[0].path,
+      hashtags: Video.formatHashtags(hashtags),
+      owner: _id,
+    });
+
+    const user = await User.findById(_id);
+    user.videos.unshift(newVideo._id);
+    await user.save();
+    return res.redirect("/");
+  } catch (error) {
+    console.log("Upload Failed");
+    return res.status(400).render("videos/studio/upload", {
+      pageTitle: "동영상 업로드",
+      errorMessage: "동영상 업로드 실패",
+    });
+  }
+};
+
+export const record = async (req, res) => {
+  return res.render("videos/studio/recorder", { pageTitle: "동영상 촬영" });
+};
+
+export const videosManage = async (req, res) => {
+  const {
+    user: { _id },
+  } = req.session;
+
+  const videos = await Video.find({ owner: _id }).sort({ createdAt: -1 });
+
+  const formattedVideos = videos.map((video) => {
+    const uploadDate = new Date(video.createdAt);
+    const year = uploadDate.getFullYear().toString().padStart(4, "0");
+    const month = (uploadDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = uploadDate.getDate().toString().padStart(2, "0");
+    const formattedDate = `${year}. ${month}. ${day}`;
+
+    return { ...video._doc, formattedDate };
+  });
+
+  return res.render("videos/studio/videos-manage", {
+    pageTitle: "동영상 관리",
+    videos: formattedVideos,
+  });
+
+  return res.render("videos/studio/videos-manage", {
+    pageTitle: "동영상 관리",
+    videos,
+  });
+};
+
 export const getEdit = async (req, res) => {
   const { id } = req.params;
   const {
@@ -103,11 +179,12 @@ export const getEdit = async (req, res) => {
   if (String(video.owner) !== String(_id)) {
     return res.status(403).redirect("/");
   }
-  return res.render("videos/edit-video", {
+  return res.render("videos/studio/edit-video", {
     pageTitle: `Edit : ${video.title}`,
     video,
   });
 };
+
 export const postEdit = async (req, res) => {
   const { id } = req.params;
   const {
@@ -115,6 +192,9 @@ export const postEdit = async (req, res) => {
   } = req.session;
   const { title, description, hashtags } = req.body;
   const video = await Video.exists({ _id: id });
+
+  const trimmedDescription = description.replace(/^\n+|\n+$/g, "");
+
   if (!video) {
     return res
       .status(404)
@@ -129,44 +209,11 @@ export const postEdit = async (req, res) => {
   }
   await Video.findByIdAndUpdate(id, {
     title,
-    description,
+    description: trimmedDescription,
     hashtags: Video.formatHashtags(hashtags),
   });
   req.flash("success", "동영상 변경사항이 저장되었습니다.");
   return res.redirect(`/videos/${id}`);
-};
-
-export const getUpload = (req, res) => {
-  return res.render("videos/upload", { pageTitle: "Upload Video" });
-};
-export const postUpload = async (req, res) => {
-  const {
-    user: { _id },
-  } = req.session;
-  const { video, thumb } = req.files;
-  const { title, description, hashtags } = req.body;
-  const videoPath = video[0].path;
-  try {
-    const newVideo = await Video.create({
-      title,
-      description,
-      fileUrl: videoPath,
-      thumbUrl: thumb[0].path,
-      hashtags: Video.formatHashtags(hashtags),
-      owner: _id,
-    });
-
-    const user = await User.findById(_id);
-    user.videos.unshift(newVideo._id);
-    await user.save();
-    return res.redirect("/");
-  } catch (error) {
-    console.log("Upload Failed");
-    return res.status(400).render("videos/upload", {
-      pageTitle: "Upload Video",
-      errorMessage: "동영상 업로드 실패",
-    });
-  }
 };
 
 export const deleteVideo = async (req, res) => {
@@ -249,8 +296,4 @@ export const deleteComment = async (req, res) => {
   video.save();
 
   return res.sendStatus(201);
-};
-
-export const record = async (req, res) => {
-  return res.render("videos/recorder", { pageTitle: "Record" });
 };

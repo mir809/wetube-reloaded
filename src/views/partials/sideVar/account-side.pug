@@ -1,15 +1,13 @@
-
 div.side_var.account_side
     div.side_var_section
-        
         if selectManage
             a(href="/users/account/manage").side_var_btn.select
                 i.fas.fa-user-circle
-                span 홈
+                span 계정 관리
         else 
             a(href="/users/account/manage").side_var_btn
                 i.fas.fa-user-circle
-                span 홈
+                span 계정 관리
             
         if selectProfile
             a(href="/users/edit").side_var_btn.select

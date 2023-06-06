@@ -8,6 +8,8 @@ const fullSideVar = document.querySelector(".side_var-fullscreen");
 
 const mainContent = document.querySelector(".content");
 
+const searchForm = document.querySelector(".search_form");
+
 let isRotated = false;
 
 if (sideVarMini) {
@@ -111,6 +113,12 @@ const windowSize = () => {
       sideVarMini.classList.remove("hidden");
       mainContent.style.paddingLeft = "72px";
     }
+  }
+
+  if (windowWidth >= 650) {
+    searchForm.classList.remove("hidden");
+  } else {
+    searchForm.classList.add("hidden");
   }
 };
 

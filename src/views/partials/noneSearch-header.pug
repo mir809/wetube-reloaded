@@ -4,35 +4,40 @@ header
             i.fab.fa-youtube 
             span NewTube 
                 small KR
-        span 계정
-  
+        if logoTextAccount
+            span=logoTextAccount
+        if logoTextStudio
+            span=logoTextStudio
+
                 
     nav 
         ul  
             if loggedIn
-                li
-                    div.upload_btn
-                        i.fas.fa-upload
-                        div.upload_text 업로드
-                        div.upload_box.hidden
-                            a(href="/videos/upload") 
-                                i.fas.fa-file-video
-                                span 내 동영상 파일 업로드
-                            a(href="/videos/record") 
-                                i.fas.fa-video
-                                span 지금 촬영하기
+                
+                //-  li
+                        div.upload_btn
+                            i.fas.fa-upload
+                            div.upload_text 업로드
+                            div.upload_box.hidden
+                                a(href="/videos/upload") 
+                                    i.fas.fa-file-video
+                                    span 내 동영상 파일 업로드
+                                a(href="/videos/record") 
+                                    i.fas.fa-video
+                                    span 지금 촬영하기
 
 
                         
                 li 
                     div.menu
-                        if loggedInUser.socialOnly 
-                            img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
-                        else
-                            if loggedInUser.defaultAvartar
+                        div.menu_open_btn
+                            if loggedInUser.socialOnly 
                                 img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
                             else
-                                img.header_avatar(src="/" + loggedInUser.avatarUrl)
+                                if loggedInUser.defaultAvartar
+                                    img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
+                                else
+                                    img.header_avatar(src="/" + loggedInUser.avatarUrl)
                         div.menu_box.hidden
                             div.user_info
                                 if loggedInUser.socialOnly 
@@ -48,14 +53,15 @@ header
                                     //- account 페이지로 이동               
                             hr
                             div.menu-btn-list
+                                a.menu-btn(href=`/`) 
+                                    div.menu-btn-left
+                                        i.fas.fa-home
+                                        span NewTube 홈
                                 a.menu-btn(href=`/users/${loggedInUser._id}`) 
                                     div.menu-btn-left
                                         i.fas.fa-tv
                                         span 내 채널
-                                a.menu-btn(href="/users/edit") 
-                                    div.menu-btn-left
-                                        i.fas.fa-user-circle
-                                        span 프로필 수정
+                                
 
                                 a.menu-btn(href="/users/logout") 
                                     div.menu-btn-left

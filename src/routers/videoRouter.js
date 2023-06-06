@@ -8,26 +8,23 @@ import {
   postUpload,
   deleteVideo,
   record,
+  videosManage,
 } from "../controllers/videoController";
 
-import { Log_In_Only, Log_Out_Only, videoUpload } from "../middlewares";
+import {
+  Log_In_Only,
+  Log_Out_Only,
+  videoUpload,
+  logoTextStudio,
+} from "../middlewares";
 
 const videoRouter = express.Router();
 
 videoRouter.get("/:id([0-9a-f]{24})", watch);
-videoRouter
-  .route("/:id([0-9a-f]{24})/edit")
-  .all(Log_In_Only)
-  .get(getEdit)
-  .post(postEdit);
-videoRouter
-  .route("/:id([0-9a-f]{24})/delete")
-  .all(Log_In_Only)
-  .get(deleteVideo);
 
 videoRouter
   .route("/upload")
-  .all(Log_In_Only)
+  .all(Log_In_Only, logoTextStudio)
   .get(getUpload)
   .post(
     videoUpload.fields([
@@ -37,6 +34,19 @@ videoRouter
     postUpload
   );
 
-videoRouter.get("/record", record);
+videoRouter.get("/record", logoTextStudio, record);
+
+videoRouter.get("/manage", logoTextStudio, videosManage);
+
+videoRouter
+  .route("/:id([0-9a-f]{24})/edit")
+  .all(Log_In_Only, logoTextStudio)
+  .get(getEdit)
+  .post(postEdit);
+
+videoRouter
+  .route("/:id([0-9a-f]{24})/delete")
+  .all(Log_In_Only)
+  .get(deleteVideo);
 
 export default videoRouter;

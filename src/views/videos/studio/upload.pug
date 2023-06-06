@@ -1,0 +1,75 @@
+extends ../../base-studio
+
+
+block content 
+    div.studio_page.upload_page
+        h1.studio_page_title=pageTitle
+        if errorMessage 
+                span=errorMessage
+
+        form(method="post", enctype="multipart/form-data")
+            
+            div.file_select
+                div.file_select_column
+                    div#video_box.file_box
+                        div.center_circle
+                            i.fas.fa-plus
+                            small 원하시는 동영상 파일을 선택하세요
+                        video#selected_video(src="" )
+                    label.video_label(for="video" class="file-label") 영상 선택
+                        input(name="video" type="file" accept="video/*" id="video" required)
+                    small &#8251; 업로드 가능한 동영상 용량은 최대 50MB 입니다 &#8251;
+                    small &#8251; 영상 및 썸네일은 추후 변경이 불가능 합니다. &#8251;
+
+
+                    div.go_to_record
+                        span 동영상이 없으신가요?
+                        a(href="record") 지금 촬영하러 가기 &#10132;
+                    
+
+                    
+                div#thumb_column.file_select_column.hidden
+                    div#thumb_box.file_box
+                        div.center_circle
+                            i.fas.fa-plus
+                            small 원하시는 썸네일을 선택하세요
+                        img#selected_thumb.hidden
+                    label.thumb_label(for="thumb") 썸네일 선택
+                        input(name="thumb" type="file" accept="image/*" id="thumb" required) 
+                    small &#8251; 썸네일을 선택하지 않으면 업로드가 불가능 합니다 &#8251;
+                    small &#8251; 영상 및 썸네일의 가로•세로 비율은 7:4로 고정됩니다 &#8251;
+
+            
+            h1.studio_page_title 동영상 세부정보
+                small (동영상 세부정보는 추후 변경이 가능합니다.)
+
+            div.video_info_input
+                div.title_box
+                    span.area_header 제목 (필수 항목)
+                    textarea#title_area(name="title", required, maxlength=100)
+                    div.area_footer
+                        small &#8251; 영상 제목에는 줄 바꿈이 불가능 합니다 &#8251;
+                        div
+                            span#title_max 0
+                            span /100
+
+                div.des_box
+                    span.area_header 영상 설명
+                    textarea#des_area(name="description",  maxlength=2000)
+                    div.area_footer
+                        span#des_max 0
+                        span /2000
+                
+                div.hashtag_box
+                    span.area_header 해시 태그
+                    small 영상의 키워드가 될만한 단어를 입력해 보세요. 다른사용자가 영상을 찾을 때 도움이 될 수 있습니다.
+                    input(name="hashtags", placeholder="해시 태그를 쉼표(,)로 구분해 주세요.", )
+                div.error_box
+                    span#none_select
+                input.submit(type="submit", value="동영상 업로드")
+        
+        
+
+
+block scripts  
+    script(src="/ast/js/upload.js")

@@ -128,6 +128,10 @@ header {
     }
   }
 
+  .hidden {
+    display: none;
+  }
+
   nav {
     box-sizing: border-box;
     width: 230px;
@@ -215,7 +219,7 @@ header {
       }
 
       li {
-        margin-left: 25px;
+        margin-left: 20px;
         font-size: 16px;
 
         position: relative;
@@ -224,14 +228,16 @@ header {
 
         .menu {
           position: relative;
-
-          .header_avatar {
-            width: 40px;
-            height: 40px;
+          .menu_open_btn {
             border-radius: 50%;
             &:hover {
               cursor: pointer;
             }
+          }
+          .header_avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
           }
 
           .menu_box {
@@ -344,12 +350,6 @@ header {
         }
       }
     }
-    .login_btn {
-      background-color: $blue;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-    }
   }
 }
 
@@ -387,4 +387,70 @@ header nav ul li .upload_btn .hidden {
 
 .rotateReverse {
   animation: rotateAnimationReverse 0.3s ease-in-out forwards;
+}
+
+header {
+  nav {
+    height: max-content;
+    ul {
+      height: max-content;
+
+      li {
+        height: max-content;
+
+        .login_btn {
+          background-color: $bg;
+          border: 1px solid rgba($color: $color, $alpha: 0.1);
+          color: $blue;
+          height: 34px;
+          width: 95px;
+          border-radius: 20px;
+          box-sizing: border-box;
+
+          font-size: 14px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &:hover {
+            background-color: rgba($color: $blue, $alpha: 0.1);
+            border: none;
+          }
+
+          i {
+            font-size: 20px;
+          }
+          span {
+            margin-left: 10px;
+
+            display: flex;
+            align-items: center;
+          }
+        }
+
+        .not_login_menu {
+          .menu_open_btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:hover {
+              background-color: rgba($color: $color, $alpha: 0.1);
+            }
+
+            i {
+              font-size: 20px;
+            }
+          }
+
+          .menu_box {
+            padding-top: 8px;
+          }
+        }
+      }
+    }
+  }
 }

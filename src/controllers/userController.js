@@ -311,6 +311,7 @@ export const postAccountEdit = async (req, res) => {
       return res.status(400).render("users/account/edit-account", {
         pageTitle: "Edit Account",
         alreadyID: `이미 사용중인 아이디 입니다.`,
+        selectUserInfo,
       });
     }
   }
@@ -320,6 +321,7 @@ export const postAccountEdit = async (req, res) => {
       return res.status(400).render("users/account/edit-account", {
         pageTitle: "Edit Account",
         alreadyEmail: `이미 사용중인 이메일 입니다.`,
+        selectUserInfo,
       });
     }
   }
@@ -365,18 +367,21 @@ export const postChangePassword = async (req, res) => {
     return res.status(400).render("users/account/change-password", {
       pageTitle,
       wrongOldPass: "기존 비밀번호가 틀렸습니다. 다시 입력해주세요.",
+      selectPassChange,
     });
   }
   if (oldPass === newPass) {
     return res.status(400).render("users/account/change-password", {
       pageTitle,
       samePass: "새로운 비밀번호가 기존 비밀번호와 일치합니다.",
+      selectPassChange,
     });
   }
   if (newPass !== newPass2) {
     return res.status(400).render("users/account/change-password", {
       pageTitle,
       noneNewPass: "새로운 비밀번호 확인이 잘못되었습니다. 다시 입력해주세요.",
+      selectPassChange,
     });
   }
   _id;
@@ -417,6 +422,7 @@ export const postDeleteAccount = async (req, res) => {
       return res.status(400).render("users/account/delete-account", {
         pageTitle,
         wrongEmail: "이메일이 일치하지 않습니다.",
+        selectDelete,
       });
     }
   } else {
@@ -425,12 +431,14 @@ export const postDeleteAccount = async (req, res) => {
       return res.status(400).render("users/account/delete-account", {
         pageTitle,
         noneID: "아이디가 일치하지 않습니다.",
+        selectDelete,
       });
     }
     if (password !== password2) {
       return res.status(400).render("users/account/delete-account", {
         pageTitle,
         nonePass: `비밀번호 확인이 잘못되었습니다.`,
+        selectDelete,
       });
     }
     const passOk = await bcrypt.compare(password, user.password);
@@ -438,6 +446,7 @@ export const postDeleteAccount = async (req, res) => {
       return res.status(400).render("users/account/delete-account", {
         pageTitle,
         wrongPass: "비밀번호가 틀렸습니다.",
+        selectDelete,
       });
     }
   }
