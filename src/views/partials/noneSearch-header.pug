@@ -51,6 +51,12 @@ header
                                     //- account 페이지로 이동               
                             hr
                             div.menu-btn-list
+                                a.menu-btn(href=`/`) 
+                                    div.menu-btn-left
+                                        i.fas.fa-home
+                                        span NewTube 홈
+                                        
+                            div.menu-btn-list
                                 a.menu-btn(href=`/users/${loggedInUser._id}`) 
                                     div.menu-btn-left
                                         i.fas.fa-tv
