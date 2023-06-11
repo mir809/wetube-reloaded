@@ -3,41 +3,40 @@ const videoElement = document.getElementById("selected_video");
 const videoBox = document.getElementById("video_box");
 const thumbColumn = document.getElementById("thumb_column");
 
-videoInput.addEventListener("change", (event) => {
-  const file = event.target.files[0];
-  const videoURL = URL.createObjectURL(file);
-  videoElement.src = videoURL;
-  videoBox.style.border = "none";
-  thumbColumn.classList.remove("hidden");
-});
+if (videoInput) {
+  // videoInput 있을 때만 == upload 페이지에서만
+  videoInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    const videoURL = URL.createObjectURL(file);
+    videoElement.src = videoURL;
+    videoBox.style.border = "none";
+    thumbColumn.classList.remove("hidden");
+  });
 
-const thumbInput = document.getElementById("thumb");
-const thumbImage = document.getElementById("selected_thumb");
-const thumbBox = document.getElementById("thumb_box");
+  const thumbInput = document.getElementById("thumb");
+  const thumbImage = document.getElementById("selected_thumb");
+  const thumbBox = document.getElementById("thumb_box");
 
-thumbInput.addEventListener("change", () => {
-  const file = thumbInput.files[0];
-  const imageURL = URL.createObjectURL(file);
-  thumbBox.style.border = "none";
+  thumbInput.addEventListener("change", () => {
+    const file = thumbInput.files[0];
+    const imageURL = URL.createObjectURL(file);
+    thumbBox.style.border = "none";
 
-  thumbImage.src = imageURL;
-  thumbImage.classList.remove("hidden");
-});
+    thumbImage.src = imageURL;
+    thumbImage.classList.remove("hidden");
+  });
+}
 
 // 제목 입력칸
 const titleBox = document.querySelector(".title_box");
 const titleArea = document.getElementById("title_area");
 const titleMax = document.getElementById("title_max");
-const titleAreaHeigth = titleArea.scrollHeight + "px";
+const titleAreaHeight = titleArea.scrollHeight + "px";
 
-titleArea.style.height = titleAreaHeigth;
-
-titleBox.addEventListener("click", () => {
-  titleArea.focus();
-});
-
-titleArea.addEventListener("input", () => {
-  titleArea.style.height = titleAreaHeigth;
+titleArea.style.height = titleAreaHeight;
+// 텍스트 입력 시 이벤트 핸들러
+const handleTitleInput = () => {
+  titleArea.style.height = titleAreaHeight;
   titleArea.style.height = titleArea.scrollHeight + "px";
 
   let remainingChars = titleArea.value.length;
@@ -58,22 +57,26 @@ titleArea.addEventListener("input", () => {
 
   // 수정된 텍스트를 다시 입력란에 설정합니다.
   titleArea.value = modifiedText;
+};
+
+// 텍스트 입력 시 이벤트 핸들러를 직접 호출하여 초기화합니다.
+handleTitleInput();
+
+titleBox.addEventListener("click", () => {
+  titleArea.focus();
 });
 
-//영상 설명 입력칸
+titleArea.addEventListener("input", handleTitleInput);
+
+// 영상 설명 입력칸
 const desBox = document.querySelector(".des_box");
 const desArea = document.getElementById("des_area");
 const desMax = document.getElementById("des_max");
-const desAreaHeigth = desArea.scrollHeight + "px";
+const desAreaHeight = desArea.scrollHeight + "px";
 
-desArea.style.height = desAreaHeigth;
-
-desBox.addEventListener("click", () => {
-  desArea.focus();
-});
-
-desArea.addEventListener("input", () => {
-  desArea.style.height = desAreaHeigth;
+// 텍스트 입력 시 이벤트 핸들러
+const handleDesInput = () => {
+  desArea.style.height = desAreaHeight;
   desArea.style.height = desArea.scrollHeight + "px";
 
   let remainingChars = desArea.value.length;
@@ -82,8 +85,18 @@ desArea.addEventListener("input", () => {
     remainingChars -= 1;
   }
   desMax.textContent = remainingChars.toString();
+};
+
+// 텍스트 입력 시 이벤트 핸들러를 직접 호출하여 초기화합니다.
+handleDesInput();
+
+desBox.addEventListener("click", () => {
+  desArea.focus();
 });
 
+desArea.addEventListener("input", handleDesInput);
+
+// 해쉬태그 입력박스
 const hashtagBox = document.querySelector(".hashtag_box");
 const hashtagInput = hashtagBox.querySelector("input");
 
@@ -91,21 +104,33 @@ hashtagBox.addEventListener("click", () => {
   hashtagInput.focus();
 });
 
-const submit = document.querySelector(".submit");
-const errorMessage = document.getElementById("none_select");
+//-------------------- 동영상 수정 페이지---------------------
 
-submit.addEventListener("click", (event) => {
-  errorMessage.innerText = "";
-  // 아무것도 아니면 글씨 지워줌
+const video = document.querySelector("video");
+const totalTime = document.getElementById("totalTime");
 
-  if (!thumbInput.value) {
-    event.preventDefault(); // 폼 제출을 막음
+// 동영상 시간
+const formatTime = (seconds) => {
+  let N;
+  if (video.duration >= 36000) {
+    N = 11;
+  } else if (video.duration >= 3600) {
+    N = 12;
+  } else if (video.duration >= 600) {
+    N = 14;
+  } else {
+    N = 15;
+  } //동영상 전체시간(video.duration)기준으로 표시되는 시간단위 조절
+  return new Date(seconds * 1000).toISOString().substring(N, 19);
+};
 
-    errorMessage.innerText = "썸네일 이미지가 선택되지 않았습니다.";
-  }
-  if (!videoInput.value) {
-    event.preventDefault(); // 폼 제출을 막음
+const handleLoadedMetadata = () => {
+  totalTime.innerText = formatTime(Math.floor(video.duration));
+  // 영상 전체시간
+};
 
-    errorMessage.innerText = "동영상 파일이 선택되지 않았습니다.";
-  }
-});
+if (totalTime && video.readyState >= 2) {
+  handleLoadedMetadata();
+} else {
+  video.addEventListener("loadedmetadata", handleLoadedMetadata);
+}

@@ -1,10 +1,11 @@
 extends base
 
 block content 
-    h1=pageTitle
-    if video
-        span 해당 영상이 존재하지 않습니다. 주소가 잘못되었거나 삭제된 영상입니다.
-    if user
-        span 해당 사용자가 존재하지 않습니다. 주소가 잘못되었거나 삭제된 계정입니다.
+    div.undifind_page
+        h1=pageTitle
+        if noneVideo
+            span 해당 영상이 존재하지 않습니다. 주소가 잘못되었거나 영상 소유자에의해 삭제된 영상입니다.
+        if noneUser
+            span 해당 사용자가 존재하지 않습니다. 주소가 잘못되었거나 삭제된 계정입니다.
     
     

@@ -1,80 +1,20 @@
 
 div.side_var.account_side
     div.side_var_section
-        a(href="/studio/main").side_var_btn
+        a(href="/studio/main", class=selectStudioMain).side_var_btn
             i.fas.fa-film
             span NewTube 스튜디오
-        a(href="/videos/upload").side_var_btn
+        a(href="/videos/upload", class=selectUpload).side_var_btn
             i.fas.fa-upload
             span 동영상 업로드
-        a(href="/videos/record").side_var_btn
+        
+        a(href="/videos/record", class=selectRecord).side_var_btn
             i.fas.fa-video
             span 동영상 촬영
-        a(href="/videos/manage").side_var_btn
+        a(href="/videos/manage", class=selectVideosManage).side_var_btn
             i.fas.fa-file-video
             span 동영상 관리
-                   
-        
 
-        //-
-                    if selectManage
-                        a(href="/users/account/manage").side_var_btn.select
-                            i.fas.fa-user-circle
-                            span 홈
-                    else 
-                        a(href="/users/account/manage").side_var_btn
-                            i.fas.fa-user-circle
-                            span 홈
-                        
-                    if selectProfile
-                        a(href="/users/edit").side_var_btn.select
-                            i.fas.fa-id-card-alt
-                            span 프로필 수정
-                    else
-                        a(href="/users/edit").side_var_btn
-                            i.fas.fa-id-card-alt
-                            span 프로필 수정
-
-                    if !loggedInUser.socialOnly 
-                        if selectUserInfo
-                            a(href="/users/account/edit").side_var_btn.select
-                                i.fas.fa-address-card
-                                span 계정 정보 변경
-                        else 
-                            a(href="/users/account/edit").side_var_btn
-                                i.fas.fa-address-card
-                                span 계정 정보 변경
-
-                        if selectPassChange
-                            a(href="/users/account/change-password").side_var_btn.select
-                                i.fas.fa-key
-                                span 비밀번호 변경
-                        else
-                            a(href="/users/account/change-password").side_var_btn
-                                i.fas.fa-key
-                                span 비밀번호 변경
-
-                    else
-                        if selectUserInfo
-                            a(href="/users/account/edit").side_var_btn.select
-                                    i.fab.fa-github
-                                    span 계정 정보
-                        else
-                            a(href="/users/account/edit").side_var_btn
-                                    i.fab.fa-github
-                                    span 계정 정보
-
-                    if selectDelete
-                        a(href="/users/account/delete").side_var_btn.select
-                            i.fas.fa-user-times
-                            span 회원 탈퇴
-                    else 
-                        a(href="/users/account/delete").side_var_btn
-                            i.fas.fa-user-times
-                            span 회원 탈퇴
-
-
-        
     hr
     footer 
         

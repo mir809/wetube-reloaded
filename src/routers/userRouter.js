@@ -14,6 +14,7 @@ import {
   postChangePassword,
   getDeleteAccount,
   postDeleteAccount,
+  channelInfo,
 } from "../controllers/userController";
 
 import {
@@ -30,6 +31,7 @@ userRouter.get("/github/finish", Log_Out_Only, finishGithubLogin);
 userRouter.get("/logout", Log_In_Only, logout);
 
 userRouter.get("/:id([0-9a-f]{24})", channel);
+userRouter.get("/:id([0-9a-f]{24})/info", channelInfo);
 
 userRouter
   .route("/edit")

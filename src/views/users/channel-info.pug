@@ -1,7 +1,5 @@
 extends ../base.pug
 
-include ../mixins/videos-channel
-
 block content
 
     div.profile-page
@@ -33,18 +31,29 @@ block content
             a(href=`/users/${id}`, class=selectChannelHome).profile_nav_btn 홈
             a(href=`/users/${id}/info`, class=selectChannelInfo).profile_nav_btn 정보
 
-        div.user_videos
-            each videoInfo  in user.videos
-                +video(videoInfo)
-                
-                
-            else 
-                li 업로드된 동영상이 없습니다.
-    
-    
+        div.channel_info
+            div.channel_info_left
+                div
+                    h1 설명
+                    if user.chDiscription
+                        span.channel_info-des=user.chDiscription
+                    else
+                        span.none_des (채널 설명 없음)
+                div
+                    h1 세부정보
+                    if user.location
+                        span.channel_info-location 위치 : #{user.location}
+                    else
+                        span.channel_info-location 위치 : (알 수 없음)
+                    
+            div.channel_info_rigth
+                h1 통계
+                span 가입일 : #{joinDate}
+                span 총 조회수 : #{totalViews}회
+
     if smallPlayer
         include ../partials/smallPlayer
 
 block scripts
-    script(src="/ast/js/videosList.js")
     script(src="/ast/js/smallPlayer.js")
+

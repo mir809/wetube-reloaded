@@ -16,11 +16,12 @@ import {
   Log_Out_Only,
   videoUpload,
   logoTextStudio,
+  smallVideoDataReset,
 } from "../middlewares";
 
 const videoRouter = express.Router();
 
-videoRouter.get("/:id([0-9a-f]{24})", watch);
+videoRouter.get("/:id([0-9a-f]{24})", smallVideoDataReset, watch);
 
 videoRouter
   .route("/upload")

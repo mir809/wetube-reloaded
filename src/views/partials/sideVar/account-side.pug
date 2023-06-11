@@ -1,60 +1,30 @@
 div.side_var.account_side
     div.side_var_section
-        if selectManage
-            a(href="/users/account/manage").side_var_btn.select
-                i.fas.fa-user-circle
-                span 계정 관리
-        else 
-            a(href="/users/account/manage").side_var_btn
-                i.fas.fa-user-circle
-                span 계정 관리
-            
-        if selectProfile
-            a(href="/users/edit").side_var_btn.select
-                i.fas.fa-id-card-alt
-                span 프로필 수정
-        else
-            a(href="/users/edit").side_var_btn
-                i.fas.fa-id-card-alt
-                span 프로필 수정
+        a(href="/users/account/manage", class=selectManage).side_var_btn
+            i.fas.fa-user-circle
+            span 계정 관리
+
+        a(href="/users/edit", class=selectProfile).side_var_btn
+            i.fas.fa-id-card-alt
+            span 프로필 수정
 
         if !loggedInUser.socialOnly 
-            if selectUserInfo
-                a(href="/users/account/edit").side_var_btn.select
-                    i.fas.fa-address-card
-                    span 계정 정보 변경
-            else 
-                a(href="/users/account/edit").side_var_btn
-                    i.fas.fa-address-card
-                    span 계정 정보 변경
+            a(href="/users/account/edit", class=selectUserInfo).side_var_btn
+                i.fas.fa-address-card
+                span 계정 정보 변경
 
-            if selectPassChange
-                a(href="/users/account/change-password").side_var_btn.select
-                    i.fas.fa-key
-                    span 비밀번호 변경
-            else
-                a(href="/users/account/change-password").side_var_btn
-                    i.fas.fa-key
-                    span 비밀번호 변경
+            a(href="/users/account/change-password", class=selectPassChange).side_var_btn
+                i.fas.fa-key
+                span 비밀번호 변경
 
         else
-            if selectUserInfo
-                a(href="/users/account/edit").side_var_btn.select
-                        i.fab.fa-github
-                        span 계정 정보
-            else
-                a(href="/users/account/edit").side_var_btn
-                        i.fab.fa-github
-                        span 계정 정보
+            a(href="/users/account/edit", class=selectUserInfo).side_var_btn
+                    i.fab.fa-github
+                    span 계정 정보
 
-        if selectDelete
-            a(href="/users/account/delete").side_var_btn.select
-                i.fas.fa-user-times
-                span 회원 탈퇴
-        else 
-            a(href="/users/account/delete").side_var_btn
-                i.fas.fa-user-times
-                span 회원 탈퇴
+        a(href="/users/account/delete", class=selectDelete).side_var_btn
+            i.fas.fa-user-times
+            span 회원 탈퇴
 
 
 

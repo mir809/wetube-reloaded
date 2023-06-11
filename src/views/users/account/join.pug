@@ -23,17 +23,17 @@ block content
                 small 실제 이메일을 입력해야 하나요?
                     span 아니요, 이메일 형식에만 맞춰서 입력하시면 됩니다.
             div.input_box 
-                input(name="username",id="ID",value=username,required )
+                input(name="username",id="ID",value=username,required ,minlength=6)
                 label(for="ID").placeholder 로그인 아이디 (6자리 이상)
                 if alreadyID
                     span.error_message=alreadyID
                 span 로그인 시에 사용되는 아이디 입니다. 
             div.input_box 
-                input(name="password",id="pass",required , type="password")
+                input(name="password",id="pass",required , type="password" ,minlength=7)
                 label(for="pass").placeholder 비밀번호 (7자리 이상)
             
             div.input_box 
-                input(name="password2",id="pass2",required , type="password")
+                input(name="password2",id="pass2",required , type="password" ,minlength=7)
                 label(for="pass2").placeholder 비밀번호 확인
                 if nonePass
                     span.error_message=nonePass

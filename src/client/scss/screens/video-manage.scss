@@ -46,7 +46,7 @@
         background-color: $bg;
         display: flex;
         align-items: center;
-        font-size: 12px;
+        font-size: 14px;
 
         padding: 5px 10px;
         border-left: 1px solid rgba($color: $color, $alpha: 0.2);
@@ -131,6 +131,7 @@
         }
 
         .video_des {
+          font-size: 13px;
           margin: 10px 0;
           line-height: 1.2;
           -webkit-line-clamp: 2; /* 최대 2줄까지 표시 */

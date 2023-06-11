@@ -14,10 +14,15 @@ html(lang="ko")
         link(rel="shortcut icon" href="https://www.youtube.com/s/desktop/286e6262/img/favicon.ico" type="image/x-icon")
         link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" )
         link(rel="stylesheet" href="/ast/css/styles.css" )
-        
+
+        //-    if Theme === "white"
+                link(rel="stylesheet" href="/ast/css/styles.css" )
+            else
+                link(rel="stylesheet" href="/ast/css/styles-black.css" )
+
         
 
-    body
+    body(data-id=Theme)
         if messages.error 
             +message("error", messages.error)
         if messages.info 
@@ -28,13 +33,17 @@ html(lang="ko")
         include partials/header
         include partials/sideVar/main
 
+        include partials/keyboard-shortcut
 
         main.content
-            
-
             block content   
-            
-        
+  
+    //-    if Theme === "white"
+            script(src="/ast/js/main.js")
+        else 
+            script(src="/ast/js/mainBlack.js")
+
+
     script(src="/ast/js/main.js")
     script(src="/ast/js/sideVar.js")
     script(src="/ast/js/header.js")

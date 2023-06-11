@@ -2,6 +2,13 @@ extends ../base-hideSideVar
 
 include ../mixins/videos-relation
 block content
+    if smallVideoTime
+        div#dummy_box1(data-id=Boolean(smallVideoMuted) )
+        div#dummy_box2(data-id=Boolean(smallVideoDummyMute))
+        div#dummy_box3(data-id=smallVideoVolume)
+        div#dummy_box4(data-id=smallVideoTime)
+
+    
     div.watch_page
         div.watch_video
             div#videoBox(data-id=video._id)
@@ -24,7 +31,9 @@ block content
                     div.display_change_circle
                         i.fas.fa-volume-up
                     span.now_volume 
-                video(src="/"+video.fileUrl)
+              
+                video(src="/"+video.fileUrl, data-id=Boolean(smallVideoPaused))
+                
                 div#videoControler.videoControler.showing
                     input#timeline.videoControls__timeline(type="range",step="1", value="0", min="0")
                     div.control_Btns
@@ -50,7 +59,7 @@ block content
                             
                                 
                         div.control_Btns-rigth
-                            a#smallPlayer(href=`/small/${video._id}/`)
+                            div#smallPlayer
                                 i.fas.fa-compress-alt
                                 div.text_box 소형 플레이어(i)
  
@@ -112,7 +121,11 @@ block content
                                 - const tagValue = hashtag.slice(1)
                                 a.hashtag(href=`/hashtag/${tagValue}`)=hashtag
                     div.video_des
-                        span=video.description
+                        if video.description
+                            span=video.description
+                        else
+                            span.none_des (영상 설명 없음)
+
                     
         div.relation_videos_center
             if !relationVideos
@@ -121,14 +134,7 @@ block content
                 each videoInfo  in relationVideos.slice(0, 10)
                     //- 비디오 10개까지만 표시                                    
                     +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)   
-                    +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)         
+                           
                     
                 
                     
@@ -158,6 +164,7 @@ block content
             
             div.video_comments
                 ul 
+                    span.none_comments.hidden 아직 작성된 댓글이 없습니다. 첫번째 댓글을 작성해주세요.
                     each comment in video.comments.reverse()
                         li.video_comment(data-id=comment._id)
                             a(href=`/users/${comment.owner._id}`)
@@ -199,18 +206,15 @@ block content
                                             div.comment_menu_btn
                                                 i.fas.fa-flag
                                                 span 댓글 신고
-                           
-                                   
 
-
+                        
     div.relation_videos_side
         if !relationVideos
             span 연관 동영상이 없습니다 
         else
             each videoInfo  in relationVideos
                 +video(videoInfo)
-                +video(videoInfo)
-                +video(videoInfo)
+                
 
 
 

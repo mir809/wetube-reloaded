@@ -1,27 +1,47 @@
 @keyframes goAway {
   from {
-    transform: none;
+    transform: translateX(-50%);
     opacity: 1;
   }
   to {
-    transform: translateY(-100px);
+    transform: translateX(-50%) translateY(-100px);
     opacity: 0;
   }
 }
 
 .message {
-  position: absolute;
-  top: 10px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  max-width: 200px;
-  padding: 10px 20px;
-  border-radius: 100px;
+  z-index: 1999;
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 400px;
+  padding: 15px 20px;
+  border-radius: 15px;
   animation: goAway 0.5s ease-in-out forwards;
   animation-delay: 3s;
+
+  color: $color;
+  background-color: $bg;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  line-height: 1.2;
+  overflow-wrap: break-word;
+
   &.error {
-    background-color: tomato;
-    color: white;
+    // 사용자 행동 오류
+    border: 5px solid rgba($color: $red, $alpha: 0.5);
+  }
+  &.success {
+    // 생성 or 제거
+    border: 5px solid rgba($color: $blue, $alpha: 0.5);
+  }
+  &.info {
+    // 변경
+    border: 5px solid rgba($color: green, $alpha: 0.6);
   }
 }

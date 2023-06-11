@@ -7,12 +7,7 @@ import {
   postLogin,
 } from "../controllers/userController";
 
-import {
-  home,
-  search,
-  showSmallPlayer,
-  studioMain,
-} from "../controllers/videoController";
+import { home, search, studioMain } from "../controllers/videoController";
 
 import { Log_In_Only, Log_Out_Only, logoTextStudio } from "../middlewares";
 
@@ -22,8 +17,6 @@ rootRouter.get("/", home);
 rootRouter.route("/join").all(Log_Out_Only).get(getJoin).post(postJoin);
 rootRouter.route("/login").all(Log_Out_Only).get(getLogin).post(postLogin);
 rootRouter.get("/search", search);
-
-rootRouter.get("/small/:id([0-9a-f]{24})", showSmallPlayer);
 
 rootRouter.get("/studio/main", logoTextStudio, studioMain);
 

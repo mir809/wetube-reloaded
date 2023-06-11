@@ -26,31 +26,12 @@ const loadedMetaData = () => {
 };
 
 mixinVideo.forEach((video) => {
-  video.addEventListener("loadedmetadata", loadedMetaData);
+  if (video.readyState >= 2) {
+    loadedMetaData();
+  } else {
+    video.addEventListener("loadedmetadata", loadedMetaData);
+  }
 });
-
-const smallPlayer = document.querySelector(".small_player");
-const smallVideo = document.querySelector(".small_player video");
-const smallPlayeClearBtn = document.getElementById("smallPlayeClear");
-
-if (smallPlayer) {
-  //소형 플레이어가 존재 할 경우에만 작동
-  const smallPlayeClear = async (event) => {
-    const response = await fetch(`/api/small/clear`, {
-      method: "post",
-    });
-    if (response.status === 201) {
-      const delsmall = event.target.parentElement;
-      delsmall.remove();
-    }
-  };
-
-  smallPlayeClearBtn.addEventListener("click", smallPlayeClear);
-
-  const time = smallPlayer.dataset.id;
-
-  smallVideo.currentTime = time;
-}
 
 const homeVideoMixin = document.querySelectorAll(".home-video-mixin");
 const userVideoMixin = document.querySelectorAll(".user-video-mixin");

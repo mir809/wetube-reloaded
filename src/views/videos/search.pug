@@ -13,18 +13,13 @@ block content
             div.search_videos
                 each videoInfo  in videos
                     +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)
-                    +video(videoInfo)
+                    
                             
                 else 
-                    li 업로드된 동영상이 없습니다.
+                    li 관련 영상을 찾을 수 없습니다.
             if smallPlayer
                 include ../partials/smallPlayer
 
 block scripts
     script(src="/ast/js/videosList.js")
+    script(src="/ast/js/smallPlayer.js")

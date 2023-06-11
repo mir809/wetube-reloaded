@@ -4,10 +4,14 @@ import {
   createComment,
   deleteComment,
   deleteSmallPlayer,
-  nowTime,
+  showSmallPlayer,
+  returnWatchPage,
 } from "../controllers/videoController";
 
-import { changeDefaultAvatar } from "../controllers/userController";
+import {
+  changeDefaultAvatar,
+  themeChange,
+} from "../controllers/userController";
 
 const apiRouter = express.Router();
 
@@ -20,7 +24,12 @@ apiRouter
 
 apiRouter.post("/users/edit/avatar", changeDefaultAvatar);
 
-apiRouter.post("/small/time", nowTime);
+apiRouter.post("/small-player/:id([0-9a-f]{24})", showSmallPlayer);
 apiRouter.post("/small/clear", deleteSmallPlayer);
+// 소형 플레이어 생성, 제거
+apiRouter.post("/return-watch/:id([0-9a-f]{24})", returnWatchPage);
+// 영상 시청 화면으로 복귀
+
+apiRouter.post("/theme/:id", themeChange);
 
 export default apiRouter;

@@ -1,10 +1,55 @@
 extends ../../base-studio
 
 block content
-    h4 Update Video
-    form(method="post") 
-        input(name="title", placeholder="Change Title", value=video.title, required)
-        input(name="description", placeholder="Description", value=video.description, required, minlength=20)
-        input(name="hashtags", placeholder="Hashtags, separated by comma.",value=video.hashtags.join(), )
+        div.studio_page.video-edit_page
 
-        input(value="Save", type="submit")
+            h1.studio_page_title 현재 동영상 정보
+            div.now_video_info
+                div.video_and_thumb_display
+                    div.video_box
+                        h1 동영상
+                        video(src="/"+video.fileUrl) 
+                        div.video_time
+                            span 영상 길이(전체시간) |  
+                            span#totalTime
+                    div.thumb_box
+                        h1 썸네일
+                        img(src="/"+video.thumbUrl )
+                div.meta_data
+                    span.video_create 동영상 게시일 : #{video.formattedDate}
+                    span.video_view 영상 조회수 : #{video.meta.views}회
+                    span.video_comments 영상 댓글수 : #{video.comments.length}개
+    
+
+            h1.studio_page_title 동영상 세부정보 수정
+
+            form(method="post")
+
+                div.video_info_input
+                    div.title_box
+                        span.area_header 제목 (필수 항목)
+                        textarea#title_area(name="title", required, maxlength=100)=video.title
+                        div.area_footer
+                            small &#8251; 영상 제목에는 줄 바꿈이 불가능 합니다 &#8251;
+                            div
+                                span#title_max 0
+                                span /100
+
+                    div.des_box
+                        span.area_header 영상 설명
+                        textarea#des_area(name="description",  maxlength=2000)=video.description 
+                        div.area_footer
+                            span#des_max 0
+                            span /2000
+                    
+                    div.hashtag_box
+                        span.area_header 해시 태그
+                        small 영상의 키워드가 될만한 단어를 입력해 보세요. 다른사용자가 영상을 찾을 때 도움이 될 수 있습니다.
+                        input(name="hashtags",value=video.hashtags.join(), placeholder="해시 태그를 쉼표(,)로 구분해 주세요.", )
+                    div.error_box
+                        span#none_select
+                    input.submit(type="submit", value="동영상 정보 업데이트")
+
+
+block scripts  
+    script(src="/ast/js/upload.js")

@@ -18,7 +18,7 @@ const videoSchema = new mongoose.Schema({
 });
 
 videoSchema.static("formatHashtags", function (hashtags) {
-  if (hashtags.trim() === "") {
+  if (!hashtags || hashtags.trim() === "") {
     return [];
   }
   const formattedHashtags = hashtags

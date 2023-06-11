@@ -5,17 +5,18 @@ const BASE_JS = "./src/client/js/";
 
 module.exports = {
   entry: {
-    main: BASE_JS + "main.js",
-    videoPlayer: BASE_JS + "videoPlayer.js",
-    recorder: BASE_JS + "recorder.js",
     commentSection: BASE_JS + "commentSection.js",
     editProfile: BASE_JS + "editProfile.js",
-    videosList: BASE_JS + "videosList.js",
-    sideVar: BASE_JS + "sideVar.js",
-    header: BASE_JS + "header.js",
     forms: BASE_JS + "forms.js",
-    videoInfo: BASE_JS + "videoInfo.js",
+    header: BASE_JS + "header.js",
+    main: BASE_JS + "main.js",
+    recorder: BASE_JS + "recorder.js",
+    sideVar: BASE_JS + "sideVar.js",
+    smallPlayer: BASE_JS + "smallPlayer.js",
     upload: BASE_JS + "upload.js",
+    videoInfo: BASE_JS + "videoInfo.js",
+    videoPlayer: BASE_JS + "videoPlayer.js",
+    videosList: BASE_JS + "videosList.js",
   },
   plugins: [
     new MiniCssExtractPlugin({

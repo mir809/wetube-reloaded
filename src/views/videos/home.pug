@@ -9,17 +9,10 @@ block content
     div.home_videos
         each videoInfo  in randomVideos
             +video(videoInfo)
-            +video(videoInfo)
-            +video(videoInfo)
-            +video(videoInfo)
-            +video(videoInfo)
-        
-           
-
-          
-                    
+                     
         else 
             li 업로드된 동영상이 없습니다.
+
     if smallPlayer
         include ../partials/smallPlayer
         
@@ -27,3 +20,5 @@ block content
 
 block scripts
     script(src="/ast/js/videosList.js")
+    script(src="/ast/js/smallPlayer.js")
+

@@ -25,8 +25,6 @@ header
                                 a(href="/videos/record") 
                                     i.fas.fa-video
                                     span 지금 촬영하기
-
-
                         
                 li 
                     div.menu
@@ -38,8 +36,8 @@ header
                                     img.header_avatar(src=loggedInUser.avatarUrl,crossorigin)
                                 else
                                     img.header_avatar(src="/" + loggedInUser.avatarUrl)
-                        div.menu_box.hidden
-                            div.user_info
+                        div#menuBox.menu_box.hidden
+                            div.menu_box_header
                                 if loggedInUser.socialOnly 
                                     img.user_info_avatar(src=loggedInUser.avatarUrl,crossorigin)
                                 else
@@ -53,38 +51,58 @@ header
                                     //- account 페이지로 이동               
                             hr
                             div.menu-btn-list
-                                a.menu-btn(href=`/`) 
-                                    div.menu-btn-left
-                                        i.fas.fa-home
-                                        span NewTube 홈
                                 a.menu-btn(href=`/users/${loggedInUser._id}`) 
                                     div.menu-btn-left
                                         i.fas.fa-tv
                                         span 내 채널
+                                a.menu-btn(href="/users/edit") 
+                                    div.menu-btn-left
+                                        i.fas.fa-user-circle
+                                        span 프로필 수정
+                                a.menu-btn(href="/studio/main")
+                                    div.menu-btn-left
+                                        i.fas.fa-film
+                                        span NewTube 스튜디오
                                 
 
                                 a.menu-btn(href="/users/logout") 
                                     div.menu-btn-left
                                         i.fas.fa-door-open
                                         span 로그아웃
+                                
 
                                 hr
-                                span.not-working &#8251; 미구현 기능 &#8251;
-                                div.menu-btn 
-                                    div.menu-btn-left
-                                        i.fas.fa-cog
-                                        span 설정
-                                div.menu-btn
-                                    div.menu-btn-left
-                                        i.fas.fa-keyboard
-                                        span 단축키
                                 div.menu-btn
                                     div.menu-btn-left
                                         i.fas.fa-globe
                                         if loggedInUser.location
                                             span 위치 : #{loggedInUser.location}
                                         else 
-                                            span 위치 : 알수없음
+                                            span 위치 : (알 수 없음)
+
+                                div.menu-btn#shortcutBtn
+                                    div.menu-btn-left
+                                        i.fas.fa-keyboard
+                                        span 단축키 설명서
+                                div.menu-btn#themaSelectBtn
+                                    div.menu-btn-left
+                                        i.fas.fa-moon
+                                        if Theme === "white"
+                                            span 테마 : 밝은 테마
+                                        else 
+                                            span 테마 : 어두운 테마
+                                    div.menu-btn-right
+                                        i.fas.fa-chevron-right
+                                
+
+                                hr
+                                span.none_function &#8251; 미구현 기능 &#8251;
+                                div.menu-btn 
+                                    div.menu-btn-left
+                                        i.fas.fa-cog
+                                        span 설정
+                                
+                                
                                     div.menu-btn-right
                                         i.fas.fa-chevron-right
                                 div.menu-btn
@@ -93,12 +111,32 @@ header
                                         span 언어 : 한국어 
                                     div.menu-btn-right
                                         i.fas.fa-chevron-right
-                                div.menu-btn
-                                    div.menu-btn-left
-                                        i.fas.fa-moon
-                                        span 테마 : 밝은 테마
-                                    div.menu-btn-right
-                                        i.fas.fa-chevron-right
+                                
+                        
+                        div#themaSelector.menu_box.hidden
+                            div.menu_box_header 
+                                i.fas.fa-chevron-left#backIcon
+                                span 테마 설정
+                            hr
+                            div.menu-btn-list
+                                if Theme === "white"
+                                    div#white.menu-btn.select
+                                        div.menu-btn-left
+                                            i.fas.fa-check
+                                            span 밝은 테마 
+                                    div#black.menu-btn
+                                        div.menu-btn-left
+                                            i.fas.fa-check
+                                            span 어두운 테마
+                                else 
+                                    div#white.menu-btn
+                                        div.menu-btn-left
+                                            i.fas.fa-check
+                                            span 밝은 테마 
+                                    div#black.menu-btn.select
+                                        div.menu-btn-left
+                                            i.fas.fa-check
+                                            span 어두운 테마
                                 
 
 

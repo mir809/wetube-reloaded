@@ -2,7 +2,7 @@
   position: fixed;
   top: 60px;
 
-  z-index: 9;
+  z-index: 888;
   left: 0;
 
   display: flex;
@@ -17,7 +17,7 @@
   padding: 0px 12px;
   box-sizing: border-box;
 
-  background-color: white;
+  background-color: $bg;
 
   &::-webkit-scrollbar {
     width: 8px; // 스크롤 바의 너비
@@ -47,7 +47,7 @@
     }
   }
   .side_var_section {
-    margin: 12px 0;
+    margin: 0px 0;
     width: 100%;
 
     .side_var_btn {
@@ -147,13 +147,20 @@
 
     z-index: 191;
 
+    .side_var_section {
+      margin: 0;
+    }
+
     .header_left {
       font-family: "Roboto", sans-serif;
       display: flex;
       width: 100%;
       align-items: center;
       height: 60px;
-      margin: 10px 0;
+      min-height: 60px;
+
+      box-sizing: border-box;
+
       .side-var_OnOff-btn {
         display: flex;
         align-items: center;

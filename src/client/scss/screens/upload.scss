@@ -1,4 +1,5 @@
-.upload_page {
+.upload_page,
+.video-edit_page {
   .file_select {
     display: flex;
 
@@ -284,6 +285,56 @@
       &:hover {
         color: $bg;
         background-color: $blue;
+      }
+    }
+  }
+}
+
+.video-edit_page {
+  .now_video_info {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .video_and_thumb_display {
+      display: flex;
+
+      .video_box,
+      .thumb_box {
+        display: flex;
+        flex-direction: column;
+
+        video,
+        img {
+          border: 3px solid rgba($color: $color, $alpha: 0.5);
+
+          height: 200px;
+          width: 350px;
+          margin-top: 10px;
+          margin-right: 20px;
+
+          object-fit: cover;
+        }
+
+        h1 {
+          font-size: 20px;
+          font-weight: 600;
+        }
+        .video_time {
+          margin-top: 10px;
+        }
+      }
+    }
+
+    .meta_data {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+
+      span {
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 5px;
       }
     }
   }

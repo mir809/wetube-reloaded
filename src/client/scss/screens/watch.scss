@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 95%;
 
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 .watch_video {
@@ -238,6 +238,10 @@
         white-space: pre-wrap;
         word-wrap: break-word; //줄넘김
         line-height: 1.5;
+
+        .none_des {
+          color: rgba($color: $color, $alpha: 0.7);
+        }
       }
     }
   }
@@ -346,6 +350,20 @@
     flex-direction: column;
     width: 100%;
     margin: 0 auto;
+    margin-bottom: 20px;
+
+    .none_comments {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+
+      &.hidden {
+        display: none;
+        color: rgba($color: $color, $alpha: 0.8);
+      }
+    }
+
     .video_comment {
       margin-top: 20px;
 

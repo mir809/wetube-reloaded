@@ -1,0 +1,120 @@
+.shortcut {
+  position: fixed;
+  z-index: 1004;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba($color: $color, $alpha: 0.3);
+
+  .shortcut_box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: $bg;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 70%;
+    height: 80%;
+    box-sizing: border-box;
+
+    .box_header {
+      width: 100%;
+      height: 70px;
+      box-sizing: border-box;
+
+      display: flex;
+      align-items: center;
+
+      font-size: 25px;
+      padding: 25px;
+    }
+
+    .box_main {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 0;
+
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      overflow-y: auto;
+
+      .column {
+        width: 50%;
+        max-width: 100%;
+        min-width: 450px;
+
+        padding: 0 15px;
+        box-sizing: border-box;
+
+        display: flex;
+        flex-direction: column;
+
+        .column_title {
+          padding: 20px 8px;
+        }
+
+        .row {
+          width: 100%;
+          padding: 12px 0;
+
+          border-top: 1px solid rgba($color: $color, $alpha: 0.1);
+
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          font-size: 14px;
+
+          span {
+            display: flex;
+
+            width: 60%;
+            margin-left: 8px;
+            line-height: 1.4;
+
+            color: rgba($color: $color, $alpha: 0.7);
+          }
+          small {
+            display: flex;
+            width: 25%;
+            margin-right: 8px;
+            line-height: 1.2;
+          }
+        }
+      }
+    }
+
+    .box_footer {
+      width: 100%;
+      height: 55px;
+      box-sizing: border-box;
+
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      padding: 0 10px;
+
+      .close_btn {
+        font-size: 15px;
+        color: $blue;
+
+        padding: 10px 15px;
+        border-radius: 50px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba($color: $blue, $alpha: 0.2);
+        }
+      }
+    }
+  }
+}

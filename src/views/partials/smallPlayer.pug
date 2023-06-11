@@ -1,3 +1,52 @@
 div.small_player(data-id=smallVideoTime)
-            video(src="/"+smallVideo.fileUrl, )
-            button#smallPlayeClear ❌
+    div#dummy_box1(data-id=Boolean(smallVideoMuted) )
+    div#dummy_box2(data-id=smallVideoVolume)
+    div#dummy_box3(data-id=Boolean(smallVideoDummyMute))
+
+    div.dispaly_box
+        
+        video(src="/"+smallVideo.fileUrl, data-id=Boolean(smallVideoPaused))
+
+        div.videoControler
+            div.display_change_row
+                div.display_change_circle
+                    span 5초
+                    div.triple_arrow
+                        i.fas.fa-caret-left
+                        i.fas.fa-caret-left
+                        i.fas.fa-caret-left
+                div.display_change_circle
+                    i.fas.fa-play
+                div.display_change_circle
+                    span 5초
+                    div.triple_arrow
+                        i.fas.fa-caret-right
+                        i.fas.fa-caret-right
+                        i.fas.fa-caret-right
+            div.display_change_column
+                div.display_change_circle
+                    i.fas.fa-volume-up
+                span.now_volume 
+            div.top_var
+                div#returnWatch(data-id=smallVideoId)
+                    i.fas.fa-external-link-alt
+                    div.text_box 확장(i)
+
+                div#smallPlayerDelete
+                    i.fas.fa-times
+                    div.text_box 플레이어 끄기
+
+            div.center_var
+                span#play.videoControls__playBtn
+                    i.fas.fa-play
+                    div.text_box 재생(Space)
+                   
+            div.videoControls__time
+                span#currentTime
+                span &nbsp;/&nbsp;
+                span#totalTime 
+                            
+        input#timeline.videoControls__timeline(type="range",step="1", value="0", min="0")
+    div.info_box
+        h1=smallVideo.title
+        a(href=`/users/${smallVideo.owner._id}`)=smallVideo.owner.name

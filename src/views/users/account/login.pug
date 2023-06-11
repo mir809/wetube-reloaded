@@ -11,12 +11,12 @@ block content
                 span NewTube 로그인
                 a(href="/") NewTube 바로가기 &#10132;
             div.input_box 
-                input(name="username",id="ID",value=username,required )
+                input(name="username",id="ID",value=username,required , )
                 label(for="ID").placeholder 아이디
                 if noneID
                     span.error_message=noneID
             div.input_box 
-                input(name="password",id="pass",required , type="password")
+                input(name="password",id="pass",required , type="password" )
                 label(for="pass").placeholder 비밀번호
                 if wrongpass
                     span.error_message=wrongpass

@@ -1,3 +1,5 @@
+const videoBox = document.getElementById("videoBox");
+
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
 const playBtnIcon = playBtn.querySelector("i");
@@ -13,6 +15,9 @@ let volumeValue = 0.5; // 볼륨 초기값
 video.volume = volumeValue; // 영상의 실제 소리
 let DummyMute = false;
 
+let roundValue;
+// volumeValue에 값이 이상한 소수점으로 변하는 현상 방지
+
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const timeline = document.getElementById("timeline");
@@ -23,13 +28,11 @@ const fullScreenBtn = document.getElementById("fullScreen");
 const fullScreenIcon = fullScreenBtn.querySelector("i");
 const fullScreenText = fullScreenBtn.querySelector(".text_box");
 
-const videoBox = document.getElementById("videoBox");
-
 const videoControler = document.getElementById("videoControler");
 
 let controlsTimeout = null; // 컨트롤러
 let backAndForwardTimeout = null; // 시간 앞,뒤로가기 표시
-let centerDisplayTimeout; //음소거,해제 or 재생,정지
+let centerDisplayTimeout; // 음소거,해제 or 재생,정지
 
 const redColor = getComputedStyle(document.documentElement).getPropertyValue(
   "--red-color"
@@ -49,9 +52,6 @@ const muteCircle = ChangeCircles[3];
 const muteCircleIcon = muteCircle.querySelector("i");
 const nowVolume = document.querySelector(".now_volume");
 
-const changRow = document.querySelector(".display_change_row");
-const changColumn = document.querySelector(".display_change_column");
-
 // 영상 재생/일시정지
 const clickPlayBtn = () => {
   centerdisplay(playCircle);
@@ -64,10 +64,12 @@ const clickPlayBtn = () => {
   playBtnText.innerText = video.paused ? "재생(Space)" : "일시중지(Space)";
 
   showingClassAddOrRemove();
-}; //버튼 클릭시
+};
 
 // 음량 - 음소거 버튼, 볼륨 막대
 const clickMuteBtn = (event) => {
+  videoBox.removeEventListener("click", clickPlayBtn);
+
   if (video.muted) {
     video.muted = false;
     DummyMute = false;
@@ -89,7 +91,9 @@ const clickMuteBtn = (event) => {
   centerdisplay(muteCircle);
   showNowVolume();
 
-  event.stopPropagation();
+  videoBox.addEventListener("click", clickPlayBtn);
+
+  //event.stopPropagation();
 };
 
 const volumeInput = (event) => {
@@ -104,8 +108,12 @@ const volumeInput = (event) => {
     muteBtnText.innerText = "음소거 해제(m)";
 
     video.muted = true;
+    DummyMute = true;
+    // 바 조절에 의한 음소거..
   } else {
     video.muted = false;
+    DummyMute = false;
+
     muteBtnIcon.classList = "fas fa-volume-up";
     muteCircleIcon.classList = "fas fa-volume-up";
     muteBtnText.innerText = "음소거(m)";
@@ -147,13 +155,10 @@ const formatTime = (seconds) => {
 };
 
 const timeUpdate = async () => {
+  // 비디오 재생시 현재시간 표시
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
 
-  totalTime.innerText = formatTime(Math.floor(video.duration));
-  // 영상 전체시간
-
   timeline.value = Math.floor(video.currentTime);
-  timeline.max = await Math.floor(video.duration);
 
   timelineColor();
 };
@@ -193,14 +198,8 @@ const fullScreenClick = (event) => {
   //현재 전체화면상태인지 파악
   if (fullScreen) {
     document.exitFullscreen(); //전체화면 해제
-    fullScreenIcon.classList = "fas fa-expand";
-    fullScreenText.innerText = "전체화면(f)";
-    videoControler.style.bottom = `0px`;
   } else {
     videoBox.requestFullscreen(); // 전체화면으로 변경
-    fullScreenIcon.classList = "fas fa-compress";
-    fullScreenText.innerText = "전체화면 종료(f)";
-    videoControler.style.bottom = `12px`;
   }
 
   event.stopPropagation();
@@ -217,6 +216,37 @@ videoBox.addEventListener("mousemove", mouseMove);
  이벤트가 발생하지 않는 시점부터 3초 뒤에 클래스를 제거함, 
   setTimeout 함수의 id를 전역변수인 'controlsTimeout'에 넣어줌*/
 
+playBtn.addEventListener("click", clickPlayBtn);
+playBtnIcon.addEventListener("click", clickPlayBtn);
+videoBox.addEventListener("click", clickPlayBtn);
+//동영상 일시정지, 시작
+
+muteBtn.addEventListener("click", clickMuteBtn);
+volumeRange.addEventListener("input", volumeInput);
+volumeRange.addEventListener("change", volumeChange);
+// input: range 드래그시 실시간 적용
+// change: 드래그 후 마우스 놨을 때만 적용
+
+video.addEventListener("timeupdate", timeUpdate);
+if (video.readyState >= 2) {
+  loadedMetaData();
+} else {
+  video.addEventListener("loadedmetadata", loadedMetaData);
+}
+//비디오 '재생시간/전체시간'
+
+timeline.addEventListener("click", (event) => {
+  event.stopPropagation(); // 이벤트 버블링을 중지시킴
+});
+timeline.addEventListener("input", timelineInput);
+timeline.addEventListener("change", timelineChange);
+// 비디오 타임라인 조절 막대
+
+fullScreenBtn.addEventListener("click", fullScreenClick);
+video.addEventListener("dblclick", fullScreenClick);
+videoControler.addEventListener("dblclick", fullScreenClick);
+//전체화면, 전체화면 종료
+
 const videoEnd = () => {
   // 비디오 재생이 끝난경우 (시청 후)\
   const { id } = videoBox.dataset;
@@ -230,31 +260,6 @@ const videoEnd = () => {
 
   // 동영상재생버튼 -> '다시시작'으로 변경
 };
-
-playBtn.addEventListener("click", clickPlayBtn);
-playBtnIcon.addEventListener("click", clickPlayBtn);
-videoBox.addEventListener("click", clickPlayBtn);
-//동영상 일시정지, 시작
-
-muteBtn.addEventListener("click", clickMuteBtn);
-volumeRange.addEventListener("input", volumeInput);
-volumeRange.addEventListener("change", volumeChange);
-// input: range 드래그시 실시간 적용
-// change: 드래그 후 마우스 놨을 때만 적용
-
-video.addEventListener("timeupdate", timeUpdate);
-video.addEventListener("loadedmetadata", loadedMetaData);
-//비디오 '재생시간/전체시간'
-
-timeline.addEventListener("input", timelineInput);
-timeline.addEventListener("change", timelineChange);
-// 비디오 타임라인 조절 막대
-
-fullScreenBtn.addEventListener("click", fullScreenClick);
-video.addEventListener("dblclick", fullScreenClick);
-videoControler.addEventListener("dblclick", fullScreenClick);
-//전체화면, 전체화면 종료
-
 video.addEventListener("ended", videoEnd);
 // 비디오 시청 후 조회수 증가
 
@@ -269,13 +274,25 @@ const VideoKeyDown = (event) => {
 
   if (event.code === "ArrowUp") {
     // 위쪽 방향키 : 음량 + 10%
+
     event.preventDefault();
     if (volumeValue < 1) {
+      roundValue = volumeValue;
+
       if (video.muted === true && DummyMute === false) {
         // 음소거 버튼에 의한 음소거 상태인 경우
         // : 음소거 상태 유지 + 값 저장만
-        volumeValue += 0.05;
-        maxVolume();
+
+        if (video.volume === 0) {
+          volumeValue = 0.05;
+          video.volume = volumeValue;
+        } else {
+          roundValue += 0.05;
+          volumeValue = Math.round(roundValue * 100) / 100;
+          maxVolume();
+
+          video.volume = volumeValue;
+        }
       } else if (video.muted === true && DummyMute === true) {
         // 음소거 버튼 클릭이 아닌 방향키로 인한 음소거 상태인경우
         // 바로 음소거 해제 + 값 0.1로 고정
@@ -285,12 +302,21 @@ const VideoKeyDown = (event) => {
         muteCircleIcon.classList = "fas fa-volume-up";
         muteBtnText.innerText = "음소거(m)";
 
-        volumeValue = 0.05;
-        video.volume = volumeValue; //실제 볼륨
+        if (video.volume === 0) {
+          volumeValue = 0.05;
+          video.volume = volumeValue;
+        } else {
+          roundValue += 0.05;
+          volumeValue = Math.round(roundValue * 100) / 100;
+          maxVolume();
+
+          video.volume = volumeValue;
+        }
         volumeRange.value = volumeValue; //볼륨 막대
       } else if (video.muted === false) {
         // 음소거 상태가 아닌경우 : 실시간 반영
-        volumeValue += 0.05;
+        roundValue += 0.05;
+        volumeValue = Math.round(roundValue * 100) / 100;
         maxVolume();
         video.volume = volumeValue; //실제 볼륨
         volumeRange.value = volumeValue; //볼륨 막대
@@ -303,27 +329,30 @@ const VideoKeyDown = (event) => {
   if (event.code === "ArrowDown") {
     // 아래쪽 방향키 : 음량 - 10%
     event.preventDefault();
-    const lastVolume = volumeValue;
     if (volumeValue > 0) {
+      roundValue = volumeValue;
+
       // 볼륨이 0보다 크면 줄임
-      volumeValue -= 0.05;
-      if (volumeValue < 0.01) {
+      const lastVolume = volumeValue;
+
+      roundValue -= 0.05;
+      volumeValue = Math.round(roundValue * 100) / 100;
+      if (volumeValue < 0.0) {
         volumeValue = 0;
         // 만약 줄이게되서 0이하가 되면 0으로 고정
       }
+      video.volume = volumeValue; //실제 볼륨
+      volumeRange.value = volumeValue; //볼륨 막대
       //음소거 상태인 경우 값만 기억
-      if (video.muted === false) {
-        //현재 음소거 상태가 아닐 때만 실시간 반영
-        video.volume = volumeValue; //실제 볼륨
-        volumeRange.value = volumeValue; //볼륨 막대
-        if (volumeValue === 0) {
-          DummyMute = true;
-          video.muted = true;
-          // 음소거 아닌 상태에서 볼륨값 0이 되면
-          //실제로 음소거 시킴 + 방향키에 의한 음소거라는 표시
-        }
-      }
+
       if (volumeValue === 0) {
+        if (!video.muted) {
+          // 비디오가 음소거 상태가 아니였을 때만
+          DummyMute = true;
+          // 방향키에 의한 음소거 표시
+        }
+
+        video.muted = true;
         muteBtnIcon.classList = "fas fa-volume-mute";
         muteCircleIcon.classList = "fas fa-volume-mute";
         muteBtnText.innerText = "음소거 해제(m)";
@@ -352,14 +381,6 @@ const WindowKeyDown = (event) => {
   if (event.code === "KeyF") {
     fullScreenClick();
   } // F : 동영상 전체화면/전체화면 해제
-  if (event.code === "Escape") {
-    const fullScreen = document.fullscreenElement;
-    //현재 전체화면상태인지 파악
-    if (fullScreen) {
-      document.exitFullscreen(); //전체화면 해제
-      fullScreenBtn.innerText = "전체화면";
-    }
-  } // Esc :전체화면 상태인 경우 전체화면 해제
 
   if (event.code === "ArrowLeft") {
     event.preventDefault();
@@ -381,6 +402,12 @@ const WindowKeyDown = (event) => {
       timeline.value = video.duration * percentage;
     }
   } // 숫자키 0~9까지 : 전체 영상길이 중 해당 비율만큼 이동
+
+  if (event.code === "KeyI") {
+    // 소형 플레이어 단축키
+
+    smallPlayerBtn.click();
+  } // I : 소형 플레이어
 };
 
 let ThisVideoBox = false;
@@ -412,6 +439,23 @@ const windowClick = (event) => {
   //비디오 박스 클릭시
 };
 
+const handleEsc = () => {
+  console.log("hi");
+  const fullScreen = document.fullscreenElement;
+  //현재 전체화면상태인지 파악
+  if (fullScreen) {
+    fullScreenIcon.classList = "fas fa-compress";
+    fullScreenText.innerText = "전체화면 종료(f)";
+    videoControler.style.bottom = `12px`;
+  } else {
+    fullScreenIcon.classList = "fas fa-expand";
+    fullScreenText.innerText = "전체화면(f)";
+    videoControler.style.bottom = `0px`;
+  }
+};
+
+videoBox.addEventListener(`fullscreenchange`, handleEsc);
+
 videoBox.addEventListener("click", vidoeBoxClick);
 //비디오 박스 클릭시
 window.addEventListener("click", windowClick);
@@ -421,20 +465,48 @@ window.addEventListener("keydown", VideoKeyDown);
 window.addEventListener("keydown", WindowKeyDown);
 // 최초상태 : 키보드 단축키 활성화
 
+//----------------------------------------
+
 const smallPlayerBtn = document.getElementById("smallPlayer");
 
-const smallPlayer = async () => {
-  videoTime = video.currentTime;
+const smallPlayerCreate = async (event) => {
+  event.stopPropagation();
+  // 소형플레이어 기능 실행시
+  const videoTime = video.currentTime;
+  // 영상 현재 시간
+  const videoPaused = video.paused;
+  // 영상 재생/정지 여부
+  const videoMuted = video.muted;
 
-  await fetch(`/api/small/time`, {
+  // 음소거 여부 + 방향키에 의한 음소거인지 여부
+  // DummyMute= true : 방향키로 음소거
+  const videoId = videoBox.dataset.id;
+  // 영상 id
+
+  const response = await fetch(`/api/small-player/${videoId}`, {
+    // 영상의 현재시간 전송
     method: "post",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ videoTime }),
+    body: JSON.stringify({
+      videoTime,
+      videoPaused,
+      volumeValue,
+      videoMuted,
+      DummyMute,
+    }),
   });
+  // 영상 현재시간, 정지/재생 여부, 음소거 여부, 음량
+  if (response.status === 201) {
+    const { lastPage } = await response.json();
+
+    window.location.href = lastPage;
+  }
 };
-smallPlayerBtn.addEventListener("click", smallPlayer);
+smallPlayerBtn.addEventListener("click", smallPlayerCreate);
+
+//--------------------------------------
 
 const timelineColor = () => {
   const value = timeline.value;
@@ -454,6 +526,8 @@ const volumeVarColor = () => {
 };
 
 volumeRange.addEventListener("input", volumeVarColor);
+
+//--------------------------------------
 
 const showingClassAddOrRemove = () => {
   if (controlsTimeout) {
@@ -514,7 +588,7 @@ const showNowVolume = () => {
     clearTimeout(centerDisplayTimeout);
     centerDisplayTimeout = null;
   }
-  const nowVolumeValue = Math.floor(volumeValue * 100);
+  const nowVolumeValue = Math.floor(video.volume * 100);
   nowVolume.innerText = `${nowVolumeValue}%`;
 
   nowVolume.classList.add("showing");
@@ -546,3 +620,48 @@ window.addEventListener("resize", () => {
   const videoBox = document.getElementById("videoBox"); // 비디오 컨테이너 요소
   const video = videoBox.querySelector("video"); // 비디오 요소
 });
+
+// --------------------------------------
+
+const preTime = document.getElementById("dummy_box4");
+
+if (preTime) {
+  const Time = preTime.dataset.id;
+  const mutedWhether = Boolean(
+    document.getElementById("dummy_box1").dataset.id
+  );
+  const DummyMuteWhether = Boolean(
+    document.getElementById("dummy_box2").dataset.id
+  );
+  const pauseWhether = Boolean(video.dataset.id);
+
+  const volumeSize = document.getElementById("dummy_box3").dataset.id;
+
+  const preVideoStatus = () => {
+    if (!pauseWhether) {
+      clickPlayBtn();
+    }
+
+    if (mutedWhether) {
+      video.muted = false;
+      DummyMute = false;
+      muteBtnIcon.classList = "fas fa-volume-mute";
+      muteCircleIcon.classList = "fas fa-volume-mute";
+      muteBtnText.innerText = "음소거 해제(m)";
+      volumeRange.value = video.muted ? 0 : volumeValue;
+    }
+
+    DummyMute = DummyMuteWhether;
+
+    volumeValue = volumeSize;
+    video.volume = volumeSize;
+
+    video.currentTime = Time;
+  };
+
+  if (video.readyState >= 2) {
+    preVideoStatus();
+  } else {
+    video.addEventListener("loadedmetadata", preVideoStatus);
+  }
+}
