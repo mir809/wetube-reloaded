@@ -19,7 +19,8 @@ block content
                     span.user_info-name=user.name
                     span.user_info-data 구독자 n명 | 동영상 #{user.videos.length}개
                     if user.chDiscription
-                        span.user_info-des=user.chDiscription
+                        a(href=`/users/${id}/info`).user_info-des
+                            span=user.chDiscription
                             i.fas.fa-chevron-right
                     if loggedInUser._id === id
                         a.profile_edit-btn(href="/users/edit") 내 프로필 수정
